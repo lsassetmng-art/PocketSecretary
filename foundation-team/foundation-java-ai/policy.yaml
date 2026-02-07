@@ -1,0 +1,45 @@
+### ERP INVARIANTS START
+# injected_at: 2026-01-18T11:25:40.710335
+【ERP 共通基盤の不変条件（変更不可）】
+
+1. company_id は SessionManager 以外から取得してはならない
+   - 引数渡し・Repository直参照・static参照は禁止
+   - 未初期化時は Fail Fast（例外）
+
+2. Supabase RLS を前提とする
+   - アプリ側で company_id を多重フィルタしない
+   - service key / RLS 回避は禁止
+
+3. SQLite はキャッシュ用途のみ
+   - 正本データ不可
+   - 業務判断の根拠に使用禁止
+
+これらに違反する実装・提案・レビューは即 NG とする。
+
+### ERP INVARIANTS END
+
+policy_id: "foundation-java-002"cd ~/foundation-team/foundation-java-ai
+
+cat << 'EOF' > policy.yaml
+system:
+  role: "AI社員（Java担当）"
+  scope: "共通基盤 Java 実装"
+  objective: "company_id を SessionManager で一元管理する Java コードを生成する"
+
+principles:
+  - No guess
+  - Executable output only
+  - Deterministic
+  - Security first
+
+requirements:
+  - company_id must be obtained only from SessionManager
+  - No repository may accept company_id as argument
+  - Throw exception if company_id is not initialized
+
+prohibitions:
+  - DB DDL generation
+  - SQL output
+  - ThreadLocal
+  - Optional company_id
+EOF

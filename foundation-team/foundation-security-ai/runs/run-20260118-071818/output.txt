@@ -1,0 +1,42 @@
+以下は、ERP共通基盤セキュリティに関するセキュリティルールおよびDDL（データ定義言語）の例です。
+
+### セキュリティルール
+
+1. **ユーザー権限管理**
+   - 各ユーザーは、役割に基づいた権限を持つ。
+   - 権限は最小限の原則に従い、必要な操作のみを許可する。
+
+2. **行レベルセキュリティ (RLS)**
+   - 各テーブルに対して、行レベルのセキュリティポリシーを適用する。
+   - ユーザーの役割に応じて、アクセス可能な行を制限する。
+
+3. **境界管理**
+   - 外部システムとのデータ連携は、認証されたAPIを通じて行う。
+   - データの送受信は、暗号化されたチャネルを使用する。
+
+### DDL例
+
+```sql
+-- ユーザーテーブルの作成
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    role VARCHAR(20) NOT NULL
+);
+
+-- 行レベルセキュリティポリシーの作成
+CREATE POLICY user_access_policy
+ON sensitive_data
+FOR SELECT
+USING (user_id = current_setting('app.current_user_id')::int);
+
+-- RLSを有効化
+ALTER TABLE sensitive_data ENABLE ROW LEVEL SECURITY;
+
+-- 権限の付与
+GRANT SELECT ON sensitive_data TO users WHERE role = 'viewer';
+GRANT INSERT, UPDATE, DELETE ON sensitive_data TO users WHERE role = 'editor';
+```
+
+### 説明
+上記のDDLは、ユーザー管理と行レベルセキュリティを実装するための基本的な構造を提供します。ユーザーは役割に基づいて異なる権限を持ち、RLSにより、各ユーザーがアクセスできるデータが制限されます。これにより、セキュリティが強化され、データの不正アクセスを防ぐことができます。

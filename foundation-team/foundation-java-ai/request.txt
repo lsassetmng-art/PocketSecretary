@@ -1,0 +1,19 @@
+[REQUEST TYPE]: FOUNDATION IMPLEMENTATION
+[TARGET ROLE]: JAVA
+[PRIORITY]: HIGH
+
+[FIXED POLICY]
+company_id は SessionManager に一元管理し、
+Security は API 境界のみを保証対象とする
+
+[CONTEXT]
+- DB仕様は確定済み。変更不可。
+
+[TASK]
+- SessionManager による company_id 一元管理を前提に
+  共通基盤Java実装を完成させよ
+- company_id の取得・設定・参照フローを決定論的にせよ
+- 未設定時の明確な失敗挙動を実装せよ
+
+[OUTPUT]
+- Javaコードのみ（完成形）

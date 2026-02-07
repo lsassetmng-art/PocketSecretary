@@ -1,0 +1,8 @@
+# AUTO GENERATED POLICY NEXT
+# Role: Security
+# Generated: 2026-01-18T11:13:37.600088
+additional_constraints:
+  - ng
+  - ng
+  - ng
+  - ng

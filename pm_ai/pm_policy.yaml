@@ -1,0 +1,15 @@
+pm_usecase_ai:
+  output_rules:
+    - usecase_name_style: "VerbNoun (PascalCase)"
+    - allowed_types: ["command", "query"]
+    - forbid_tokens: ["company_id", "user_id", "sql", "sqlite", "supabase", "http", "https", "table", "ddl"]
+  domains_allowed:
+    - auth
+    - system
+    - master
+    - user
+    - notification
+    - audit
+    - order
+    - shipping
+    - billing

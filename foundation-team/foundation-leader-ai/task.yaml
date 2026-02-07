@@ -1,0 +1,7 @@
+task: 全ロール進捗集約
+details:
+  - 各 role の runs を集計
+  - fail 原因の要約
+  - 次アクション提示
+output:
+  type: Report

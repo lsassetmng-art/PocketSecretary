@@ -1,0 +1,44 @@
+以下は、ERP共通基盤UIのためのXMLコードの例です。このコードは、レイアウト、スタイル、テーマを定義するための基本的な構造を持っています。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<UI>
+    <Layout>
+        <Header>
+            <Title>ERP共通基盤</Title>
+            <Navigation>
+                <MenuItem id="home">ホーム</MenuItem>
+                <MenuItem id="settings">設定</MenuItem>
+                <MenuItem id="reports">レポート</MenuItem>
+            </Navigation>
+        </Header>
+        <MainContent>
+            <Section id="dashboard">
+                <Widget type="chart" title="売上分析" />
+                <Widget type="table" title="顧客リスト" />
+            </Section>
+        </MainContent>
+        <Footer>
+            <Text>© 2023 ERP共通基盤</Text>
+        </Footer>
+    </Layout>
+    <Styles>
+        <Style name="headerStyle">
+            <Property name="backgroundColor" value="#4CAF50" />
+            <Property name="color" value="#FFFFFF" />
+        </Style>
+        <Style name="footerStyle">
+            <Property name="backgroundColor" value="#333333" />
+            <Property name="color" value="#FFFFFF" />
+        </Style>
+    </Styles>
+    <Themes>
+        <Theme name="default">
+            <StyleRef name="headerStyle" />
+            <StyleRef name="footerStyle" />
+        </Theme>
+    </Themes>
+</UI>
+```
+
+このXMLコードは、ERP共通基盤の基本的なUI構造を示しており、ヘッダー、メインコンテンツ、フッター、スタイル、テーマを含んでいます。必要に応じて、さらに詳細な要素やスタイルを追加することができます。

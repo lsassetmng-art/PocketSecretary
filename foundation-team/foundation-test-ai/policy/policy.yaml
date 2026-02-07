@@ -1,0 +1,5 @@
+role: Test
+scope: 共通基盤 テスト
+principles:
+  - Break the system
+  - Boundary focus

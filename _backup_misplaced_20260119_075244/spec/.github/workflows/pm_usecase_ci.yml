@@ -1,0 +1,18 @@
+name: PM-UseCase-AI CI
+
+on:
+  push:
+    paths:
+      - "pm_ai/**"
+      - "tools/pm_usecase_ai.py"
+      - "spec/usecases.schema.yaml"
+
+jobs:
+  pm-usecase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run PM-UseCase-AI
+        run: python3 tools/pm_usecase_ai.py
+      - name: Review UseCases
+        run: bash scripts/review_usecases.sh

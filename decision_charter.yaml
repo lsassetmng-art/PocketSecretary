@@ -1,0 +1,53 @@
+version: 1.0
+canonical: true
+scope: all-projects
+
+principles:
+  - "人と組織を壊さない"
+  - "判断は明文化する"
+  - "実行は安全・再現可能であること"
+  - "UI依存は禁止（CLI / API 正本）"
+
+decision_model:
+  unit: decision
+  required_fields:
+    - subject
+    - options
+    - chosen
+    - reason
+    - decided_by
+    - decided_at
+
+roles:
+  final_decider: knight
+  proposer: zero
+  implementer: han
+  reviewer:
+    - sato
+    - yamada
+    - moran
+    - mark
+    - tamaki
+    - aragaki
+    - miho
+    - tanigaki
+    - wakakura
+
+rules:
+  - "理由なき拒否は禁止"
+  - "判断不能な資料は差し戻し"
+  - "迷った場合は進行を止めない"
+  - "仕様外は却下"
+
+escalation:
+  when:
+    - "判断が24時間停滞"
+    - "責任者不在"
+  action:
+    - "ナイトが即裁定"
+
+logging:
+  required: true
+  store:
+    - decision_log
+    - approval_request

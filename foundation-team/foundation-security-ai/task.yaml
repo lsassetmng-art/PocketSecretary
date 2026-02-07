@@ -1,0 +1,6 @@
+task: 共通基盤 Security 設計
+details:
+  - API 境界で company_id 検証
+  - RLS 方針整理
+output:
+  type: Security rules

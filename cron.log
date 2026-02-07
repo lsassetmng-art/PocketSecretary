@@ -1,0 +1,646 @@
+=== CRON FULL GENERATE START ===
+No spec found, exit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE START ===
+PROJECT_ROOT = /data/data/com.termux/files/home/erp-foundation
+[1/5] Generate UseCases / DTO / Repository
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+ERROR: company_id detected in generated code
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[D] Generate XML layouts
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated: /data/data/com.termux/files/home/erp-foundation/app/src/main/java/app/ui/viewmodel
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso tests generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-100000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-100001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated: /data/data/com.termux/files/home/erp-foundation/app/src/main/java/app/ui/viewmodel
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-103000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-103001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-110001
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-110001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-113001
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-113002
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-123000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-123001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE DONE ===
+=== CRON FULL GENERATE END ===
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-130000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-130001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE DONE ===
+=== CRON FULL GENERATE END ===
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-133000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-133001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+fatal: Unable to create '/data/data/com.termux/files/home/erp-foundation/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260119-143001
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260119-143002
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE DONE ===
+=== CRON FULL GENERATE END ===
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260120-063000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260120-063001
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE DONE ===
+=== CRON FULL GENERATE END ===
+=== CRON FULL GENERATE START ===
+=== FULL GENERATE START ===
+[1/5] Generate UseCases / DTO / Repository
+[B] Generate Repository Impl (Supabase RPC)
+[C] Generate ViewModels
+OK: ViewModels generated
+[C] Generate Activities
+[1C] Generate Compose Screens
+OK: Compose screens generated
+[2C] Generate Navigation Helpers
+OK: Navigation helpers generated
+[3C] Generate Espresso UI tests
+OK: Espresso test generated
+[4C] UI Reviewer (static)
+OK: UI review written to reports/ui_review.md
+[5C] Export for mobile IDE
+OK: exported to exports/export-20260120-073000
+Tip: AIDEなら OUT/java をプロジェクトの src にコピー
+Tip: Sketchwareは直接importが難しいので OUT をPCへ転送して適用
+[D] Generate XML layouts
+[XML] Wire Activities to XML
+OK: Activities wired to XML
+[XML] Wire Activities to ViewModel
+[XML] Add input forms
+[E] Generate input XML from spec
+OK: generated/updated 0 XML layouts from spec
+[E] Wire Activities from input spec
+OK: Activities wired from input spec
+[F] Generate Home menu (navigation)
+OK: Home menu generated (HomeActivity + activity_home.xml + docs/manifest_additions.md)
+[G] Export mobile templates
+OK: exported to exports/export-20260120-073000
+OK: XML input forms added
+[XML] Wire Activity to DTO
+OK: Activity → DTO binding added
+OK: Activities wired to ViewModel (stub)
+OK: XML layouts generated
+[E] Enhance ViewModels
+OK: ViewModels enhanced
+[G] Generate navigation graph
+OK: navigation graph generated
+OK: Activities generated
+OK: Repository impl generated
+[A] Generate ViewModels
+OK: ViewModels generated
+OK: generate_usecases.py completed
+[2/5] Generate RPC positive tests
+OK: RPC mock tests generated
+[3/5] Generate RPC schema validators
+OK: RPC schema validators generated
+[4/5] Generate RPC negative tests
+OK: RPC negative tests generated
+[GUARD] Check company_id leakage in domain layer
+✅ company_id guard passed (domain clean)
+[5/5] Auto commit
+=== FULL GENERATE DONE ===
+=== CRON FULL GENERATE END ===

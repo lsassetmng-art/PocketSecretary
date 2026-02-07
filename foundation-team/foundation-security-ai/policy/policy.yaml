@@ -1,0 +1,5 @@
+role: Security
+scope: 認可 / 境界制御
+principles:
+  - Least privilege
+  - API boundary

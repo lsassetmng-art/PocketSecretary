@@ -1,0 +1,19 @@
+[REQUEST TYPE]: FOUNDATION IMPLEMENTATION
+[TARGET ROLE]: SECURITY
+[PRIORITY]: HIGH
+
+[FIXED POLICY]
+company_id は SessionManager に一元管理し、
+Security は API 境界のみを保証対象とする
+
+[CONTEXT]
+- DB仕様は確定済み（company_id 前提）
+- Java 側の SessionManager 管理を前提にする
+
+[TASK]
+- API 境界での company_id 検証ルールを確定せよ
+- 禁止事項（NGパターン）を明示せよ
+- RLS は company_id 前提の最小保証に留めよ
+
+[OUTPUT]
+- セキュリティ方針 or RLS関連DDL

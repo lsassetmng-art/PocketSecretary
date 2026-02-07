@@ -1,0 +1,7 @@
+role: Dependency
+scope: 依存関係 / パッケージ構成
+principles:
+  - No cyclic dependency
+  - Small stable core
+output:
+  type: Dependency structure

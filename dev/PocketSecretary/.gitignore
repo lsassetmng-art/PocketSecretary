@@ -1,0 +1,7 @@
+
+# --- safety ---
+.bashrc
+.android/
+.gradle/
+android-sdk/
+storage/

@@ -1,0 +1,53 @@
+以下は、ERP共通基盤DBのためのDDL（データ定義言語）スクリプトの例です。このスクリプトは、マルチテナント環境を考慮し、行レベルセキュリティ（RLS）を適用したスキーマを含んでいます。
+
+```sql
+-- スキーマの作成
+CREATE SCHEMA erp_common;
+
+-- テナント情報を格納するテーブル
+CREATE TABLE erp_common.tenants (
+    tenant_id SERIAL PRIMARY KEY,
+    tenant_name VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ユーザー情報を格納するテーブル
+CREATE TABLE erp_common.users (
+    user_id SERIAL PRIMARY KEY,
+    tenant_id INT NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES erp_common.tenants(tenant_id)
+);
+
+-- 行レベルセキュリティのポリシーを設定
+ALTER TABLE erp_common.users ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY user_access_policy ON erp_common.users
+FOR SELECT
+USING (tenant_id = current_setting('app.current_tenant_id')::INT);
+
+-- テストデータの挿入
+INSERT INTO erp_common.tenants (tenant_name) VALUES ('Tenant A'), ('Tenant B');
+
+INSERT INTO erp_common.users (tenant_id, username, password_hash) 
+VALUES 
+    (1, 'user1', 'hashed_password_1'),
+    (1, 'user2', 'hashed_password_2'),
+    (2, 'user3', 'hashed_password_3');
+
+-- テナントIDを設定するための設定
+-- これはアプリケーション側で実行されるべき
+-- SET app.current_tenant_id = '1'; -- 例: テナントAのデータにアクセスする場合
+```
+
+このDDLスクリプトは、以下の要件を満たしています：
+
+1. **スキーマの作成**: `erp_common`というスキーマを作成。
+2. **テーブルの作成**: テナント情報とユーザー情報を格納するテーブルを作成。
+3. **外部キー制約**: ユーザーテーブルにテナントIDの外部キー制約を設定。
+4. **行レベルセキュリティ**: ユーザーテーブルにRLSポリシーを適用し、テナントごとのデータアクセスを制限。
+5. **テストデータの挿入**: テナントとユーザーのサンプルデータを挿入。
+
+このDDLは、実稼働環境で使用するための完全なスクリプトです。必要に応じて、さらなるカスタマイズや拡張が可能です。

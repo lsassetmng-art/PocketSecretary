@@ -1,0 +1,60 @@
+version: 1.0
+canonical: true
+scope: all-projects
+
+general:
+  - "正本は一つだけ"
+  - "差分より全文を優先"
+  - "途中生成は禁止（必ず完成形）"
+
+implementation:
+  language:
+    - java
+    - xml
+  output:
+    - "cat / mkdir ワンブロック"
+    - "cd 非依存"
+
+operations:
+  principles:
+    - "業務を止めない"
+    - "再実行可能であること"
+    - "夜間単独対応を想定"
+
+documentation:
+  rules:
+    - "書いていない仕様は存在しない"
+    - "README / rules.yaml が正本"
+
+# ============================================================
+# 横断ルール：既存ファイル差分編集の安全原則
+# ============================================================
+diff_editing_safety:
+  scope:
+    - all_modules
+    - termux_environment
+
+  principles:
+    - "既存ファイルは上書き禁止（差分追記のみ）"
+    - "再実行可能であること"
+    - "事前バックアップ必須（$HOME/.tmp 等）"
+    - "cd 非依存"
+
+  tool_priority:
+    primary: "awk"
+    secondary: "sed"
+    perl:
+      policy: "restricted"
+      allowed:
+        - "生成済み一時ファイルを差し込む方式のみ"
+      forbidden:
+        - "perl -e による XML/Java の直接編集"
+        - "クォート多用のワンライナー構造編集"
+
+  forbidden:
+    - "構造を壊す正規表現編集"
+    - "実行環境依存ツール前提"
+    - "再実行で壊れるスクリプト"
+
+  reference:
+    - "activity_invoice_create_plus.xml 件名入力欄追記（awk方式）"

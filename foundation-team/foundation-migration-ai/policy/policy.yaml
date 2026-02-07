@@ -1,0 +1,7 @@
+role: Migration
+scope: スキーマ移行 / 互換性
+principles:
+  - Backward compatible
+  - Rollback aware
+output:
+  type: Migration plan / DDL

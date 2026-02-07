@@ -1,0 +1,8 @@
+evaluation_result:
+  agent_id: auto-agent
+  phase: PROBATION
+  result: FAIL
+  fail_step: STEP-3
+  fail_reason: 自動実行不可（OPENAI_API_KEY 未設定）
+  confidence_score: 0.0
+  next_action: RETRY

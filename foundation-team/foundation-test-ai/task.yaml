@@ -1,0 +1,6 @@
+task: 共通基盤 テスト設計
+details:
+  - 正常/異常/境界
+  - company_id 未設定ケース
+output:
+  type: Test cases

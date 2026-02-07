@@ -1,0 +1,8 @@
+evaluation_result:
+  agent_id: auto-db設計
+  phase: PROBATION
+  result: FAIL
+  fail_step: STEP-4
+  fail_reason: 再現性NG（2回の出力が一致しない）
+  confidence_score: 0.0
+  next_action: REJECT

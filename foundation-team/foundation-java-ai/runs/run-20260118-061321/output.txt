@@ -1,0 +1,23 @@
+=== SYSTEM ===
+objective: company_id を SessionManager で一元管理
+principles:
+- No guess
+- Deterministic
+- Executable output only
+prohibitions:
+- SQL
+- DDL
+- ThreadLocal
+role: Java
+scope: 共通基盤 Java 実装
+
+=== TASK ===
+details:
+- SessionManager 実装
+- company_id static 管理
+- 未初期化時 IllegalStateException
+- company_id は requireCompanyId() のみ
+output:
+  format: single file
+  type: Java code
+task: 共通基盤 Java 実装

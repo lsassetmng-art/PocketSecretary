@@ -1,0 +1,14 @@
+[user]
+	name = lsassetmng-art
+	email = lsassetmng@gmail.com
+[core]
+	pager = cat
+[credential]
+	helper = store
+[safe]
+	directory = /storage/emulated/0/Download/PocketSecretary
+	directory = /storage/emulated/0/Download/PersonaOS
+	directory = /storage/emulated/0/Download/CenterGravityPuzzle
+	directory = /storage/emulated/0/dev/PocketSecretary
+	directory = /storage/emulated/0/dev/PersonaOS
+	directory = /storage/emulated/0/dev/CenterGravityPuzzle

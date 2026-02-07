@@ -1,0 +1,43 @@
+以下は、`SessionManager` から `company_id` を取得し、適切に管理する Java コードの例です。このコードは、`company_id` が初期化されていない場合に例外をスローします。
+
+```java
+public class SessionManager {
+    private static String companyId;
+
+    public static void initialize(String id) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("Company ID cannot be null or empty");
+        }
+        companyId = id;
+    }
+
+    public static String getCompanyId() {
+        if (companyId == null) {
+            throw new IllegalStateException("Company ID is not initialized");
+        }
+        return companyId;
+    }
+}
+
+public class CompanyService {
+    public void performAction() {
+        String companyId = SessionManager.getCompanyId();
+        // ここで companyId を使用してビジネスロジックを実行
+        System.out.println("Performing action for company ID: " + companyId);
+    }
+}
+
+// 使用例
+public class Main {
+    public static void main(String[] args) {
+        // SessionManager を初期化
+        SessionManager.initialize("12345");
+
+        // CompanyService を使用
+        CompanyService service = new CompanyService();
+        service.performAction();
+    }
+}
+```
+
+このコードは、`SessionManager` クラスを使用して `company_id` を管理し、`CompanyService` クラスでその `company_id` を利用する方法を示しています。`company_id` が初期化されていない場合には、`IllegalStateException` をスローします。

@@ -1,0 +1,7 @@
+task: 受注管理 DB 設計
+details:
+  - company_id 前提
+  - 正規化
+  - RLS 前提
+output:
+  type: DDL

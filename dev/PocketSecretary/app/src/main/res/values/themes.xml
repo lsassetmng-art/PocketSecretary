@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.PocketSecretary"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- silence is design -->
+    </style>
+</resources>

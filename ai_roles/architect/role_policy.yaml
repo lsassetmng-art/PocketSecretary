@@ -1,0 +1,15 @@
+role: architect
+
+responsibility:
+  - define_domain_boundaries
+  - approve_usecase_structure
+  - assess_breaking_changes
+
+allowed_actions:
+  - read: spec/*
+  - write: policy/*
+  - propose: policy_next.yaml
+
+forbidden_actions:
+  - write: app/src/**
+  - write: scripts/**

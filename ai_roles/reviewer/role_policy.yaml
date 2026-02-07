@@ -1,0 +1,17 @@
+role: reviewer
+
+responsibility:
+  - detect_breaking_changes
+  - trigger_safe_stop
+  - generate_reports
+
+allowed_actions:
+  - read: spec/*
+  - read: app/src/**
+  - write: scripts/safe_stop.flag
+  - write: reports/*
+  - write: policy/*
+
+forbidden_actions:
+  - write: app/src/**
+  - execute: generation

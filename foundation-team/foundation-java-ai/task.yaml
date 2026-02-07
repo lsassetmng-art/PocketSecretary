@@ -1,0 +1,9 @@
+task: 共通基盤 Java 実装
+details:
+  - SessionManager 実装
+  - company_id static 管理
+  - 未初期化時 IllegalStateException
+  - company_id は requireCompanyId() のみ
+output:
+  type: Java code
+  format: single file

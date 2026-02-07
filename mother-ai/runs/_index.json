@@ -1,0 +1,94 @@
+{
+  "runs": [
+    {
+      "run_id": "run-20260117-214448",
+      "ts": "2026-01-17T21:44:48",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-214631",
+      "ts": "2026-01-17T21:46:39",
+      "result": "FAIL",
+      "fail_step": "STEP-4",
+      "confidence_score": 0.0,
+      "next_action": "REJECT",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-215044",
+      "ts": "2026-01-17T21:50:52",
+      "result": "PASS",
+      "fail_step": "NONE",
+      "confidence_score": 0.9,
+      "next_action": "HIRE",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-230021",
+      "ts": "2026-01-17T23:00:21",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-230021",
+      "ts": "2026-01-17T23:00:21",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-230403",
+      "ts": "2026-01-17T23:04:03",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-230404",
+      "ts": "2026-01-17T23:04:04",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-231848",
+      "ts": "2026-01-17T23:18:48",
+      "result": "FAIL",
+      "fail_step": "STEP-3",
+      "confidence_score": 0.0,
+      "next_action": "RETRY",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-232501",
+      "ts": "2026-01-17T23:25:09",
+      "result": "PASS",
+      "fail_step": "NONE",
+      "confidence_score": 0.9,
+      "next_action": "HIRE",
+      "safe_stop": false
+    },
+    {
+      "run_id": "run-20260117-234247",
+      "ts": "2026-01-17T23:42:54",
+      "result": "PASS",
+      "fail_step": "NONE",
+      "confidence_score": 0.9,
+      "next_action": "HIRE",
+      "safe_stop": false
+    }
+  ]
+}

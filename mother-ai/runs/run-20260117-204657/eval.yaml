@@ -1,0 +1,6 @@
+evaluation_result:
+  agent_id: ""
+  phase: ""
+  result: ""
+  confidence_score: 0.0
+  next_action: ""

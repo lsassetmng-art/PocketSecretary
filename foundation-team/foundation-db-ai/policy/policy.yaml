@@ -1,0 +1,5 @@
+role: DB
+scope: 共通基盤 DB 設計
+principles:
+  - Multi-tenant first
+  - Executable DDL only

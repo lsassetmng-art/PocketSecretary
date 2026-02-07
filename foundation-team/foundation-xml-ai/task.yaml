@@ -1,0 +1,6 @@
+task: 共通基盤 XML 作成
+details:
+  - 再利用可能レイアウト
+  - テーマ分離
+output:
+  type: XML

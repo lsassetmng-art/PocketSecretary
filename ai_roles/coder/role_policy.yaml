@@ -1,0 +1,16 @@
+role: coder
+
+responsibility:
+  - generate_code
+  - update_usecases
+  - maintain_consistency
+
+allowed_actions:
+  - read: spec/*
+  - write: app/src/**
+  - write: tools/**
+  - execute: scripts/full_generate.sh
+
+forbidden_actions:
+  - write: policy/*
+  - override: safe_stop.flag

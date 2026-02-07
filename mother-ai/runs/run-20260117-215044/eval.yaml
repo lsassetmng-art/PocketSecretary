@@ -1,0 +1,8 @@
+evaluation_result:
+  agent_id: auto-db設計
+  phase: PROBATION
+  result: PASS
+  fail_step: NONE
+  fail_reason: ''
+  confidence_score: 0.9
+  next_action: HIRE

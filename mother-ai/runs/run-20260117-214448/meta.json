@@ -1,0 +1,6 @@
+{
+  "model": "gpt-4o-mini",
+  "temperature": 0.1,
+  "missing_policy_fields": [],
+  "mode": "prompt-only"
+}

@@ -1,0 +1,5 @@
+role: XML
+scope: 共通基盤 UI/XML
+principles:
+  - Reusable
+  - No hardcode

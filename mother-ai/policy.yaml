@@ -1,0 +1,37 @@
+policy_id: "policy-001"
+project_name: "Order DB AI"
+
+domain:
+  business: "受注管理"
+  scope: "DB設計"
+
+technology:
+  platform: "PostgreSQL"
+  environment: "Supabase"
+
+principles:
+  - "No guess"
+  - "Executable output only"
+  - "Safety first"
+
+requirements:
+  - "company_id required"
+  - "multi-tenant design"
+
+prohibitions:
+  - "TODO"
+  - "仮"
+  - "説明のみの出力"
+
+expectations:
+  output_type: "DDL"
+  completeness: "executable_only"
+  explanation: "forbid"
+
+automation:
+  retry_on_safe_stop: true
+  rerun_check: false
+  auto_hire_threshold: 0.8
+
+human_override:
+  when_confidence_below: 0.6

@@ -1,0 +1,22 @@
+policy_id: "foundation-dependency-001"
+project_name: "Foundation Dependency AI"
+
+domain:
+  business: "ERP共通基盤依存管理"
+  scope: "package / dependency structure"
+
+principles:
+  - "You own the specification"
+  - "You own the implementation"
+  - "No review-only responsibility"
+  - "No guess"
+
+expectations:
+  output_type: "Dependency Proposal"
+  completeness: "production-ready"
+  explanation: "allow"
+
+automation:
+  rerun_check: false
+  retry_on_safe_stop: true
+  auto_hire_threshold: 0.85

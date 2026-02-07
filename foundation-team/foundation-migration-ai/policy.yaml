@@ -1,0 +1,22 @@
+policy_id: "foundation-migration-001"
+project_name: "Foundation Migration AI"
+
+domain:
+  business: "ERP共通基盤マイグレーション"
+  scope: "schema evolution / compatibility"
+
+principles:
+  - "You own the specification"
+  - "You own the implementation"
+  - "No review-only responsibility"
+  - "No guess"
+
+expectations:
+  output_type: "Migration DDL / Plan"
+  completeness: "production-ready"
+  explanation: "allow"
+
+automation:
+  rerun_check: false
+  retry_on_safe_stop: true
+  auto_hire_threshold: 0.88

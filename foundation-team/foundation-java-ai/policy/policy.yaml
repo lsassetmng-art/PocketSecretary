@@ -1,0 +1,11 @@
+role: Java
+scope: 共通基盤 Java 実装
+objective: company_id を SessionManager で一元管理
+principles:
+  - No guess
+  - Deterministic
+  - Executable output only
+prohibitions:
+  - SQL
+  - DDL
+  - ThreadLocal

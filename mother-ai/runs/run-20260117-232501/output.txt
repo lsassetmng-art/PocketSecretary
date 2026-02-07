@@ -1,0 +1,39 @@
+=== OUTPUT (run1) ===
+```sql
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    company_id INT NOT NULL,
+    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    customer_id INT NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    UNIQUE (company_id, order_id)
+);
+
+CREATE TABLE companies (
+    company_id SERIAL PRIMARY KEY,
+    company_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+=== OUTPUT (run2) ===
+```sql
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    company_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    UNIQUE (company_id, order_id)
+);
+
+CREATE TABLE companies (
+    company_id SERIAL PRIMARY KEY,
+    company_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
