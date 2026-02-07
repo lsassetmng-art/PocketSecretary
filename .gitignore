@@ -1,2 +1,9 @@
 .git-credentials
 .git-credentials
+
+# --- safety ---
+.bashrc
+.android/
+.gradle/
+android-sdk/
+storage/
