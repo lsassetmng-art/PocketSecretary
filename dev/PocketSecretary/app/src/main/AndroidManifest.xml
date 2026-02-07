@@ -17,5 +17,7 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".service.PresenceService" android:exported="false" />
+        <receiver android:name=".receiver.PresenceReceiver" android:exported="false" />
     </application>
 </manifest>
