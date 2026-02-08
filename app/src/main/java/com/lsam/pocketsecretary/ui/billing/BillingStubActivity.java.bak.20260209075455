@@ -17,8 +17,8 @@ public class BillingStubActivity extends AppCompatActivity {
         note.setText(
                 "Billing (Stub UI)\n\n" +
                 "・ここは課金導線の骨格のみ\n" +
-                "・実課金（Play Billing）は build.gradle 依存追加が必要\n" +
-                "・Upgrade文言/FAQは後続で差し替え"
+                "・実課金（Play Billing）は build.gradle への依存追加が必要\n" +
+                "・炎上しない Upgrade 文言 / FAQ は後続で差し替え"
         );
     }
 }

@@ -30,6 +30,6 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentText(text)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat.from(context).notify((int) System.currentTimeMillis(), builder.build());
+        NotificationManagerCompat.from(context).notify((int) (System.currentTimeMillis() & 0x7fffffff), builder.build());
     }
 }

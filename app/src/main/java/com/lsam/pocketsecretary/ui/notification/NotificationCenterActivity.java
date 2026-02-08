@@ -35,8 +35,13 @@ public class NotificationCenterActivity extends AppCompatActivity {
         Button btnNow = findViewById(R.id.btnNotifyNow);
         Button btnIn10 = findViewById(R.id.btnNotifyIn10);
 
-        btnNow.setOnClickListener(v -> ensurePermissionThen(() -> fireNow("即時通知", "ボタンで発火しました")));
-        btnIn10.setOnClickListener(v -> ensurePermissionThen(() -> scheduleIn10s("予約通知", "10秒後に通知します")));
+        btnNow.setOnClickListener(v -> ensurePermissionThen(() ->
+                fireNow("即時通知", "ボタンで発火しました")
+        ));
+
+        btnIn10.setOnClickListener(v -> ensurePermissionThen(() ->
+                scheduleIn10s("予約通知", "10秒後に通知します")
+        ));
     }
 
     private void ensurePermissionThen(Runnable action) {
@@ -55,7 +60,7 @@ public class NotificationCenterActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // 許可後はユーザーがもう一度ボタンを押す運用（勝手に通知しない）
+        // 許可後はユーザーが再度ボタンを押す運用（勝手に通知しない）
     }
 
     private void fireNow(String title, String text) {
