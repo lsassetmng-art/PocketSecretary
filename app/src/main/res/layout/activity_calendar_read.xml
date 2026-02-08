@@ -6,10 +6,12 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/txtCalendarHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Calendar (READ ONLY)"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:paddingBottom="8dp" />
 
     <ListView
         android:id="@+id/listCalendar"

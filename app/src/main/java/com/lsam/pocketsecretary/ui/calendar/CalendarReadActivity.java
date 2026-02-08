@@ -5,8 +5,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.text.format.DateFormat;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -15,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.lsam.pocketsecretary.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarReadActivity extends AppCompatActivity {
@@ -25,6 +28,9 @@ public class CalendarReadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_read);
+
+        TextView hint = findViewById(R.id.txtCalendarHint);
+        hint.setText("Calendar (READ ONLY) — 権限許可で一覧表示");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -42,8 +48,8 @@ public class CalendarReadActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_CALENDAR &&
-            grantResults.length > 0 &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             loadEvents();
         }
     }
@@ -66,13 +72,13 @@ public class CalendarReadActivity extends AppCompatActivity {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(0);
-                items.add(title);
+                long dtStart = cursor.getLong(1);
+                String when = DateFormat.format("yyyy-MM-dd HH:mm", new Date(dtStart)).toString();
+                items.add(when + "  " + (title == null ? "(no title)" : title));
             }
             cursor.close();
         }
 
-        listView.setAdapter(
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items)
-        );
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
     }
 }
