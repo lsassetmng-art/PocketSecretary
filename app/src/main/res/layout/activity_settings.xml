@@ -6,23 +6,28 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/txtNotifyHint"
+        android:id="@+id/txtSettingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notify"
-        android:textSize="18sp"
+        android:text="Settings"
+        android:textSize="20sp"
         android:paddingBottom="12dp" />
 
-    <Button
-        android:id="@+id/btnNotifyNow"
+    <Switch
+        android:id="@+id/swNotifyEnabled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="即時通知" />
+        android:text="通知を有効にする" />
 
-    <Button
-        android:id="@+id/btnNotifyIn10m"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10分後に通知"
-        android:layout_marginTop="8dp" />
+        android:text="デフォルト秘書"
+        android:paddingTop="16dp"
+        android:paddingBottom="6dp" />
+
+    <Spinner
+        android:id="@+id/spDefaultSecretary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

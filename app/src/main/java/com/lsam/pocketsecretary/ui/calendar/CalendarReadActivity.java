@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 public class CalendarReadActivity extends AppCompatActivity {
-
     private static final int REQ_CALENDAR = 1001;
 
     @Override
@@ -30,7 +29,7 @@ public class CalendarReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_read);
 
         TextView hint = findViewById(R.id.txtCalendarHint);
-        hint.setText("Calendar (READ ONLY) — 権限許可で一覧表示");
+        hint.setText("Calendar (READ ONLY) — 今日/明日");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -58,14 +57,20 @@ public class CalendarReadActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listCalendar);
         List<String> items = new ArrayList<>();
 
+        long now = System.currentTimeMillis();
+        long until = now + 2L * 24L * 60L * 60L * 1000L; // 48h
+
+        String selection = CalendarContract.Events.DTSTART + " >= ? AND " + CalendarContract.Events.DTSTART + " <= ?";
+        String[] args = new String[]{String.valueOf(now), String.valueOf(until)};
+
         Cursor cursor = getContentResolver().query(
                 CalendarContract.Events.CONTENT_URI,
                 new String[]{
                         CalendarContract.Events.TITLE,
                         CalendarContract.Events.DTSTART
                 },
-                null,
-                null,
+                selection,
+                args,
                 CalendarContract.Events.DTSTART + " ASC"
         );
 
@@ -73,7 +78,7 @@ public class CalendarReadActivity extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 String title = cursor.getString(0);
                 long dtStart = cursor.getLong(1);
-                String when = DateFormat.format("yyyy-MM-dd HH:mm", new Date(dtStart)).toString();
+                String when = DateFormat.format("MM-dd HH:mm", new Date(dtStart)).toString();
                 items.add(when + "  " + (title == null ? "(no title)" : title));
             }
             cursor.close();

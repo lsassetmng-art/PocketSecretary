@@ -9,14 +9,16 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.notification.NotificationUtil;
+import com.lsam.pocketsecretary.core.prefs.Prefs;
 
 public class NotificationReceiver extends BroadcastReceiver {
-
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_TEXT = "text";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!Prefs.isNotifyEnabled(context)) return;
+
         NotificationUtil.ensureChannel(context);
 
         String title = intent.getStringExtra(EXTRA_TITLE);
@@ -30,6 +32,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentText(text)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat.from(context).notify((int) (System.currentTimeMillis() & 0x7fffffff), builder.build());
+        NotificationManagerCompat.from(context)
+                .notify((int) (System.currentTimeMillis() & 0x7fffffff), builder.build());
     }
 }
