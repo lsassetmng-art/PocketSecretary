@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions (Play審査安全) -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -17,6 +18,7 @@
         android:theme="@style/Theme.PocketSecretary"
         tools:targetApi="31">
 
+        <!-- Launcher -->
         <activity
             android:name=".ui.secretary.SecretaryListActivity"
             android:exported="true">
@@ -26,6 +28,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Boot / Notification -->
         <receiver
             android:name=".ui.notification.BootReceiver"
             android:exported="false">
@@ -38,6 +41,7 @@
             android:name=".ui.notification.NotificationReceiver"
             android:exported="false" />
 
+        <!-- Core Screens -->
         <activity android:name=".ui.onboarding.OnboardingActivity" android:exported="false" />
         <activity android:name=".ui.secretary.SecretaryChatActivity" android:exported="false" />
         <activity android:name=".ui.calendar.CalendarReadActivity" android:exported="false" />
@@ -45,7 +49,12 @@
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".ui.event.AddEventActivity" android:exported="false" />
-<activity android:name=".ui.week.WeeklyReadActivity" android:exported="false"/>
-<activity android:name=".ui.consult.ConsultActivity" android:exported="false"/>
-</application>
+        <activity android:name=".ui.week.WeeklyReadActivity" android:exported="false" />
+        <activity android:name=".ui.consult.ConsultActivity" android:exported="false" />
+
+        <!-- v2.2-safe additions -->
+        <activity android:name=".ui.checklist.ChecklistActivity" android:exported="false" />
+        <activity android:name=".ui.today.TodaySummaryActivity" android:exported="false" />
+
+    </application>
 </manifest>
