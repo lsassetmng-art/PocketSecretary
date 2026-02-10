@@ -1,3 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PocketSecretary</string>
+
+    <string name="title_secretary">秘書一覧</string>
+    <string name="label_next_event">次の予定</string>
+    <string name="label_next_event_none">次の予定：なし</string>
+
+    <string name="secretary_hiyori">ひより</string>
+    <string name="secretary_aoi">あおい</string>
+    <string name="secretary_ren">れん</string>
+
+    <string name="desc_hiyori">毎日をそっと支えます</string>
+    <string name="desc_aoi">予定を静かに整えます</string>
+    <string name="desc_ren">必要なことだけ伝えます</string>
+
+    <string name="toast_takeover">%1$s が引き継ぎます</string>
+
+    <string name="notif_channel_name">予定通知</string>
+    <string name="notif_channel_desc">予定の事前通知を表示します</string>
+    <string name="notif_title_prefix">予定：</string>
+    <string name="notif_text_prefix">まもなく</string>
 </resources>

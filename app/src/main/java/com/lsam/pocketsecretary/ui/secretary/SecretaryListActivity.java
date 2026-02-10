@@ -2,117 +2,65 @@ package com.lsam.pocketsecretary.ui.secretary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lsam.pocketsecretary.R;
-import com.lsam.pocketsecretary.ui.calendar.CalendarReadActivity;
-import com.lsam.pocketsecretary.ui.notification.NotificationCenterActivity;
+import com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler;
 import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-
-        // Phase8: 蛻晏屓繧ｪ繝ｳ繝懊・繝会ｼ域怙蟆擾ｼ・
-        if (!Prefs.isOnboarded(this)) {
-            startActivity(new Intent(this, OnboardingActivity.class));
-        }
-
-=======
->>>>>>> 0f68ece (fix: termux-safe minimal secretary + notification receiver stub)
         setContentView(R.layout.activity_secretary_list);
 
-        Button btnCalendar = findViewById(R.id.btnCalendar);
-        Button btnNotify   = findViewById(R.id.btnNotify);
+        View root = findViewById(R.id.root);
+        // 演出（軽量・安全）：ふわっと表示
+        if (root != null) {
+            root.setAlpha(0f);
+            root.animate().alpha(1f).setDuration(260).start();
+        }
+
+        TextView next = findViewById(R.id.txtNextEvent);
+        if (next != null) next.setText(getString(R.string.label_next_event_none));
+
+        ListView list = findViewById(R.id.list);
+
+        List<String> items = new ArrayList<>();
+        items.add(getString(R.string.secretary_hiyori) + "  - " + getString(R.string.desc_hiyori));
+        items.add(getString(R.string.secretary_aoi)   + "  - " + getString(R.string.desc_aoi));
+        items.add(getString(R.string.secretary_ren)   + "  - " + getString(R.string.desc_ren));
+
+        ArrayAdapter<String> ad = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        list.setAdapter(ad);
+
+        list.setOnItemClickListener((p, v, pos, id) -> {
+            String name = (pos==0)?getString(R.string.secretary_hiyori):(pos==1)?getString(R.string.secretary_aoi):getString(R.string.secretary_ren);
+            Toast.makeText(this, getString(R.string.toast_takeover, name), Toast.LENGTH_SHORT).show();
+        });
+
         Button btnSettings = findViewById(R.id.btnSettings);
-
-        btnCalendar.setOnClickListener(v ->
-                startActivity(new Intent(this, CalendarReadActivity.class)));
-
-        btnNotify.setOnClickListener(v ->
-                startActivity(new Intent(this, NotificationCenterActivity.class)));
-
-<<<<<<< HEAD
-        List<SecretaryItem> items = new ArrayList<>();
-        items.add(new SecretaryItem("hiyori", "縺ｲ繧医ｊ", "豈取律繧偵◎縺｣縺ｨ謾ｯ縺医∪縺・));
-        items.add(new SecretaryItem("aoi", "縺ゅ♀縺・, "莠亥ｮ壹ｒ髱吶°縺ｫ謨ｴ逅・＠縺ｾ縺・));
-        items.add(new SecretaryItem("ren", "繧後ｓ", "蠢・ｦ√↑縺薙→縺縺台ｼ昴∴縺ｾ縺・));
-
-        recyclerView.setAdapter(new SecretaryListAdapter(items, item -> {
-            Prefs.setDefaultSecretary(this, item.id);
-            android.widget.Toast.makeText(this, item.name + "縺悟ｼ輔″邯吶℃縺ｾ縺・, android.widget.Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, SecretaryChatActivity.class);
-            i.putExtra(SecretaryChatActivity.EXTRA_SECRETARY_ID, item.id);
-            startActivity(i);
-        }));
-    }
-
-    @Override
-protected void onResume() {
-    super.onResume();
-
-    try {
-        android.widget.TextView tv =
-            findViewById(R.id.txtNextEvent);
-        if (tv != null) {
-            com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p =
-                com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
-            tv.setText(p == null ? "次の予定：なし" : "次の予定：" + p.title);
+        if (btnSettings != null) {
+            btnSettings.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         }
-    } catch (Exception ignore) {}
-}
-        com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
-        android.widget.TextView tv=findViewById(R.id.txtNextEvent);
-        com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
-        tv.setText(p==null?"谺｡縺ｮ莠亥ｮ夲ｼ壹↑縺・:"谺｡縺ｮ莠亥ｮ夲ｼ・+p.title);
-        com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
-        super.onResume();
-        VoiceManager.speak(this, "谺｡縺ｮ莠亥ｮ壹ｒ遒ｺ隱阪＠縺ｾ縺・);
-        SecretaryAnimator.breathe(findViewById(android.R.id.content));
-        android.widget.TextView st=findViewById(R.id.txtStats);
-        if (st!=null) st.setText(com.lsam.pocketsecretary.core.stats.LocalStats.summary(this));
-        android.widget.TextView ft=findViewById(R.id.txtFreeTime);
-        if (ft!=null){ ft.setText("莉頑律縺ｮ遨ｺ縺肴凾髢薙・險育ｮ嶺ｸｭ窶ｦ"); }
-        android.widget.TextView card = findViewById(R.id.cardPermission);
-        if (card != null) {
-            boolean okN = PermissionGuard.hasNotify(this);
-            boolean okC = PermissionGuard.hasCalendar(this);
-            card.setVisibility((okN && okC) ? android.view.View.GONE : android.view.View.VISIBLE);
-        }
-        com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
-        android.widget.TextView tv=findViewById(R.id.txtNextEvent);
-        com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
-        tv.setText(p==null?"谺｡縺ｮ莠亥ｮ夲ｼ壹↑縺・:"谺｡縺ｮ莠亥ｮ夲ｼ・+p.title);
-        // Phase6.5: Notify OFF 繧定ｦ冶ｦ壼喧
-        if (btnNotify != null) {
-            boolean enabled = Prefs.isNotifyEnabled(this);
-            btnNotify.setEnabled(enabled);
-            btnNotify.setAlpha(enabled ? 1.0f : 0.45f);
-        }
-    }
 
-    public static class SecretaryItem {
-        public final String id;
-        public final String name;
-        public final String description;
-
-        public SecretaryItem(String id, String name, String description) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
+        Button btnNotifyTest = findViewById(R.id.btnNotifyTest);
+        if (btnNotifyTest != null) {
+            btnNotifyTest.setOnClickListener(v -> {
+                AutoNotifyScheduler.scheduleDemo(this);
+                Toast.makeText(this, "通知を予約しました（10分後）", Toast.LENGTH_SHORT).show();
+            });
         }
-=======
-        btnSettings.setOnClickListener(v ->
-                startActivity(new Intent(this, SettingsActivity.class)));
-
-        TextView tv = findViewById(R.id.txtNextEvent);
-        tv.setText("Next event: none");
->>>>>>> 0f68ece (fix: termux-safe minimal secretary + notification receiver stub)
     }
 }

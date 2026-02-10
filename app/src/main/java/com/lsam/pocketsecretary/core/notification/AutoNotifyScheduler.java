@@ -1,43 +1,36 @@
 package com.lsam.pocketsecretary.core.notification;
 
-import android.app.*;
-import android.content.*;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
 import com.lsam.pocketsecretary.core.prefs.Prefs;
+import com.lsam.pocketsecretary.ui.notification.NotificationReceiver;
 
-public class AutoNotifyScheduler {
+public final class AutoNotifyScheduler {
 
-    private static int[] offsets(Context c){
-        int[] o=new int[3]; int i=0;
-        if (Prefs.getBool(c,"n30",true)) o[i++]=30;
-        if (Prefs.getBool(c,"n10",true)) o[i++]=10;
-        if (Prefs.getBool(c,"n5", true)) o[i++]=5;
-        int[] r=new int[i]; System.arraycopy(o,0,r,0,i); return r;
-    }
+    private AutoNotifyScheduler(){}
 
-    public static void rescheduleNext(Context c){
+    // 最小：とりあえず「次予定っぽい通知」を予約（本格的なカレンダー連動は後で差し替えOK）
+    // Play安全の核：ユーザーが通知ONの時のみ
+    public static void scheduleDemo(Context c) {
         if (!Prefs.isNotifyEnabled(c)) return;
-        NextEventPicker.Picked ev = NextEventPicker.pick(c);
-        if (ev==null) return;
 
-        AlarmManager am=(AlarmManager)c.getSystemService(Context.ALARM_SERVICE);
-        long now=System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        // デモ：10分後に1件（動作確認用）
+        long at = now + 10L * 60L * 1000L;
 
-        for (int m: offsets(c)){
-            long at=ev.startAt-m*60_000L;
-            if (at<=now) continue;
-            if (!NotifyCooldown.allow(c, ev.title)) continue;
+        Intent i = new Intent(c, NotificationReceiver.class);
+        i.putExtra(NotificationReceiver.EXTRA_TITLE, "予定：確認");
+        i.putExtra(NotificationReceiver.EXTRA_TEXT, "通知が動作しました（デモ）");
 
-            Intent i=new Intent(c,NotificationReceiver.class);
-            i.putExtra("title","莠亥ｮ壹・繝ｪ繝槭う繝ｳ繝・);
-            i.putExtra("text",m+"蛻・ｾ後↓莠亥ｮ壹′縺ゅｊ縺ｾ縺・ "+ev.title);
+        PendingIntent pi = PendingIntent.getBroadcast(
+                c, 1001, i,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
-            PendingIntent pi=PendingIntent.getBroadcast(
-                c,(int)(at%Integer.MAX_VALUE),i,
-                PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,at,pi);
-        }
-
-        // follow-up
-        FollowUpScheduler.schedule(c, ev.startAt, ev.title);
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, at, pi);
     }
 }
