@@ -1,8 +1,11 @@
 package com.lsam.pocketsecretary.core.notification;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
@@ -10,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.lsam.pocketsecretary.R;
 
 /**
- * Phase E: Notification 実動
+ * Phase E: Notification 実動 + Scheduler API
  */
 public final class NotificationScheduler {
 
@@ -39,5 +42,25 @@ public final class NotificationScheduler {
                         .setAutoCancel(true);
 
         nm.notify((int) System.currentTimeMillis(), b.build());
+    }
+
+    // ---- Scheduler API（Phase E 用）----
+    public static void scheduleExact(Context context, long atMillis, Intent intent) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        PendingIntent pi = PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        if (am == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, atMillis, pi);
+        } else {
+            am.setExact(AlarmManager.RTC_WAKEUP, atMillis, pi);
+        }
     }
 }
