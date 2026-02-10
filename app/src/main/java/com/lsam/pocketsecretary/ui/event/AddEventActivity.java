@@ -1,47 +1,64 @@
 package com.lsam.pocketsecretary.ui.event;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-
 import java.util.Calendar;
 
 public class AddEventActivity extends AppCompatActivity {
+    public static final String EXTRA_ID = "id";
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_AT = "startAt";
 
     private long selectedAt;
+    private String editId;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Override protected void onCreate(Bundle b) {
+        super.onCreate(b);
         setContentView(R.layout.activity_add_event);
 
-        EditText edtTitle = findViewById(R.id.edtEventTitle);
-        Button btnPickTime = findViewById(R.id.btnPickTime);
-        Button btnSave = findViewById(R.id.btnSaveEvent);
+        EditText title = findViewById(R.id.edtEventTitle);
+        Button pick = findViewById(R.id.btnPickTime);
+        Button save = findViewById(R.id.btnSaveEvent);
+        Button del  = findViewById(R.id.btnDeleteEvent);
 
         Calendar cal = Calendar.getInstance();
         selectedAt = cal.getTimeInMillis();
 
-        btnPickTime.setOnClickListener(v -> {
-            // 最小：今の時刻を使う（後でPicker追加）
-            selectedAt = Calendar.getInstance().getTimeInMillis();
-            Toast.makeText(this, "現在時刻を設定しました", Toast.LENGTH_SHORT).show();
+        if (getIntent().hasExtra(EXTRA_ID)) {
+            editId = getIntent().getStringExtra(EXTRA_ID);
+            title.setText(getIntent().getStringExtra(EXTRA_TITLE));
+            selectedAt = getIntent().getLongExtra(EXTRA_AT, selectedAt);
+            del.setVisibility(Button.VISIBLE);
+        }
+
+        pick.setOnClickListener(v -> {
+            Calendar c = Calendar.getInstance();
+            new DatePickerDialog(this,(d,y,m,day)->{
+                c.set(y,m,day);
+                new TimePickerDialog(this,(t,h,min)->{
+                    c.set(Calendar.HOUR_OF_DAY,h);
+                    c.set(Calendar.MINUTE,min);
+                    selectedAt = c.getTimeInMillis();
+                    Toast.makeText(this,"日時を設定しました",Toast.LENGTH_SHORT).show();
+                },c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show();
+            },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        btnSave.setOnClickListener(v -> {
-            String title = edtTitle.getText().toString().trim();
-            if (title.isEmpty()) {
-                Toast.makeText(this, "タイトルを入力してください", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            SimpleEventStore.add(this, title, selectedAt);
-            Toast.makeText(this, "予定を保存しました", Toast.LENGTH_SHORT).show();
+        save.setOnClickListener(v -> {
+            String t = title.getText().toString().trim();
+            if (t.isEmpty()) { Toast.makeText(this,"タイトル必須",Toast.LENGTH_SHORT).show(); return; }
+            if (editId == null) SimpleEventStore.add(this,t,selectedAt);
+            else SimpleEventStore.update(this,editId,t,selectedAt);
+            finish();
+        });
+
+        del.setOnClickListener(v -> {
+            if (editId != null) SimpleEventStore.delete(this,editId);
             finish();
         });
     }
