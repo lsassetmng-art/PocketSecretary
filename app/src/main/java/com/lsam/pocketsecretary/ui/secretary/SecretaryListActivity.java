@@ -1,106 +1,44 @@
 package com.lsam.pocketsecretary.ui.secretary;
 
 import android.content.Intent;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
 import android.os.Bundle;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
 import android.widget.Button;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
-import androidx.recyclerview.widget.RecyclerView;
-import com.lsam.pocketsecretary.core.guard.PermissionGuard;
-import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
-import com.lsam.pocketsecretary.core.template.EventTemplates;
-import com.lsam.pocketsecretary.core.stats.LocalStats;
-import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.ui.anim.SecretaryAnimator;
-import com.lsam.pocketsecretary.core.event.SimpleEventStore;
-import java.util.Calendar;
-import java.util.*;
 
 import com.lsam.pocketsecretary.R;
-import com.lsam.pocketsecretary.core.prefs.Prefs;
 import com.lsam.pocketsecretary.ui.calendar.CalendarReadActivity;
 import com.lsam.pocketsecretary.ui.notification.NotificationCenterActivity;
-import com.lsam.pocketsecretary.ui.onboarding.OnboardingActivity;
 import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
-import com.lsam.pocketsecretary.ui.event.AddEventActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SecretaryListActivity extends AppCompatActivity {
-
-    private Button btnNotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
 
         // Phase8: 蛻晏屓繧ｪ繝ｳ繝懊・繝会ｼ域怙蟆擾ｼ・
         if (!Prefs.isOnboarded(this)) {
             startActivity(new Intent(this, OnboardingActivity.class));
         }
 
+=======
+>>>>>>> 0f68ece (fix: termux-safe minimal secretary + notification receiver stub)
         setContentView(R.layout.activity_secretary_list);
 
         Button btnCalendar = findViewById(R.id.btnCalendar);
-        btnNotify = findViewById(R.id.btnNotify);
+        Button btnNotify   = findViewById(R.id.btnNotify);
         Button btnSettings = findViewById(R.id.btnSettings);
-        Button btnAddEvent = findViewById(R.id.btnAddEvent);
-        btnAddEvent.setOnClickListener(v -> startActivity(new Intent(this, AddEventActivity.class)));
 
-        btnCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarReadActivity.class)));
-        btnNotify.setOnClickListener(v -> startActivity(new Intent(this, NotificationCenterActivity.class)));
-        btnSettings.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        btnCalendar.setOnClickListener(v ->
+                startActivity(new Intent(this, CalendarReadActivity.class)));
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerSecretary);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        btnNotify.setOnClickListener(v ->
+                startActivity(new Intent(this, NotificationCenterActivity.class)));
 
+<<<<<<< HEAD
         List<SecretaryItem> items = new ArrayList<>();
         items.add(new SecretaryItem("hiyori", "縺ｲ繧医ｊ", "豈取律繧偵◎縺｣縺ｨ謾ｯ縺医∪縺・));
         items.add(new SecretaryItem("aoi", "縺ゅ♀縺・, "莠亥ｮ壹ｒ髱吶°縺ｫ謨ｴ逅・＠縺ｾ縺・));
@@ -169,5 +107,12 @@ protected void onResume() {
             this.name = name;
             this.description = description;
         }
+=======
+        btnSettings.setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
+
+        TextView tv = findViewById(R.id.txtNextEvent);
+        tv.setText("Next event: none");
+>>>>>>> 0f68ece (fix: termux-safe minimal secretary + notification receiver stub)
     }
 }
