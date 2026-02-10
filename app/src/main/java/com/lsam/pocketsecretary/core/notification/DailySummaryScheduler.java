@@ -15,8 +15,8 @@ public class DailySummaryScheduler {
 
         Intent i=new Intent(c,NotificationReceiver.class);
         i.setAction("DAILY_SUMMARY");
-        i.putExtra("title","今日の予定");
-        i.putExtra("text","今日の予定を確認しましょう");
+        i.putExtra("title","莉頑律縺ｮ莠亥ｮ・);
+        i.putExtra("text","莉頑律縺ｮ莠亥ｮ壹ｒ遒ｺ隱阪＠縺ｾ縺励ｇ縺・);
 
         PendingIntent pi=PendingIntent.getBroadcast(
             c,1001,i,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);

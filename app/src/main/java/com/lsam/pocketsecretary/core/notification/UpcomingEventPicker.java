@@ -47,7 +47,7 @@ public class UpcomingEventPicker {
         );
         if (cur!=null){
             try{
-                int limit = 10; // 取り過ぎない
+                int limit = 10; // 蜿悶ｊ驕弱℃縺ｪ縺・
                 while (limit-- > 0 && cur.moveToNext()){
                     String t = cur.getString(0);
                     long at = cur.getLong(1);

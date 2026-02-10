@@ -28,8 +28,8 @@ public class AutoNotifyScheduler {
             if (!NotifyCooldown.allow(c, ev.title)) continue;
 
             Intent i=new Intent(c,NotificationReceiver.class);
-            i.putExtra("title","予定のリマインド");
-            i.putExtra("text",m+"分後に予定があります: "+ev.title);
+            i.putExtra("title","莠亥ｮ壹・繝ｪ繝槭う繝ｳ繝・);
+            i.putExtra("text",m+"蛻・ｾ後↓莠亥ｮ壹′縺ゅｊ縺ｾ縺・ "+ev.title);
 
             PendingIntent pi=PendingIntent.getBroadcast(
                 c,(int)(at%Integer.MAX_VALUE),i,

@@ -10,8 +10,8 @@ public class FollowUpScheduler {
 
         Intent i=new Intent(c, NotificationReceiver.class);
         i.setAction("FOLLOW_UP");
-        i.putExtra("title","予定が始まっています");
-        i.putExtra("text","忘れていませんか？ "+title);
+        i.putExtra("title","莠亥ｮ壹′蟋九∪縺｣縺ｦ縺・∪縺・);
+        i.putExtra("text","蠢倥ｌ縺ｦ縺・∪縺帙ｓ縺具ｼ・"+title);
 
         PendingIntent pi=PendingIntent.getBroadcast(
             c,(int)(at%Integer.MAX_VALUE),i,

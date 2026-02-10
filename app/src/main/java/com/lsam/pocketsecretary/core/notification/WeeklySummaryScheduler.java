@@ -16,8 +16,8 @@ public class WeeklySummaryScheduler {
 
         Intent i=new Intent(c, NotificationReceiver.class);
         i.setAction("WEEKLY_SUMMARY");
-        i.putExtra("title","今週の予定");
-        i.putExtra("text","今週の予定を確認しましょう");
+        i.putExtra("title","莉企ｱ縺ｮ莠亥ｮ・);
+        i.putExtra("text","莉企ｱ縺ｮ莠亥ｮ壹ｒ遒ｺ隱阪＠縺ｾ縺励ｇ縺・);
 
         PendingIntent pi=PendingIntent.getBroadcast(
             c,2001,i,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
