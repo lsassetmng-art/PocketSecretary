@@ -14,3 +14,8 @@
     <string name="action_cancel">Cancel</string>
 
 </resources>
+
+    <!-- Secretary -->
+    <string name="title_secretary">Secretary</string>
+    <string name="label_next_event_none">No upcoming events</string>
+
