@@ -3,30 +3,35 @@ package com.lsam.pocketsecretary.core;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class Prefs {
+public final class Prefs {
 
-    private static final String NAME = "pocket_secretary";
+    private static final String NAME = "pocket_secretary_prefs";
 
-    public static SharedPreferences sp(Context c) {
+    private static SharedPreferences prefs(Context c) {
         return c.getSharedPreferences(NAME, Context.MODE_PRIVATE);
     }
 
+    // ---- public API ----
+
+    public static SharedPreferences sp(Context c) {
+        return prefs(c);
+    }
+
+    public static boolean isOnboarded(Context c) {
+        return prefs(c).getBoolean("onboarded", false);
+    }
+
     public static void setOnboarded(Context c, boolean v) {
-        sp(c).edit().putBoolean("onboarded", v).apply();
+        prefs(c).edit().putBoolean("onboarded", v).apply();
     }
 
     public static String getDefaultSecretary(Context c) {
-        return sp(c).getString("default_secretary", "hiyori");
+        return prefs(c).getString("default_secretary", "");
     }
-
-    private static final String KEY_DEFAULT_SECRETARY = "default_secretary";
 
     public static void setDefaultSecretary(Context c, String id) {
-        sp(c).edit().putString(KEY_DEFAULT_SECRETARY, id).apply();
+        prefs(c).edit().putString("default_secretary", id).apply();
     }
 
-    public static String getDefaultSecretary(Context c) {
-        return sp(c).getString(KEY_DEFAULT_SECRETARY, "");
-    }
-
+    private Prefs() {}
 }
