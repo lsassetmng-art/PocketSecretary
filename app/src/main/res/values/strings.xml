@@ -8,4 +8,5 @@
 
     <string name="notify_button">notify.button</string>
     <string name="notify_title">notify.title</string>
+    <string name="archive_title">archive.title</string>
 </resources>

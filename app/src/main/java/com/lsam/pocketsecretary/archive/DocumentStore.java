@@ -2,15 +2,22 @@ package com.lsam.pocketsecretary.archive;
 
 import android.content.Context;
 import android.net.Uri;
+
 import org.json.JSONArray;
 
-public class DocumentStore {
+/**
+ * DocumentStore
+ * Phase D: READ ONLY
+ */
+public final class DocumentStore {
 
-    public static JSONArray list(Context ctx) {
+    private DocumentStore() {}
+
+    public static JSONArray list(Context context) {
         return new JSONArray();
     }
 
-    public static void add(Context ctx, String name, String desc, String tag, Uri uri) {
-        // no-op Phase A
+    public static String readText(Context context, Uri uri) {
+        return "";
     }
 }
