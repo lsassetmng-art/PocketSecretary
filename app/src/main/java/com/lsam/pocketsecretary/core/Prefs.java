@@ -5,33 +5,32 @@ import android.content.SharedPreferences;
 
 public final class Prefs {
 
-    private static final String NAME = "pocket_secretary_prefs";
+    private static final String NAME = "prefs";
 
-    private static SharedPreferences prefs(Context c) {
+    public static SharedPreferences sp(Context c) {
         return c.getSharedPreferences(NAME, Context.MODE_PRIVATE);
     }
 
-    // ---- public API ----
+    private static final String KEY_ONBOARDED = "onboarded";
+    private static final String KEY_DEFAULT_SECRETARY = "default_secretary";
 
-    public static SharedPreferences sp(Context c) {
-        return prefs(c);
+    public static void setOnboarded(Context c, boolean v) {
+        sp(c).edit().putBoolean(KEY_ONBOARDED, v).apply();
     }
 
     public static boolean isOnboarded(Context c) {
-        return prefs(c).getBoolean("onboarded", false);
-    }
-
-    public static void setOnboarded(Context c, boolean v) {
-        prefs(c).edit().putBoolean("onboarded", v).apply();
-    }
-
-    public static String getDefaultSecretary(Context c) {
-        return prefs(c).getString("default_secretary", "");
+        return sp(c).getBoolean(KEY_ONBOARDED, false);
     }
 
     public static void setDefaultSecretary(Context c, String id) {
-        prefs(c).edit().putString("default_secretary", id).apply();
+        sp(c).edit().putString(KEY_DEFAULT_SECRETARY, id).apply();
     }
 
-    private Prefs() {}
+    public static String getDefaultSecretary(Context c) {
+        return sp(c).getString(KEY_DEFAULT_SECRETARY, "");
+    }
+
+    public static boolean isVoiceOn(Context c) {
+        return sp(c).getBoolean("voice_on", true);
+    }
 }
