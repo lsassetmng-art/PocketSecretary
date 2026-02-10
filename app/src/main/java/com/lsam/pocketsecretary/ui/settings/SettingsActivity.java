@@ -8,7 +8,9 @@ import com.lsam.pocketsecretary.core.prefs.Prefs;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle b) {
+        findViewById(R.id.btnWeekly).setOnClickListener(v->startActivity(new android.content.Intent(this, com.lsam.pocketsecretary.ui.week.WeeklyReadActivity.class)));
         super.onCreate(b);
+        findViewById(R.id.btnWeekly).setOnClickListener(v->startActivity(new android.content.Intent(this, com.lsam.pocketsecretary.ui.week.WeeklyReadActivity.class)));
         setContentView(R.layout.activity_settings);
 
         CheckBox c30 = findViewById(R.id.chk30);

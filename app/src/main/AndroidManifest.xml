@@ -45,5 +45,6 @@
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".ui.event.AddEventActivity" android:exported="false" />
+<activity android:name=".ui.week.WeeklyReadActivity" android:exported="false"/>
 </application>
 </manifest>

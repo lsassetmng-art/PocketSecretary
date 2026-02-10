@@ -2,17 +2,29 @@ package com.lsam.pocketsecretary.ui.secretary;
 
 import android.content.Intent;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 import android.os.Bundle;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 import android.widget.Button;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 import androidx.recyclerview.widget.RecyclerView;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
+import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import java.util.*;
 
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.prefs.Prefs;
@@ -69,6 +81,8 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        android.widget.TextView ft=findViewById(R.id.txtFreeTime);
+        if (ft!=null){ ft.setText("今日の空き時間は計算中…"); }
         android.widget.TextView card = findViewById(R.id.cardPermission);
         if (card != null) {
             boolean okN = PermissionGuard.hasNotify(this);
@@ -81,6 +95,8 @@ public class SecretaryListActivity extends AppCompatActivity {
         tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
+        android.widget.TextView ft=findViewById(R.id.txtFreeTime);
+        if (ft!=null){ ft.setText("今日の空き時間は計算中…"); }
         android.widget.TextView card = findViewById(R.id.cardPermission);
         if (card != null) {
             boolean okN = PermissionGuard.hasNotify(this);
