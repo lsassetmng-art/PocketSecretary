@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App -->
     <string name="app_name">PocketSecretary</string>
-
-    <string name="title_today">Today</string>
-    <string name="title_calendar">Calendar</string>
-    <string name="title_notify">Notifications</string>
-
-    <string name="msg_no_events">No events</string>
-    <string name="msg_loading">Loading</string>
-
-    <string name="action_ok">OK</string>
-    <string name="action_cancel">Cancel</string>
-
-</resources>
 
     <!-- Secretary -->
     <string name="title_secretary">Secretary</string>
     <string name="label_next_event_none">No upcoming events</string>
 
+</resources>
