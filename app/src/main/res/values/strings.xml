@@ -1,58 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">PocketSecretary</string>
 
-    <!-- Secretary -->
-    <string name="secretary_hiyori_name">ひより</string>
-    <string name="secretary_hiyori_desc">毎日をそっと支えます</string>
+    <string name="title_today">Today</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_notify">Notifications</string>
 
-    <string name="secretary_aoi_name">あおい</string>
-    <string name="secretary_aoi_desc">予定を静かに整理します</string>
+    <string name="msg_no_events">No events</string>
+    <string name="msg_loading">Loading</string>
 
-    <string name="secretary_ren_name">れん</string>
-    <string name="secretary_ren_desc">必要なことだけ伝えます</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
 
-    <!-- UI -->
-    <string name="next_event_none">次の予定：なし</string>
-    <string name="next_event_prefix">次の予定：</string>
-    <string name="free_time_calc">今日の空き時間は計算中…</string>
-
-    <!-- Notification -->
-    <string name="notify_daily_title">今日の予定</string>
-    <string name="notify_daily_text">今日の予定を確認しましょう</string>
-
-    <string name="notify_weekly_title">今週の予定</string>
-    <string name="notify_weekly_text">今週の予定をまとめました</string>
-
-    <string name="notify_follow_title">予定の確認</string>
-
-    <!-- Voice -->
-    <string name="voice_check_next">次の予定を確認します</string>
 </resources>
-
-<!-- ===================== -->
-<!-- JP strings (Play safe) -->
-<!-- ===================== -->
-<string name="ps_app_name">PocketSecretary</string>
-<string name="ps_notify_title_default">予定：確認</string>
-<string name="ps_notify_text_demo">通知が動作しました（デモ）</string>
-
-<string name="ps_secretary_hiyori">ひより</string>
-<string name="ps_secretary_aoi">あおい</string>
-<string name="ps_secretary_ren">れん</string>
-
-<string name="ps_speech_ren_hello">予定だけ、確認しよう。</string>
-<string name="ps_speech_aoi_hello">今日の予定を静かに整えます。</string>
-<string name="ps_speech_default_hello">おはよう。今日も一緒に整えようね。</string>
-
-<string name="ps_speech_no_next_ren">次の予定は未登録。必要なら追加して。</string>
-<string name="ps_speech_no_next_aoi">次の予定は見つかりませんでした。</string>
-<string name="ps_speech_no_next_default">次の予定はまだ無いみたい。必要なら入れておこう。</string>
-
-<string name="ps_speech_next_ren_prefix">次：</string>
-<string name="ps_speech_next_aoi_prefix">次の予定です。\n</string>
-<string name="ps_speech_next_default_prefix">次の予定はこれだよ。\n</string>
-
-<string name="ps_speech_notify_aoi_prefix">お知らせ：</string>
-<string name="ps_speech_notify_default_prefix">ねえ、</string>
-
