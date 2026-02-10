@@ -1,47 +1,43 @@
 package com.lsam.pocketsecretary.core.notification;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
+import android.os.Build;
 
-public class NotificationScheduler {
+import androidx.core.app.NotificationCompat;
 
-    // ---- compatibility layer ----
-    public static void fireNow(Context c, String title, String text){
-        Intent i = new Intent(c, com.lsam.pocketsecretary.ui.notification.NotificationReceiver.class);
-        i.putExtra(com.lsam.pocketsecretary.ui.notification.NotificationReceiver.EXTRA_TITLE, title);
-        i.putExtra(com.lsam.pocketsecretary.ui.notification.NotificationReceiver.EXTRA_TEXT, text);
-        notifyNow(c, i);
-    }
+import com.lsam.pocketsecretary.R;
 
-    public static void scheduleAt(Context c, long atMillis, String title, String text){
-        Intent i = new Intent(c, com.lsam.pocketsecretary.ui.notification.NotificationReceiver.class);
-        i.putExtra(com.lsam.pocketsecretary.ui.notification.NotificationReceiver.EXTRA_TITLE, title);
-        i.putExtra(com.lsam.pocketsecretary.ui.notification.NotificationReceiver.EXTRA_TEXT, text);
-        scheduleExact(c, atMillis, i);
-    }
+/**
+ * Phase E: Notification 実動
+ */
+public final class NotificationScheduler {
 
-    // ---- new minimal core ----
-    public static void notifyNow(Context c, Intent i){
-        com.lsam.pocketsecretary.core.notification.MinimalNotifier.notifyNow(c, i);
-    }
+    private static final String CHANNEL_ID = "pocketsecretary_default";
 
-    public static void scheduleExact(Context c, long atMillis, Intent i){
-        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
-        if (android.os.Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_IMMUTABLE;
+    private NotificationScheduler() {}
 
-        PendingIntent pi = PendingIntent.getBroadcast(
-            c, 1, i, flags
-        );
+    public static void notify(Context context, String title, String body) {
+        NotificationManager nm =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-        if (am == null) return;
-
-        if (android.os.Build.VERSION.SDK_INT >= 19) {
-            am.setExact(AlarmManager.RTC_WAKEUP, atMillis, pi);
-        } else {
-            am.set(AlarmManager.RTC_WAKEUP, atMillis, pi);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel ch = new NotificationChannel(
+                    CHANNEL_ID,
+                    CHANNEL_ID,
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            nm.createNotificationChannel(ch);
         }
+
+        NotificationCompat.Builder b =
+                new NotificationCompat.Builder(context, CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(title)
+                        .setContentText(body)
+                        .setAutoCancel(true);
+
+        nm.notify((int) System.currentTimeMillis(), b.build());
     }
 }

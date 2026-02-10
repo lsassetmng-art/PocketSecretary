@@ -1,18 +1,38 @@
 package com.lsam.pocketsecretary.core.voice;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 
-public class VoiceManager {
-    private static VoiceEngine engine = new TtsVoiceEngine();
+import java.util.Locale;
 
-    public static void speak(Context c, String text){
-        if (engine != null && engine.isAvailable(c)){
-            engine.speak(c, text);
-        }
+/**
+ * Phase E: Voice 実動（TTS）
+ */
+public final class VoiceManager {
+
+    private static TextToSpeech tts;
+
+    private VoiceManager() {}
+
+    public static void init(Context context) {
+        if (tts != null) return;
+
+        tts = new TextToSpeech(context, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                tts.setLanguage(Locale.JAPAN);
+            }
+        });
     }
 
-    // JP_COMMENT
-    public static void setEngine(VoiceEngine e){
-        engine = e;
+    public static void speak(String text) {
+        if (tts == null) return;
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ps");
+    }
+
+    public static void shutdown() {
+        if (tts != null) {
+            tts.shutdown();
+            tts = null;
+        }
     }
 }
