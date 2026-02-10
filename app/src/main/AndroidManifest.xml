@@ -1,60 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- Permissions (Play審査安全) -->
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    package="com.lsam.pocketsecretary">
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.PocketSecretary"
-        tools:targetApi="31">
+        android:supportsRtl="true">
 
-        <!-- Launcher -->
         <activity
             android:name=".ui.secretary.SecretaryListActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <!-- Boot / Notification -->
-        <receiver
-            android:name=".ui.notification.BootReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".ui.notification.NotificationReceiver"
             android:exported="false" />
 
-        <!-- Core Screens -->
-        <activity android:name=".ui.onboarding.OnboardingActivity" android:exported="false" />
-        <activity android:name=".ui.secretary.SecretaryChatActivity" android:exported="false" />
-        <activity android:name=".ui.calendar.CalendarReadActivity" android:exported="false" />
-        <activity android:name=".ui.notification.NotificationCenterActivity" android:exported="false" />
-        <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
-        <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".ui.event.AddEventActivity" android:exported="false" />
-        <activity android:name=".ui.week.WeeklyReadActivity" android:exported="false" />
-        <activity android:name=".ui.consult.ConsultActivity" android:exported="false" />
-
-        <!-- v2.2-safe additions -->
-        <activity android:name=".ui.checklist.ChecklistActivity" android:exported="false" />
-        <activity android:name=".ui.today.TodaySummaryActivity" android:exported="false" />
-
     </application>
+
 </manifest>
