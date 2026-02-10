@@ -14,34 +14,34 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PocketSecretary は “読むだけ” の秘書です"
+            android:text="あなたの予定を“読むだけ”の秘書です"
             android:textSize="20sp"
             android:paddingBottom="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="できること\n・今日/明日の予定を表示（READ ONLY）\n・通知で軽くリマインド\n\nまずは必要な権限だけ許可してください。"
+            android:text="PocketSecretary は、カレンダーを変更しません。\n\n・今日/明日の予定を静かに確認\n・必要なときだけ通知でお知らせ\n\n大切な予定に、余計な操作は加えません。"
             android:paddingBottom="12dp"/>
 
         <TextView
             android:id="@+id/txtOnboardingState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="権限状態"
+            android:text="権限の状態"
             android:paddingBottom="12dp"/>
 
         <Button
             android:id="@+id/btnGrantCalendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="カレンダー権限（READ）を許可" />
+            android:text="カレンダーを読む許可（READ ONLY）" />
 
         <Button
             android:id="@+id/btnGrantNotify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="通知権限を許可"
+            android:text="通知の許可"
             android:layout_marginTop="8dp"/>
 
         <Button
