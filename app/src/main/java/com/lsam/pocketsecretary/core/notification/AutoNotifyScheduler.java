@@ -12,13 +12,13 @@ public final class AutoNotifyScheduler {
 
     private AutoNotifyScheduler(){}
 
-    // 最小：とりあえず「次予定っぽい通知」を予約（本格的なカレンダー連動は後で差し替えOK）
-    // Play安全の核：ユーザーが通知ONの時のみ
+    // JP_COMMENT
+    // JP_COMMENT
     public static void scheduleDemo(Context c) {
         if (!Prefs.isNotifyEnabled(c)) return;
 
         long now = System.currentTimeMillis();
-        // デモ：10分後に1件（動作確認用）
+        // JP_COMMENT
         long at = now + 10L * 60L * 1000L;
 
         Intent i = new Intent(c, NotificationReceiver.class);

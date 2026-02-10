@@ -45,7 +45,7 @@ public class SecretaryChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Settings / 選択変更を必ず反映
+        // JP_COMMENT
         String id = getIntent().getStringExtra(EXTRA_SECRETARY_ID);
         if (id == null || id.isEmpty()) {
             id = Prefs.getDefaultSecretary(this);

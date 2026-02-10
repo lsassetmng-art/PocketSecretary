@@ -29,9 +29,9 @@ public class NotificationTextProvider {
 
     public static String secretaryPrefix(){
         int b = band();
-        if (b==0) return pick(new String[]{"おはようございます。", "今日も確認します。"});
-        if (b==1) return pick(new String[]{"確認します。", "次の予定です。"});
-        return pick(new String[]{"お疲れさまです。", "念のためお知らせします。"});
+        if (b==0) return pick(new String[]{"Good morning.", "今日もChecking."});
+        if (b==1) return pick(new String[]{"Checking.", "Next event."});
+        return pick(new String[]{"Hello.", "念のためお知らせします。"});
     }
 
     public static String contextHint(boolean tight, boolean consecutive){

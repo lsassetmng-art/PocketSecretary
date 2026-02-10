@@ -26,15 +26,15 @@ public class ConsultEngine {
             switch (q){
                 case TODAY_BUSY:
                     return today.isEmpty()
-                        ? "今日は予定はありません。"
-                        : "今日は予定が" + today.size() + "件あります。";
+                        ? "No events today."
+                        : "There are " + today.size() + " events today.";
                 case NEXT_EVENT:
                     for (long[] e: today){
                         if (e[0] > now){
-                            return "次は " + fmt(e[0]) + " から予定があります。";
+                            return "Next event starts at " + fmt(e[0]) + ".";
                         }
                     }
-                    return "このあとの予定はありません。";
+                    return "No more events today.";
                 case FREE_TIME:
                     return FreeTimeUtil.todaySummary(today);
                 case SHOULD_GO_NOW:
@@ -42,14 +42,14 @@ public class ConsultEngine {
                         if (e[0] > now){
                             long min = Math.max(0,(e[0]-now)/60000);
                             return (min>=10)
-                                ? "今出る必要はありません。余裕があります。"
-                                : "そろそろ出発した方がよさそうです。";
+                                ? "No need to leave yet. You have time."
+                                : "It may be time to leave soon.";
                         }
                     }
-                    return "今日は出発の必要はなさそうです。";
+                    return "No need to leave today.";
             }
         }catch(Exception ignored){}
-        return "情報を取得できませんでした。";
+        return "Unable to retrieve information.";
     }
 
     private static boolean isToday(long t){

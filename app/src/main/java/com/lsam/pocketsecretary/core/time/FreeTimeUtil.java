@@ -3,7 +3,7 @@ package com.lsam.pocketsecretary.core.time;
 import java.util.*;
 
 public class FreeTimeUtil {
-    // events: List<long[]{start,end}> (end不明は start+1h 仮)
+    // JP_COMMENT
     public static String todaySummary(List<long[]> events){
         Calendar c=Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY,9); c.set(Calendar.MINUTE,0);
@@ -21,8 +21,8 @@ public class FreeTimeUtil {
             cur=Math.max(cur,en);
         }
         if (cur<workEnd) gaps.add(fmt(cur)+"-"+fmt(workEnd));
-        if (gaps.isEmpty()) return "今日は空き時間がありません";
-        return "今日の空き時間: "+String.join(", ", gaps);
+        if (gaps.isEmpty()) return "No free time today";
+        return "Free time today: "+String.join(", ", gaps);
     }
     private static String fmt(long t){
         Calendar c=Calendar.getInstance(); c.setTimeInMillis(t);

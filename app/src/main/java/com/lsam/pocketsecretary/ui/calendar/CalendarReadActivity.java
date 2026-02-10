@@ -88,9 +88,9 @@ public class CalendarReadActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        // Phase6.5: 空状態メッセージ
+        // JP_COMMENT
         if (items.isEmpty()) {
-            items.add("今日は予定がありません。ゆっくりいきましょう。");
+            items.add("No events today.");
         }
 
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));

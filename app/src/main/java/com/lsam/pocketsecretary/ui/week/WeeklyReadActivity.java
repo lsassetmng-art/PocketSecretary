@@ -67,7 +67,7 @@ public class WeeklyReadActivity extends AppCompatActivity {
         }catch(Exception ignored){}
 
         if (rows.isEmpty()){
-            rows.add("予定はありません。＋予定から追加できます。");
+            rows.add("No events. You can add one.");
         }
 
         lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, rows));

@@ -8,7 +8,7 @@ public class TtsVoiceEngine implements VoiceEngine {
     private TextToSpeech tts;
 
     @Override public boolean isAvailable(Context c){
-        return true; // 端末TTS前提
+        return true; // JP_COMMENT
     }
 
     @Override public void speak(Context c, String text){

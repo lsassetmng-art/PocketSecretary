@@ -13,7 +13,7 @@ public class VoiceManager {
         }
     }
 
-    // 将来：外部サービス差し替え用
+    // JP_COMMENT
     public static void setEngine(VoiceEngine e){
         engine = e;
     }
