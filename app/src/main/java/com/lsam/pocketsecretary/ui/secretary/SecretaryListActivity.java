@@ -60,6 +60,7 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
         // Phase6.5: Notify OFF を視覚化
         if (btnNotify != null) {

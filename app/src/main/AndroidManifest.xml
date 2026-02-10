@@ -26,15 +26,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.onboarding.OnboardingActivity" android:exported="false" />
-
-        <activity android:name=".ui.secretary.SecretaryChatActivity" android:exported="false" />
-        <activity android:name=".ui.calendar.CalendarReadActivity" android:exported="false" />
-        <activity android:name=".ui.notification.NotificationCenterActivity" android:exported="false" />
-        <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
-
-        <receiver android:name=".ui.notification.NotificationReceiver" android:exported="false" />
-
         <receiver
             android:name=".ui.notification.BootReceiver"
             android:exported="false">
@@ -43,7 +34,15 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MainActivity" android:exported="false" />
+        <receiver
+            android:name=".ui.notification.NotificationReceiver"
+            android:exported="false" />
 
+        <activity android:name=".ui.onboarding.OnboardingActivity" android:exported="false" />
+        <activity android:name=".ui.secretary.SecretaryChatActivity" android:exported="false" />
+        <activity android:name=".ui.calendar.CalendarReadActivity" android:exported="false" />
+        <activity android:name=".ui.notification.NotificationCenterActivity" android:exported="false" />
+        <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
     </application>
 </manifest>
