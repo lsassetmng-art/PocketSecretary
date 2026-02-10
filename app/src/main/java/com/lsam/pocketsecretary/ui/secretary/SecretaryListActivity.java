@@ -1,12 +1,18 @@
 package com.lsam.pocketsecretary.ui.secretary;
 
 import android.content.Intent;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import android.os.Bundle;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import android.widget.Button;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import androidx.recyclerview.widget.RecyclerView;
+import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.prefs.Prefs;
@@ -63,12 +69,24 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        android.widget.TextView card = findViewById(R.id.cardPermission);
+        if (card != null) {
+            boolean okN = PermissionGuard.hasNotify(this);
+            boolean okC = PermissionGuard.hasCalendar(this);
+            card.setVisibility((okN && okC) ? android.view.View.GONE : android.view.View.VISIBLE);
+        }
         com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
         android.widget.TextView tv=findViewById(R.id.txtNextEvent);
         com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
         tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
+        android.widget.TextView card = findViewById(R.id.cardPermission);
+        if (card != null) {
+            boolean okN = PermissionGuard.hasNotify(this);
+            boolean okC = PermissionGuard.hasCalendar(this);
+            card.setVisibility((okN && okC) ? android.view.View.GONE : android.view.View.VISIBLE);
+        }
         com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
         android.widget.TextView tv=findViewById(R.id.txtNextEvent);
         com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
