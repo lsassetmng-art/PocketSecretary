@@ -1,4 +1,6 @@
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="秘書が“気づき”を補います" android:padding="8dp"/>
+<Switch android:id="@+id/swVoice" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="声を有効にする"/>
+<Switch android:id="@+id/swAnim" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="アニメーションを有効にする"/>
 <Button android:id="@+id/btnPresetMorning" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：朝"/>
 <Button android:id="@+id/btnPresetNoon" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：昼"/>
 <Button android:id="@+id/btnPresetNight" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：夜"/>
