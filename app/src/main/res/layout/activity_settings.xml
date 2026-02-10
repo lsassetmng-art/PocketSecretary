@@ -1,17 +1,9 @@
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="秘書が“気づき”を補います" android:padding="8dp"/>
-<Switch android:id="@+id/swVoice" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="声を有効にする"/>
-<Switch android:id="@+id/swAnim" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="アニメーションを有効にする"/>
-<Button android:id="@+id/btnPresetMorning" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：朝"/>
-<Button android:id="@+id/btnPresetNoon" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：昼"/>
-<Button android:id="@+id/btnPresetNight" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="通知プリセット：夜"/>
-<Button android:id="@+id/btnWeekly" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="週間ビュー（読み取り）"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="8dp" android:text="秘書が大事な予定への気づきを補います"/>
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/txtSettingsTitle"
@@ -21,21 +13,4 @@
         android:textSize="20sp"
         android:paddingBottom="12dp" />
 
-    <Switch
-        android:id="@+id/swNotifyEnabled"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="通知を有効にする" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="デフォルト秘書"
-        android:paddingTop="16dp"
-        android:paddingBottom="6dp" />
-
-    <Spinner
-        android:id="@+id/spDefaultSecretary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>
