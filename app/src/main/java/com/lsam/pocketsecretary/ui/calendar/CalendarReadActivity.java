@@ -1,4 +1,11 @@
 package com.lsam.pocketsecretary.ui.calendar;
+import com.lsam.pocketsecretary.core.calendar.CalendarItem;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
