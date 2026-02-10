@@ -3,27 +3,51 @@ package com.lsam.pocketsecretary.ui.secretary;
 import android.content.Intent;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 import android.os.Bundle;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 import android.widget.Button;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 import androidx.recyclerview.widget.RecyclerView;
 import com.lsam.pocketsecretary.core.guard.PermissionGuard;
 import com.lsam.pocketsecretary.core.time.FreeTimeUtil;
+import com.lsam.pocketsecretary.core.template.EventTemplates;
+import com.lsam.pocketsecretary.core.stats.LocalStats;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import java.util.Calendar;
 import java.util.*;
 
 import com.lsam.pocketsecretary.R;
@@ -81,6 +105,8 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        android.widget.TextView st=findViewById(R.id.txtStats);
+        if (st!=null) st.setText(com.lsam.pocketsecretary.core.stats.LocalStats.summary(this));
         android.widget.TextView ft=findViewById(R.id.txtFreeTime);
         if (ft!=null){ ft.setText("今日の空き時間は計算中…"); }
         android.widget.TextView card = findViewById(R.id.cardPermission);
@@ -95,6 +121,8 @@ public class SecretaryListActivity extends AppCompatActivity {
         tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
+        android.widget.TextView st=findViewById(R.id.txtStats);
+        if (st!=null) st.setText(com.lsam.pocketsecretary.core.stats.LocalStats.summary(this));
         android.widget.TextView ft=findViewById(R.id.txtFreeTime);
         if (ft!=null){ ft.setText("今日の空き時間は計算中…"); }
         android.widget.TextView card = findViewById(R.id.cardPermission);
