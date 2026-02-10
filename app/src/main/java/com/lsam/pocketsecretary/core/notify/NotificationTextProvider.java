@@ -1,47 +1,36 @@
+// DISABLED_FOR_PLAY_SAFETY
 package com.lsam.pocketsecretary.core.notify;
 
-import android.content.Context;
-import java.util.Random;
-import java.util.Calendar;
+import java.util.*;
 
 public class NotificationTextProvider {
     private static final Random R = new Random();
 
-    private static String pick(String[] a){
-        return a[R.nextInt(a.length)];
-    }
+    private static String pick(String[] a){ return a[R.nextInt(a.length)]; }
 
-    private static int band(){
+    public static String prefix(){
         int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (h < 12) return 0;      // morning
-        if (h < 18) return 1;      // day
-        return 2;                  // night
+        if (h < 12) return pick(new String[]{"Good morning.","Checking today."});
+        if (h < 18) return pick(new String[]{"Checking.","Next event."});
+        return pick(new String[]{"Hello.","Just a reminder."});
     }
 
-    public static String reminderLine(int minutes, String title){
-        String[] m = new String[]{
-            minutes + "分後に予定です: " + title,
-            "まもなく予定です（" + minutes + "分）: " + title,
-            "予定の時間が近いです（" + minutes + "分）: " + title
-        };
-        return pick(m);
+    public static String body(int min, String title){
+        return pick(new String[]{
+            min+"JP_TEXT: "+title,
+            "JP_TEXT（"+min+"JP_TEXT）: "+title,
+            "JP_TEXT（"+min+"JP_TEXT）: "+title
+        });
     }
 
-    public static String secretaryPrefix(){
-        int b = band();
-        if (b==0) return pick(new String[]{"Good morning.", "今日もChecking."});
-        if (b==1) return pick(new String[]{"Checking.", "Next event."});
-        return pick(new String[]{"Hello.", "念のためお知らせします。"});
-    }
-
-    public static String contextHint(boolean tight, boolean consecutive){
-        if (tight && consecutive) return "移動時間に注意してください。続けて予定があります。";
-        if (tight) return "移動時間に注意してください。";
-        if (consecutive) return "この後、続けて予定があります。";
+    public static String hint(boolean tight, boolean cont){
+        if (tight && cont) return "JP_TEXT。JP_TEXT。";
+        if (tight) return "JP_TEXT。";
+        if (cont) return "JP_TEXT、JP_TEXT。";
         return "";
     }
 
     public static String consultFollowUp(){
-        return "必要でしたら、また聞いてください。";
+        return "JP_TEXT、JP_TEXT。";
     }
 }

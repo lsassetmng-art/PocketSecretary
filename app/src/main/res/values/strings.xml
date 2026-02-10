@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- App -->
     <string name="app_name">PocketSecretary</string>
 
-    <!-- Secretary -->
-    <string name="title_secretary">Secretary</string>
-    <string name="label_next_event_none">No upcoming events</string>
+    <string name="secretary_hiyori_name">Hiyori</string>
+    <string name="secretary_hiyori_desc">Gentle secretary</string>
 
+    <string name="secretary_aoi_name">Aoi</string>
+    <string name="secretary_aoi_desc">Cool secretary</string>
+
+    <string name="secretary_ren_name">Ren</string>
+    <string name="secretary_ren_desc">Logical secretary</string>
+
+    <string name="voice_check_next">Next</string>
+    <string name="free_time_calc">Calculating...</string>
 </resources>
