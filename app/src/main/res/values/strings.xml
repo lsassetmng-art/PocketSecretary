@@ -2,17 +2,7 @@
 <resources>
     <string name="app_name">PocketSecretary</string>
 
-    <string name="secretary_hiyori_name">Hiyori</string>
-    <string name="secretary_hiyori_desc">Gentle secretary</string>
-
-    <string name="secretary_aoi_name">Aoi</string>
-    <string name="secretary_aoi_desc">Cool secretary</string>
-
-    <string name="secretary_ren_name">Ren</string>
-    <string name="secretary_ren_desc">Logical secretary</string>
-
-    <string name="notify_button">Notify</string>
-
-    <string name="voice_check_next">Next</string>
-    <string name="free_time_calc">Calculating...</string>
+    <!-- Secretary -->
+    <string name="secretary_list_title">secretary.list.title</string>
+    <string name="secretary_chat_title">secretary.chat.title</string>
 </resources>

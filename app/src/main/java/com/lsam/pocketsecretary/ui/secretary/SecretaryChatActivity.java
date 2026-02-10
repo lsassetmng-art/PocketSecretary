@@ -2,17 +2,17 @@ package com.lsam.pocketsecretary.ui.secretary;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import com.lsam.pocketsecretary.R;
 
 /**
- * SecretaryChatActivity
- * Phase A: BUILD UNBLOCK 用最小正本
- * UI / R.id / Speech / Secretary 参照は全て Phase B へ延期
+ * Phase C: UI only
  */
 public class SecretaryChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // intentionally no setContentView
+        setContentView(R.layout.activity_secretary_chat);
+        setTitle(R.string.secretary_chat_title);
     }
 }
