@@ -63,11 +63,13 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
         android.widget.TextView tv=findViewById(R.id.txtNextEvent);
         com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
         tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
+        com.lsam.pocketsecretary.core.notification.WeeklySummaryScheduler.schedule(this);
         android.widget.TextView tv=findViewById(R.id.txtNextEvent);
         com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
         tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
