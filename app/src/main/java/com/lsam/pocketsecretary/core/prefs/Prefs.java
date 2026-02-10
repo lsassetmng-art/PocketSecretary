@@ -67,4 +67,15 @@ public class Prefs {
     public static void setOnboarded(Context c, boolean v) {
         sp(c).edit().putBoolean(KEY_ONBOARDED, v).apply();
     }
+
+public static boolean getBool(Context c, String k, boolean d){
+    return c.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            .getBoolean(k, d);
+}
+
+public static void putBool(Context c, String k, boolean v){
+    c.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            .edit().putBoolean(k, v).apply();
+}
+
 }

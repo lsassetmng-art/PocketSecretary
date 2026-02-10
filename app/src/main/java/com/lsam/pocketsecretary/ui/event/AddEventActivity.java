@@ -44,16 +44,16 @@ public class AddEventActivity extends AppCompatActivity {
                     c.set(Calendar.HOUR_OF_DAY,h);
                     c.set(Calendar.MINUTE,min);
                     selectedAt = c.getTimeInMillis();
-                    Toast.makeText(this,"日時を設定しました",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"譌･譎ゅｒ險ｭ螳壹＠縺ｾ縺励◆",Toast.LENGTH_SHORT).show();
                 },c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true).show();
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
         });
 
         save.setOnClickListener(v -> {
             String t = title.getText().toString().trim();
-            if (t.isEmpty()) { Toast.makeText(this,"タイトル必須",Toast.LENGTH_SHORT).show(); return; }
+            if (t.isEmpty()) { Toast.makeText(this,"繧ｿ繧､繝医Ν蠢・・,Toast.LENGTH_SHORT).show(); return; }
             if (editId == null) SimpleEventStore.add(this,t,selectedAt);
-            else SimpleEventStore.update(this,editId,t,selectedAt);
+            
             finish();
         });
 

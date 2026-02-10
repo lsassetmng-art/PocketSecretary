@@ -9,19 +9,25 @@
         android:id="@+id/edtEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="予定タイトル" />
+        android:hint="莠亥ｮ壹ち繧､繝医Ν" />
 
     <Button
         android:id="@+id/btnPickTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="日時を設定（今）"
+        android:text="譌･譎ゅｒ險ｭ螳夲ｼ井ｻ奇ｼ・
         android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/btnSaveEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="保存"
+        android:text="菫晏ｭ・
         android:layout_marginTop="16dp"/>
+</LinearLayout>
+    <Button
+        android:id="@+id/btnDeleteEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="削除" />
 </LinearLayout>
