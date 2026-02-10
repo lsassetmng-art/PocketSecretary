@@ -63,8 +63,14 @@ public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        android.widget.TextView tv=findViewById(R.id.txtNextEvent);
+        com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
+        tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         com.lsam.pocketsecretary.core.notification.AutoNotifyScheduler.rescheduleNext(this);
         super.onResume();
+        android.widget.TextView tv=findViewById(R.id.txtNextEvent);
+        com.lsam.pocketsecretary.core.notification.NextEventPicker.Picked p=com.lsam.pocketsecretary.core.notification.NextEventPicker.pick(this);
+        tv.setText(p==null?"次の予定：なし":"次の予定："+p.title);
         // Phase6.5: Notify OFF を視覚化
         if (btnNotify != null) {
             boolean enabled = Prefs.isNotifyEnabled(this);

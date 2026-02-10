@@ -12,32 +12,32 @@ public class SimpleEventStore {
     private static JSONArray load(Context c) throws Exception {
         return new JSONArray(Prefs.sp(c).getString(KEY, "[]"));
     }
-
     private static void save(Context c, JSONArray arr) {
         Prefs.sp(c).edit().putString(KEY, arr.toString()).apply();
     }
 
-    public static void add(Context c, String title, long startAt) {
+    public static void add(Context c, String title, long startAt, String repeat) {
         try {
             JSONArray arr = load(c);
             JSONObject o = new JSONObject();
             o.put("id", UUID.randomUUID().toString());
             o.put("title", title);
             o.put("startAt", startAt);
+            if (repeat != null) o.put("repeat", repeat);
             arr.put(o);
             save(c, arr);
         } catch (Exception ignored) {}
     }
 
-    public static void update(Context c, String id, String title, long startAt) {
+    public static void update(Context c, String id, String title, long startAt, String repeat) {
         try {
             JSONArray arr = load(c);
-            for (int i = 0; i < arr.length(); i++) {
+            for (int i=0;i<arr.length();i++){
                 JSONObject o = arr.getJSONObject(i);
-                if (id.equals(o.getString("id"))) {
+                if (id.equals(o.getString("id"))){
                     o.put("title", title);
                     o.put("startAt", startAt);
-                    break;
+                    if (repeat==null) o.remove("repeat"); else o.put("repeat", repeat);
                 }
             }
             save(c, arr);
@@ -48,7 +48,7 @@ public class SimpleEventStore {
         try {
             JSONArray arr = load(c);
             JSONArray out = new JSONArray();
-            for (int i = 0; i < arr.length(); i++) {
+            for (int i=0;i<arr.length();i++){
                 JSONObject o = arr.getJSONObject(i);
                 if (!id.equals(o.getString("id"))) out.put(o);
             }
