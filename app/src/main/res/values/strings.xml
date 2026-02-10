@@ -2,7 +2,10 @@
 <resources>
     <string name="app_name">PocketSecretary</string>
 
-    <!-- Secretary -->
+    <!-- Phase C UI keys -->
     <string name="secretary_list_title">secretary.list.title</string>
     <string name="secretary_chat_title">secretary.chat.title</string>
+
+    <string name="notify_button">notify.button</string>
+    <string name="notify_title">notify.title</string>
 </resources>
