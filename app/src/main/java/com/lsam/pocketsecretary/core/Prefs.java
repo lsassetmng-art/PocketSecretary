@@ -1,4 +1,4 @@
-﻿package com.lsam.pocketsecretary.core;
+package com.lsam.pocketsecretary.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;
