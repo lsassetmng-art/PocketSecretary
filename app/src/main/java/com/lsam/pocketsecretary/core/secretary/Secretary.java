@@ -1,13 +1,25 @@
 package com.lsam.pocketsecretary.core.secretary;
 
-public class Secretary {
-    public final String id;
-    public final String name;
-    public final String tone;
+/**
+ * Secretary
+ * Phase B 正本モデル
+ * ID は String（enum禁止）
+ */
+public final class Secretary {
 
-    public Secretary(String id, String name, String tone) {
+    private final String id;
+    private final String displayName;
+
+    public Secretary(String id, String displayName) {
         this.id = id;
-        this.name = name;
-        this.tone = tone;
+        this.displayName = displayName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

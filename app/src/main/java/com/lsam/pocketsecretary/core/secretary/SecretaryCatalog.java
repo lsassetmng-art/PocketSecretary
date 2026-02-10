@@ -1,22 +1,38 @@
 package com.lsam.pocketsecretary.core.secretary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SecretaryCatalog {
+/**
+ * SecretaryCatalog
+ * Phase B 正本
+ * 秘書定義の唯一の出入口
+ */
+public final class SecretaryCatalog {
 
-    public static List<Secretary> all() {
+    private static final List<Secretary> ALL;
+
+    static {
         List<Secretary> list = new ArrayList<>();
-        list.add(new Secretary("hiyori", "ひより", "やさしい"));
-        list.add(new Secretary("aoi", "あおい", "静か"));
-        list.add(new Secretary("ren", "れん", "端的"));
-        return list;
+        list.add(new Secretary("hiyori", "ひより"));
+        list.add(new Secretary("aoi", "あおい"));
+        list.add(new Secretary("ren", "れん"));
+        ALL = Collections.unmodifiableList(list);
     }
 
-    public static Secretary byId(String id) {
-        for (Secretary s : all()) {
-            if (s.id.equals(id)) return s;
+    private SecretaryCatalog() {}
+
+    public static List<Secretary> list() {
+        return ALL;
+    }
+
+    public static Secretary findById(String id) {
+        for (Secretary s : ALL) {
+            if (s.getId().equals(id)) {
+                return s;
+            }
         }
-        return all().get(0);
+        return ALL.get(0); // default fallback
     }
 }

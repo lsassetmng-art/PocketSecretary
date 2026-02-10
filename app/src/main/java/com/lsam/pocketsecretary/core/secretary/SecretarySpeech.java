@@ -1,16 +1,27 @@
 package com.lsam.pocketsecretary.core.secretary;
 
-public class SecretarySpeech {
+/**
+ * SecretarySpeech
+ * Phase B 正本
+ * 文言生成のみを責務とする（I/O禁止）
+ */
+public final class SecretarySpeech {
 
-    public static String notifyText(String secretaryId, String baseText) {
+    private SecretarySpeech() {}
+
+    public static String greet(Secretary s) {
+        return s.getDisplayName() + "です。よろしくお願いします。";
+    }
+
+    public static String planLine(Secretary s, String next) {
+        if (next == null || next.isEmpty()) {
+            return "今日は特に予定は入っていません。";
+        }
+        return "次の予定は「" + next + "」です。";
+    }
+
+    public static String notifyText(Secretary s, String baseText) {
+        if (baseText == null) return "";
         return baseText;
-    }
-
-    public static String greet(String secretaryId) {
-        return "";
-    }
-
-    public static String planLine(String secretaryId, String next) {
-        return next;
     }
 }
