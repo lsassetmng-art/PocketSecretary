@@ -1,7 +1,5 @@
-package com.lsam.pocketsecretary;
+package com.lsam.pocketsecretary.core.stats;
 
-import android.content.Context;
-
-public class Stub {
-    public static void noop(Context c) {}
+public class LocalStats {
+    // stub
 }

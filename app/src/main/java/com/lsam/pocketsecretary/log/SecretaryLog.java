@@ -1,7 +1,5 @@
-package com.lsam.pocketsecretary;
+package com.lsam.pocketsecretary.log;
 
-import android.content.Context;
-
-public class Stub {
-    public static void noop(Context c) {}
+public class SecretaryLog {
+    // stub
 }
