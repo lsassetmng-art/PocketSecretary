@@ -14,6 +14,7 @@ import com.lsam.pocketsecretary.ui.calendar.CalendarReadActivity;
 import com.lsam.pocketsecretary.ui.notification.NotificationCenterActivity;
 import com.lsam.pocketsecretary.ui.onboarding.OnboardingActivity;
 import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
+import com.lsam.pocketsecretary.ui.event.AddEventActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class SecretaryListActivity extends AppCompatActivity {
         Button btnCalendar = findViewById(R.id.btnCalendar);
         btnNotify = findViewById(R.id.btnNotify);
         Button btnSettings = findViewById(R.id.btnSettings);
+        Button btnAddEvent = findViewById(R.id.btnAddEvent);
+        btnAddEvent.setOnClickListener(v -> startActivity(new Intent(this, AddEventActivity.class)));
 
         btnCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarReadActivity.class)));
         btnNotify.setOnClickListener(v -> startActivity(new Intent(this, NotificationCenterActivity.class)));

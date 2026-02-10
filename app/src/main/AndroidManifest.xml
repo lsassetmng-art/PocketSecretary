@@ -44,5 +44,6 @@
         <activity android:name=".ui.notification.NotificationCenterActivity" android:exported="false" />
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
-    </application>
+        <activity android:name=".ui.event.AddEventActivity" android:exported="false" />
+</application>
 </manifest>
