@@ -26,6 +26,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.onboarding.OnboardingActivity" android:exported="false" />
+
         <activity android:name=".ui.secretary.SecretaryChatActivity" android:exported="false" />
         <activity android:name=".ui.calendar.CalendarReadActivity" android:exported="false" />
         <activity android:name=".ui.notification.NotificationCenterActivity" android:exported="false" />
@@ -41,9 +43,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 既存が残っていても害なし（将来削除） -->
         <activity android:name=".MainActivity" android:exported="false" />
 
     </application>
-
 </manifest>

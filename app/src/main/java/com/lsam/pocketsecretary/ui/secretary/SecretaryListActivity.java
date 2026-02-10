@@ -12,6 +12,7 @@ import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.prefs.Prefs;
 import com.lsam.pocketsecretary.ui.calendar.CalendarReadActivity;
 import com.lsam.pocketsecretary.ui.notification.NotificationCenterActivity;
+import com.lsam.pocketsecretary.ui.onboarding.OnboardingActivity;
 import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
@@ -19,13 +20,21 @@ import java.util.List;
 
 public class SecretaryListActivity extends AppCompatActivity {
 
+    private Button btnNotify;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Phase8: 初回オンボード（最小）
+        if (!Prefs.isOnboarded(this)) {
+            startActivity(new Intent(this, OnboardingActivity.class));
+        }
+
         setContentView(R.layout.activity_secretary_list);
 
         Button btnCalendar = findViewById(R.id.btnCalendar);
-        Button btnNotify = findViewById(R.id.btnNotify);
+        btnNotify = findViewById(R.id.btnNotify);
         Button btnSettings = findViewById(R.id.btnSettings);
 
         btnCalendar.setOnClickListener(v -> startActivity(new Intent(this, CalendarReadActivity.class)));
@@ -42,10 +51,22 @@ public class SecretaryListActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(new SecretaryListAdapter(items, item -> {
             Prefs.setDefaultSecretary(this, item.id);
+            android.widget.Toast.makeText(this, item.name + "が引き継ぎます", android.widget.Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, SecretaryChatActivity.class);
             i.putExtra(SecretaryChatActivity.EXTRA_SECRETARY_ID, item.id);
             startActivity(i);
         }));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Phase6.5: Notify OFF を視覚化
+        if (btnNotify != null) {
+            boolean enabled = Prefs.isNotifyEnabled(this);
+            btnNotify.setEnabled(enabled);
+            btnNotify.setAlpha(enabled ? 1.0f : 0.45f);
+        }
     }
 
     public static class SecretaryItem {

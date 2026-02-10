@@ -10,6 +10,7 @@ public class Prefs {
     private static final String KEY_SCHEDULED_AT = "scheduled_at";
     private static final String KEY_SCHEDULED_TITLE = "scheduled_title";
     private static final String KEY_SCHEDULED_TEXT = "scheduled_text";
+    private static final String KEY_ONBOARDED = "onboarded_v1";
 
     public static SharedPreferences sp(Context c) {
         return c.getSharedPreferences(FILE, Context.MODE_PRIVATE);
@@ -57,5 +58,13 @@ public class Prefs {
                 .remove(KEY_SCHEDULED_TITLE)
                 .remove(KEY_SCHEDULED_TEXT)
                 .apply();
+    }
+
+    public static boolean isOnboarded(Context c) {
+        return sp(c).getBoolean(KEY_ONBOARDED, false);
+    }
+
+    public static void setOnboarded(Context c, boolean v) {
+        sp(c).edit().putBoolean(KEY_ONBOARDED, v).apply();
     }
 }

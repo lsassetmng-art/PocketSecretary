@@ -65,10 +65,7 @@ public class CalendarReadActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(
                 CalendarContract.Events.CONTENT_URI,
-                new String[]{
-                        CalendarContract.Events.TITLE,
-                        CalendarContract.Events.DTSTART
-                },
+                new String[]{ CalendarContract.Events.TITLE, CalendarContract.Events.DTSTART },
                 selection,
                 args,
                 CalendarContract.Events.DTSTART + " ASC"
@@ -82,6 +79,11 @@ public class CalendarReadActivity extends AppCompatActivity {
                 items.add(when + "  " + (title == null ? "(no title)" : title));
             }
             cursor.close();
+        }
+
+        // Phase6.5: 空状態メッセージ
+        if (items.isEmpty()) {
+            items.add("今日は予定がありません。ゆっくりいきましょう。");
         }
 
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
