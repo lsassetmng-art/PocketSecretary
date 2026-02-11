@@ -1,18 +1,26 @@
 package com.lsam.pocketsecretary.ui.secretary;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import com.lsam.pocketsecretary.R;
 
-/**
- * Phase C: UI only
- */
 public class SecretaryListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_secretary_list);
-        setTitle(R.string.secretary_list_title);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        TextView tv = new TextView(this);
+        tv.setText("PocketSecretary - Phase E OK");
+        tv.setTextSize(20f);
+        tv.setPadding(40, 100, 40, 40);
+
+        layout.addView(tv);
+
+        setContentView(layout);
     }
 }
