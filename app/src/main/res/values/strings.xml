@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PocketSecretary</string>
+    <string name="app_name">秘書</string>
 
     <!-- Phase C UI keys -->
     <string name="secretary_list_title">secretary.list.title</string>
     <string name="secretary_chat_title">secretary.chat.title</string>
 
     <string name="notify_button">notify.button</string>
-    <string name="notify_title">notify.title</string>
+    <string name="notify_title">秘書</string>
     <string name="archive_title">archive.title</string>
+    <string name="notify_text_default">ご予定のお時間になりました</string>
+    <string name="history_title">通知履歴</string>
+    <string name="history_empty">履歴はまだありません</string>
+    <string name="btn_history">履歴を見る</string>
+    <string name="hint_message">通知メッセージを入力</string>
+    <string name="btn_notify">通知する</string>
+    <string name="btn_notify_speak">通知＋音声</string>
+    <string name="btn_schedule">この時刻に通知</string>
 </resources>

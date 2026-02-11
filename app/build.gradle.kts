@@ -32,6 +32,11 @@ android {
 }
 
 dependencies {
+    // Phase G: Room (local history)
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
 
     implementation(libs.appcompat)
     implementation(libs.material)
