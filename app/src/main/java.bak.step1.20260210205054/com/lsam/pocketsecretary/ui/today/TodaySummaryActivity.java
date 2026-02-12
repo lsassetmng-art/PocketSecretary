@@ -14,7 +14,7 @@ public class TodaySummaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_today);
         TextView tv=findViewById(R.id.text);
         UpcomingEventPicker.Ev[] two=UpcomingEventPicker.pickTwo(this);
-        StringBuilder sb=new StringBuilder("莉頑律縺ｮ莠亥ｮ喀n");
+        StringBuilder sb=new StringBuilder("闔蛾大ｾ狗ｸｺ・ｮ闔莠･・ｮ蝟n");
         SimpleDateFormat f=new SimpleDateFormat("HH:mm",Locale.JAPAN);
         for(UpcomingEventPicker.Ev e: two){
             if(e!=null) sb.append(f.format(new Date(e.at))).append(" ").append(e.title).append("\n");

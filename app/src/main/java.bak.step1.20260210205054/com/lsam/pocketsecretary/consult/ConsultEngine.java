@@ -26,15 +26,15 @@ public class ConsultEngine {
             switch (q){
                 case TODAY_BUSY:
                     return today.isEmpty()
-                        ? "莉頑律縺ｯ莠亥ｮ壹・縺ゅｊ縺ｾ縺帙ｓ縲・
-                        : "莉頑律縺ｯ莠亥ｮ壹′" + today.size() + "莉ｶ縺ゅｊ縺ｾ縺吶・;
+                        ? "闔蛾大ｾ狗ｸｺ・ｯ闔莠･・ｮ螢ｹ繝ｻ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｲ繝ｻ
+                        : "闔蛾大ｾ狗ｸｺ・ｯ闔莠･・ｮ螢ｹ窶ｲ" + today.size() + "闔会ｽｶ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ;
                 case NEXT_EVENT:
                     for (long[] e: today){
                         if (e[0] > now){
-                            return "谺｡縺ｯ " + fmt(e[0]) + " 縺九ｉ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
+                            return "隹ｺ・｡邵ｺ・ｯ " + fmt(e[0]) + " 邵ｺ荵晢ｽ芽滋莠･・ｮ螢ｹ窶ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ;
                         }
                     }
-                    return "縺薙・縺ゅ→縺ｮ莠亥ｮ壹・縺ゅｊ縺ｾ縺帙ｓ縲・;
+                    return "邵ｺ阮吶・邵ｺ繧・・邵ｺ・ｮ闔莠･・ｮ螢ｹ繝ｻ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｲ繝ｻ;
                 case FREE_TIME:
                     return FreeTimeUtil.todaySummary(today);
                 case SHOULD_GO_NOW:
@@ -42,14 +42,14 @@ public class ConsultEngine {
                         if (e[0] > now){
                             long min = Math.max(0,(e[0]-now)/60000);
                             return (min>=10)
-                                ? "莉雁・繧句ｿ・ｦ√・縺ゅｊ縺ｾ縺帙ｓ縲ゆｽ呵｣輔′縺ゅｊ縺ｾ縺吶・
-                                : "縺昴ｍ縺昴ｍ蜃ｺ逋ｺ縺励◆譁ｹ縺後ｈ縺輔◎縺・〒縺吶・;
+                                ? "闔蛾宦繝ｻ郢ｧ蜿･・ｿ繝ｻ・ｦ竏壹・邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｲ繧・ｽｽ蜻ｵ・｣霈披ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ
+                                : "邵ｺ譏ｴ・咲ｸｺ譏ｴ・崎怎・ｺ騾具ｽｺ邵ｺ蜉ｱ笳・ｭ・ｽｹ邵ｺ蠕鯉ｽ育ｸｺ霈披落邵ｺ繝ｻ縲堤ｸｺ蜷ｶﾂ繝ｻ;
                         }
                     }
-                    return "莉頑律縺ｯ蜃ｺ逋ｺ縺ｮ蠢・ｦ√・縺ｪ縺輔◎縺・〒縺吶・;
+                    return "闔蛾大ｾ狗ｸｺ・ｯ陷・ｽｺ騾具ｽｺ邵ｺ・ｮ陟｢繝ｻ・ｦ竏壹・邵ｺ・ｪ邵ｺ霈披落邵ｺ繝ｻ縲堤ｸｺ蜷ｶﾂ繝ｻ;
             }
         }catch(Exception ignored){}
-        return "諠・ｱ繧貞叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲・;
+        return "隲繝ｻ・ｰ・ｱ郢ｧ雋槫徐陟募干縲堤ｸｺ髦ｪ竏ｪ邵ｺ蟶呻ｽ鍋ｸｺ・ｧ邵ｺ蜉ｱ笳・ｸｲ繝ｻ;
     }
 
     private static boolean isToday(long t){

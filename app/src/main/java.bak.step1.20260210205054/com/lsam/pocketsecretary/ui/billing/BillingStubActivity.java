@@ -16,9 +16,9 @@ public class BillingStubActivity extends AppCompatActivity {
         TextView note = findViewById(R.id.txtBillingNote);
         note.setText(
                 "Billing (Stub UI)\n\n" +
-                "繝ｻ縺薙％縺ｯ隱ｲ驥大ｰ守ｷ壹・鬪ｨ譬ｼ縺ｮ縺ｿ\n" +
-                "繝ｻ螳溯ｪｲ驥托ｼ・lay Billing・峨・ build.gradle 萓晏ｭ倩ｿｽ蜉縺悟ｿ・ｦ―n" +
-                "繝ｻUpgrade譁・ｨ/FAQ縺ｯ蠕檎ｶ壹〒蟾ｮ縺玲崛縺・
+                "郢晢ｽｻ邵ｺ阮呻ｼ・ｸｺ・ｯ髫ｱ・ｲ鬩･螟ｧ・ｰ螳茨ｽｷ螢ｹ繝ｻ鬯ｪ・ｨ隴ｬ・ｼ邵ｺ・ｮ邵ｺ・ｿ\n" +
+                "郢晢ｽｻ陞ｳ貅ｯ・ｪ・ｲ鬩･謇假ｽｼ繝ｻlay Billing繝ｻ蟲ｨ繝ｻ build.gradle 關捺剌・ｭ蛟ｩ・ｿ・ｽ陷会｣ｰ邵ｺ謔滂ｽｿ繝ｻ・ｦ窶貧" +
+                "郢晢ｽｻUpgrade隴√・・ｨﾂ/FAQ邵ｺ・ｯ陟墓ｪ趣ｽｶ螢ｹ縲定淦・ｮ邵ｺ邇ｲ蟠帷ｸｺ繝ｻ
         );
     }
 }

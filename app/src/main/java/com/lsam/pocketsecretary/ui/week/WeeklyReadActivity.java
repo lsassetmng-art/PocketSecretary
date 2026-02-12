@@ -49,7 +49,7 @@ public class WeeklyReadActivity extends AppCompatActivity {
 
         // ---- internal simple events (repeat-aware) ----
         try{
-            JSONArray arr = SimpleEventStore.list(this);
+            JSONArray arr = SimpleEventStore.listAsJson(this);
             for (int i=0;i<arr.length();i++){
                 JSONObject o = arr.getJSONObject(i);
                 String title=o.getString("title");
@@ -60,7 +60,7 @@ public class WeeklyReadActivity extends AppCompatActivity {
                 for(int d=0; d<7; d++){
                     if (rep!=null && d>0) at = RepeatUtil.nextAt(at, rep);
                     if (at>=start.getTimeInMillis() && at<end.getTimeInMillis()){
-                        rows.add("統 "+df.format(new Date(at))+"  "+title);
+                        rows.add("・滓ｨ抵ｽｵ・ｱ "+df.format(new Date(at))+"  "+title);
                     }
                 }
             }

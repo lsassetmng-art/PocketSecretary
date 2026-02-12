@@ -60,14 +60,14 @@ public class WeeklyReadActivity extends AppCompatActivity {
                 for(int d=0; d<7; d++){
                     if (rep!=null && d>0) at = RepeatUtil.nextAt(at, rep);
                     if (at>=start.getTimeInMillis() && at<end.getTimeInMillis()){
-                        rows.add("統 "+df.format(new Date(at))+"  "+title);
+                        rows.add("﨟樒ｵｱ "+df.format(new Date(at))+"  "+title);
                     }
                 }
             }
         }catch(Exception ignored){}
 
         if (rows.isEmpty()){
-            rows.add("莠亥ｮ壹・縺ゅｊ縺ｾ縺帙ｓ縲ゑｼ倶ｺ亥ｮ壹°繧芽ｿｽ蜉縺ｧ縺阪∪縺吶・);
+            rows.add("闔莠･・ｮ螢ｹ繝ｻ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｲ繧托ｽｼ蛟ｶ・ｺ莠･・ｮ螢ｹﾂｰ郢ｧ闃ｽ・ｿ・ｽ陷会｣ｰ邵ｺ・ｧ邵ｺ髦ｪ竏ｪ邵ｺ蜷ｶﾂ繝ｻ);
         }
 
         lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, rows));

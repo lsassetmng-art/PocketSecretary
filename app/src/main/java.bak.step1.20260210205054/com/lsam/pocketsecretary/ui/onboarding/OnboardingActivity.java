@@ -85,9 +85,9 @@ public class OnboardingActivity extends AppCompatActivity {
         }
 
         txtState.setText(
-                "讓ｩ髯千憾諷欺n" +
-                "繝ｻ繧ｫ繝ｬ繝ｳ繝繝ｼ(READ): " + (cal ? "OK" : "譛ｪ險ｱ蜿ｯ") + "\n" +
-                "繝ｻ騾夂衍: " + (notif ? "OK" : "譛ｪ險ｱ蜿ｯ")
+                "隶難ｽｩ鬮ｯ蜊・・隲ｷ谺ｺn" +
+                "郢晢ｽｻ郢ｧ・ｫ郢晢ｽｬ郢晢ｽｳ郢敖郢晢ｽｼ(READ): " + (cal ? "OK" : "隴幢ｽｪ髫ｪ・ｱ陷ｿ・ｯ") + "\n" +
+                "郢晢ｽｻ鬨ｾ螟り｡・ " + (notif ? "OK" : "隴幢ｽｪ髫ｪ・ｱ陷ｿ・ｯ")
         );
     }
 }

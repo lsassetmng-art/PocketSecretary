@@ -14,7 +14,10 @@ public final class EmotionStateStore {
     }
 
     private static final EmotionStateStore INSTANCE = new EmotionStateStore();
-    public static EmotionStateStore get() { return INSTANCE; }
+
+    public static EmotionStateStore getInstance() {
+        return INSTANCE;
+    }
 
     private final MutableLiveData<Emotion> emotionLive =
             new MutableLiveData<>(Emotion.CALM);

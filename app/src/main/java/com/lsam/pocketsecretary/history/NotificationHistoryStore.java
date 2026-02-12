@@ -21,7 +21,7 @@ public class NotificationHistoryStore {
                 AppDatabase.class,
                 "pocketsecretary.db"
         )
-        // 螻･豁ｴ縺ｯ蟆剰ｦ乗ｨ｡繝ｻREAD ONLY 諠ｳ螳壹６I縺ｧ縺ｮ陦ｨ遉ｺ繧堤ｰ｡蜊倥↓縺吶ｋ縺溘ａ險ｱ蜿ｯ縲・        .allowMainThreadQueries()
+        // 陞ｻ・･雎・ｽｴ邵ｺ・ｯ陝・臆・ｦ荵暦ｽｨ・｡郢晢ｽｻREAD ONLY 隲・ｳ陞ｳ螢ｹﾂ・蜂邵ｺ・ｧ邵ｺ・ｮ髯ｦ・ｨ驕会ｽｺ郢ｧ蝣､・ｰ・｡陷雁･竊鍋ｸｺ蜷ｶ・狗ｸｺ貅假ｽ・坎・ｱ陷ｿ・ｯ邵ｲ繝ｻ        .allowMainThreadQueries()
         .build();
     }
 

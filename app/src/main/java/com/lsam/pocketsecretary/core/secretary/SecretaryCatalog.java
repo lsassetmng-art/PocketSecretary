@@ -1,37 +1,24 @@
 package com.lsam.pocketsecretary.core.secretary;
 
+import android.content.Context;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import com.lsam.pocketsecretary.R;
 
-/**
- * SecretaryCatalog
- * 秘書一覧管理
- */
 public final class SecretaryCatalog {
 
-    private static final List<Secretary> ALL;
-
-    static {
+    public static List<Secretary> list(Context context) {
         List<Secretary> list = new ArrayList<>();
-        list.add(new Secretary("hiyori", "ひより"));
-        list.add(new Secretary("aoi", "あおい"));
-        list.add(new Secretary("ren", "れん"));
-        ALL = Collections.unmodifiableList(list);
-    }
 
-    private SecretaryCatalog() {}
+        list.add(new Secretary("hiyori",
+                context.getString(R.string.sec_hiyori_name)));
 
-    public static List<Secretary> list() {
-        return ALL;
-    }
+        list.add(new Secretary("aoi",
+                context.getString(R.string.sec_aoi_name)));
 
-    public static Secretary findById(String id) {
-        for (Secretary s : ALL) {
-            if (s.getId().equals(id)) {
-                return s;
-            }
-        }
-        return ALL.get(0); // default fallback
+        list.add(new Secretary("ren",
+                context.getString(R.string.sec_ren_name)));
+
+        return list;
     }
 }

@@ -8,7 +8,7 @@ public class TtsVoiceEngine implements VoiceEngine {
     private TextToSpeech tts;
 
     @Override public boolean isAvailable(Context c){
-        return true; // 遶ｯ譛ｫTTS蜑肴署
+        return true; // 驕ｶ・ｯ隴幢ｽｫTTS陷題ざ鄂ｲ
     }
 
     @Override public void speak(Context c, String text){

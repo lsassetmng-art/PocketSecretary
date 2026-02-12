@@ -32,14 +32,16 @@ public class HistoryActivity extends AppCompatActivity {
         List<NotificationHistoryEntity> list =
                 NotificationHistoryStore.get(this).latestBlocking(100);
 
-        recyclerView.setAdapter(new HistoryAdapter(list));
+        recyclerView.setAdapter(new HistoryAdapter(this, list));
     }
 
     static class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
         private final List<NotificationHistoryEntity> items;
+        private final Context context;
 
-        HistoryAdapter(List<NotificationHistoryEntity> items) {
+        HistoryAdapter(Context context, List<NotificationHistoryEntity> items) {
+            this.context = context;
             this.items = items;
         }
 
@@ -55,12 +57,14 @@ public class HistoryActivity extends AppCompatActivity {
             NotificationHistoryEntity e = items.get(position);
 
             holder.personaName.setText(
-                    e.source != null ? e.source : "遘俶嶌"
+                    e.source != null
+                            ? e.source
+                            : context.getString(R.string.history_unknown_source)
             );
 
             holder.historyText.setText(e.text);
 
-            long time = e.id; // 譌｢蟄倥ヵ繧｣繝ｼ繝ｫ繝峨ｒ螳牙・縺ｫ蛻ｩ逕ｨ
+            long time = e.id;
 
             String date = DateFormat.format(
                     "yyyy/MM/dd HH:mm",
@@ -69,26 +73,25 @@ public class HistoryActivity extends AppCompatActivity {
 
             holder.historyDate.setText(date);
 
-            // 繧ｿ繝・・縺ｧ繧ｳ繝斐・
             holder.itemView.setOnClickListener(v -> {
 
                 ClipboardManager clipboard =
-                        (ClipboardManager) v.getContext()
+                        (ClipboardManager) context
                                 .getSystemService(Context.CLIPBOARD_SERVICE);
 
                 String copyText =
                         holder.personaName.getText().toString()
-                        + "\n"
-                        + holder.historyText.getText().toString()
-                        + "\n"
-                        + holder.historyDate.getText().toString();
+                                + "\n"
+                                + holder.historyText.getText().toString()
+                                + "\n"
+                                + holder.historyDate.getText().toString();
 
                 ClipData clip = ClipData.newPlainText("history", copyText);
                 clipboard.setPrimaryClip(clip);
 
                 Toast.makeText(
-                        v.getContext(),
-                        "繧ｳ繝斐・縺励∪縺励◆",
+                        context,
+                        context.getString(R.string.history_saved_toast),
                         Toast.LENGTH_SHORT
                 ).show();
             });

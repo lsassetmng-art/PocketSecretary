@@ -11,7 +11,7 @@ public class ConsultEngine {
 
     public static String answer(Context c, QuestionType q){
         try{
-            JSONArray arr = SimpleEventStore.list(c);
+            JSONArray arr = SimpleEventStore.listAsJson(c);
             List<long[]> today = new ArrayList<>();
             long now = System.currentTimeMillis();
 

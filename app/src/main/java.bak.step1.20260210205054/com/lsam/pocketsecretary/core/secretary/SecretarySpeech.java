@@ -3,25 +3,25 @@ package com.lsam.pocketsecretary.core.secretary;
 public class SecretarySpeech {
 
     public static String greet(Secretary s) {
-        if ("ren".equals(s.id)) return "莠亥ｮ壹□縺代∫｢ｺ隱阪＠繧医≧縲・;
-        if ("aoi".equals(s.id)) return "莉頑律縺ｮ莠亥ｮ壹ｒ髱吶°縺ｫ謨ｴ縺医∪縺吶・;
-        return "縺翫・繧医≧縲ゆｻ頑律繧ゆｸ邱偵↓謨ｴ縺医ｈ縺・・縲・;
+        if ("ren".equals(s.id)) return "闔莠･・ｮ螢ｹ笆｡邵ｺ莉｣ﾂ竏ｫ・｢・ｺ髫ｱ髦ｪ・郢ｧ蛹ｻ竕ｧ邵ｲ繝ｻ;
+        if ("aoi".equals(s.id)) return "闔蛾大ｾ狗ｸｺ・ｮ闔莠･・ｮ螢ｹ・帝ｫｱ蜷ｶﾂｰ邵ｺ・ｫ隰ｨ・ｴ邵ｺ蛹ｻ竏ｪ邵ｺ蜷ｶﾂ繝ｻ;
+        return "邵ｺ鄙ｫ繝ｻ郢ｧ蛹ｻ竕ｧ邵ｲ繧・ｽｻ鬆大ｾ狗ｹｧ繧・ｽｸﾂ驍ｱ蛛ｵ竊楢ｬｨ・ｴ邵ｺ蛹ｻ・育ｸｺ繝ｻ繝ｻ邵ｲ繝ｻ;
     }
 
     public static String planLine(Secretary s, String nextEventLine) {
         if (nextEventLine == null || nextEventLine.isEmpty()) {
-            if ("ren".equals(s.id)) return "谺｡縺ｮ莠亥ｮ壹・譛ｪ逋ｻ骭ｲ縲ょｿ・ｦ√↑繧芽ｿｽ蜉縺励※縲・;
-            if ("aoi".equals(s.id)) return "谺｡縺ｮ莠亥ｮ壹・隕九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・;
-            return "谺｡縺ｮ莠亥ｮ壹・縺ｾ縺辟｡縺・∩縺溘＞縲ょｿ・ｦ√↑繧牙・繧後※縺翫％縺・・;
+            if ("ren".equals(s.id)) return "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ繝ｻ隴幢ｽｪ騾具ｽｻ鬪ｭ・ｲ邵ｲ繧・ｽｿ繝ｻ・ｦ竏壺・郢ｧ闃ｽ・ｿ・ｽ陷会｣ｰ邵ｺ蜉ｱ窶ｻ邵ｲ繝ｻ;
+            if ("aoi".equals(s.id)) return "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ繝ｻ髫穂ｹ昶命邵ｺ荵晢ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｺ・ｧ邵ｺ蜉ｱ笳・ｸｲ繝ｻ;
+            return "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ繝ｻ邵ｺ・ｾ邵ｺ・ｰ霎滂ｽ｡邵ｺ繝ｻ竏ｩ邵ｺ貅假ｼ樒ｸｲ繧・ｽｿ繝ｻ・ｦ竏壺・郢ｧ迚吶・郢ｧ蠕娯ｻ邵ｺ鄙ｫ・・ｸｺ繝ｻﾂ繝ｻ;
         }
-        if ("ren".equals(s.id)) return "谺｡・・" + nextEventLine;
-        if ("aoi".equals(s.id)) return "谺｡縺ｮ莠亥ｮ壹〒縺吶・n" + nextEventLine;
-        return "谺｡縺ｮ莠亥ｮ壹・縺薙ｌ縺繧医・n" + nextEventLine;
+        if ("ren".equals(s.id)) return "隹ｺ・｡繝ｻ繝ｻ" + nextEventLine;
+        if ("aoi".equals(s.id)) return "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ縲堤ｸｺ蜷ｶﾂ繝ｻn" + nextEventLine;
+        return "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ繝ｻ邵ｺ阮呻ｽ檎ｸｺ・ｰ郢ｧ蛹ｻﾂ繝ｻn" + nextEventLine;
     }
 
     public static String notifyText(Secretary s, String base) {
         if ("ren".equals(s.id)) return base;
-        if ("aoi".equals(s.id)) return "縺顔衍繧峨○・・" + base;
-        return "縺ｭ縺医・ + base;
+        if ("aoi".equals(s.id)) return "邵ｺ鬘碑｡咲ｹｧ蟲ｨ笳九・繝ｻ" + base;
+        return "邵ｺ・ｭ邵ｺ蛹ｻﾂ繝ｻ + base;
     }
 }

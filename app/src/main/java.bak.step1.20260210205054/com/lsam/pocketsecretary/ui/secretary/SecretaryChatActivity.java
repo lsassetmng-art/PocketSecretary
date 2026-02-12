@@ -37,7 +37,7 @@ public class SecretaryChatActivity extends AppCompatActivity {
         btnNotifyNow.setOnClickListener(v -> {
             if (!Prefs.isNotifyEnabled(this)) return;
             Secretary s = SecretaryCatalog.byId(Prefs.getDefaultSecretary(this));
-            String notifyText = SecretarySpeech.notifyText(s, "遒ｺ隱阪′蠢・ｦ√↑莠亥ｮ壹′縺ゅｋ繧・);
+            String notifyText = SecretarySpeech.notifyText(s, "驕抵ｽｺ髫ｱ髦ｪ窶ｲ陟｢繝ｻ・ｦ竏壺・闔莠･・ｮ螢ｹ窶ｲ邵ｺ繧・ｽ狗ｹｧ繝ｻ);
             NotificationScheduler.fireNow(this, "PocketSecretary", notifyText);
         });
     }
@@ -45,14 +45,14 @@ public class SecretaryChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Settings / 驕ｸ謚槫､画峩繧貞ｿ・★蜿肴丐
+        // Settings / 鬩包ｽｸ隰壽ｧｫ・､逕ｻ蟲ｩ郢ｧ雋橸ｽｿ繝ｻ笘・愾閧ｴ荳・
         String id = getIntent().getStringExtra(EXTRA_SECRETARY_ID);
         if (id == null || id.isEmpty()) {
             id = Prefs.getDefaultSecretary(this);
         }
         Secretary s = SecretaryCatalog.byId(id);
 
-        title.setText(s.name + "・・ + s.tone + "・・);
+        title.setText(s.name + "繝ｻ繝ｻ + s.tone + "繝ｻ繝ｻ);
 
         String next = loadNextEventLine();
         body.setText(

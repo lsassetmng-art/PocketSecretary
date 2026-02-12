@@ -12,18 +12,18 @@ public final class AutoNotifyScheduler {
 
     private AutoNotifyScheduler(){}
 
-    // 譛蟆擾ｼ壹→繧翫≠縺医★縲梧ｬ｡莠亥ｮ壹▲縺ｽ縺・夂衍縲阪ｒ莠育ｴ・ｼ域悽譬ｼ逧・↑繧ｫ繝ｬ繝ｳ繝繝ｼ騾｣蜍輔・蠕後〒蟾ｮ縺玲崛縺・K・・
-    // Play螳牙・縺ｮ譬ｸ・壹Θ繝ｼ繧ｶ繝ｼ縺碁夂衍ON縺ｮ譎ゅ・縺ｿ
+    // 隴崢陝・得・ｼ螢ｹ竊堤ｹｧ鄙ｫ竕邵ｺ蛹ｻ笘・ｸｲ譴ｧ・ｬ・｡闔莠･・ｮ螢ｹ笆ｲ邵ｺ・ｽ邵ｺ繝ｻﾂ螟り｡咲ｸｲ髦ｪ・定滋閧ｲ・ｴ繝ｻ・ｼ蝓滓た隴ｬ・ｼ騾ｧ繝ｻ竊醍ｹｧ・ｫ郢晢ｽｬ郢晢ｽｳ郢敖郢晢ｽｼ鬨ｾ・｣陷崎ｼ斐・陟募ｾ後定淦・ｮ邵ｺ邇ｲ蟠帷ｸｺ繝ｻK繝ｻ繝ｻ
+    // Play陞ｳ迚吶・邵ｺ・ｮ隴ｬ・ｸ繝ｻ螢ｹﾎ倡ｹ晢ｽｼ郢ｧ・ｶ郢晢ｽｼ邵ｺ遒・螟り｡弘N邵ｺ・ｮ隴弱ｅ繝ｻ邵ｺ・ｿ
     public static void scheduleDemo(Context c) {
         if (!Prefs.isNotifyEnabled(c)) return;
 
         long now = System.currentTimeMillis();
-        // 繝・Δ・・0蛻・ｾ後↓1莉ｶ・亥虚菴懃｢ｺ隱咲畑・・
+        // 郢昴・ﾎ斐・繝ｻ0陋ｻ繝ｻ・ｾ蠕娯・1闔会ｽｶ繝ｻ莠･陌夊抄諛・ｽ｢・ｺ髫ｱ蜥ｲ逡代・繝ｻ
         long at = now + 10L * 60L * 1000L;
 
         Intent i = new Intent(c, NotificationReceiver.class);
-        i.putExtra(NotificationReceiver.EXTRA_TITLE, "莠亥ｮ夲ｼ夂｢ｺ隱・);
-        i.putExtra(NotificationReceiver.EXTRA_TEXT, "騾夂衍縺悟虚菴懊＠縺ｾ縺励◆・医ョ繝｢・・);
+        i.putExtra(NotificationReceiver.EXTRA_TITLE, "闔莠･・ｮ螟ｲ・ｼ螟ゑｽ｢・ｺ髫ｱ繝ｻ);
+        i.putExtra(NotificationReceiver.EXTRA_TEXT, "鬨ｾ螟り｡咲ｸｺ謔溯劒闖ｴ諛奇ｼ邵ｺ・ｾ邵ｺ蜉ｱ笳・・蛹ｻ繝ｧ郢晢ｽ｢繝ｻ繝ｻ);
 
         PendingIntent pi = PendingIntent.getBroadcast(
                 c, 1001, i,

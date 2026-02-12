@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
 
-        <!-- テスト用：ManualNotification を起動 -->
+        <!-- ✅ 新ランチャー：Dashboard -->
         <activity
-            android:name=".ManualNotificationActivity"
+            android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
 
             <intent-filter>
@@ -24,15 +24,26 @@
 
         </activity>
 
-        <!-- 将来用 -->
+        <!-- 🧪 旧UI（内部ツール扱い） -->
+        <activity
+            android:name=".ManualNotificationActivity"
+            android:exported="false" />
+
+        <!-- 将来拡張 -->
         <activity
             android:name=".ui.secretary.SecretaryListActivity"
-            android:exported="true" />
+            android:exported="false" />
 
-<activity
-    android:name=".HistoryActivity"
-    android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
 
+        <activity
+            android:name=".ui.billing.PremiumActivity"
+            android:exported="false" />
+
+    
+        <activity android:name=".ui.speech.SpeechToolActivity" android:exported="false" />
     </application>
 
 </manifest>

@@ -45,7 +45,7 @@ public class ArchiveActivity extends AppCompatActivity {
         for (int i=0;i<arr.length();i++){
             try{
                 JSONObject o = arr.getJSONObject(i);
-                rows.add("[" + o.optString("category","縺昴・莉・) + "] " + o.optString("title","(no title)"));
+                rows.add("[" + o.optString("category","邵ｺ譏ｴ繝ｻ闔峨・) + "] " + o.optString("title","(no title)"));
             }catch(Exception ignored){}
         }
         adapter.notifyDataSetChanged();
@@ -60,7 +60,7 @@ public class ArchiveActivity extends AppCompatActivity {
                 getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }catch(Exception ignored){}
 
-            String name = "譖ｸ鬘・;
+            String name = "隴厄ｽｸ鬯倥・;
             Cursor c = getContentResolver().query(uri, null, null, null, null);
             if (c!=null){
                 try{
@@ -68,7 +68,7 @@ public class ArchiveActivity extends AppCompatActivity {
                     if (c.moveToFirst() && idx>=0) name = c.getString(idx);
                 } finally { c.close(); }
             }
-            DocumentStore.add(this, name, "縺昴・莉・, "", uri);
+            DocumentStore.add(this, name, "邵ｺ譏ｴ繝ｻ闔峨・, "", uri);
             reload();
         }
     }
