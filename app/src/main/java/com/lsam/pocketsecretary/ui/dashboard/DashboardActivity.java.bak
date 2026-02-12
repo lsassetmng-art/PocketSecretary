@@ -23,10 +23,6 @@ import com.lsam.pocketsecretary.ui.persona.PersonaSelectBottomSheet;
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
 
-import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
-import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
-import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
-
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +37,7 @@ public class DashboardActivity extends BaseActivity {
     protected void onCreate(Bundle b){
         super.onCreate(b);
 
+        // ✅ BaseActivity方式
         setBaseContent(R.layout.activity_dashboard_persona);
 
         bg = findViewById(R.id.psPersonaBackground);
@@ -48,11 +45,13 @@ public class DashboardActivity extends BaseActivity {
         count = findViewById(R.id.txtTodayCount);
         next  = findViewById(R.id.txtNextEvent);
 
+        // ===== 読み上げ =====
         findViewById(R.id.btnSpeechTool).setOnClickListener(v ->
                 startActivity(new Intent(this,
                         com.lsam.pocketsecretary.ui.speech.SpeechToolActivity.class))
         );
 
+        // ===== 履歴 =====
         if (findViewById(R.id.btnHistory) != null) {
             findViewById(R.id.btnHistory).setOnClickListener(v ->
                     startActivity(new Intent(this,
@@ -60,6 +59,7 @@ public class DashboardActivity extends BaseActivity {
             );
         }
 
+        // ===== 手動通知 =====
         if (findViewById(R.id.btnNotification) != null) {
             findViewById(R.id.btnNotification).setOnClickListener(v ->
                     startActivity(new Intent(this,
@@ -67,6 +67,7 @@ public class DashboardActivity extends BaseActivity {
             );
         }
 
+        // ===== Persona切替 =====
         personaName.setOnClickListener(v -> {
 
             PersonaSelectBottomSheet sheet =
@@ -74,7 +75,6 @@ public class DashboardActivity extends BaseActivity {
 
                         CurrentPersonaStore.set(this, personaId);
                         applyCurrentPersona();
-                        renderTodayInfo(); // reflect immediately
                     });
 
             sheet.show(getSupportFragmentManager(), "persona_select");
@@ -82,8 +82,10 @@ public class DashboardActivity extends BaseActivity {
 
         renderTodayInfo();
 
+        // ===== 朝通知 =====
         MorningBriefingWorker.ensureScheduled(this);
 
+        // ===== 予定前チェック =====
         registerUpcomingChecker();
     }
 
@@ -96,51 +98,35 @@ public class DashboardActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         applyCurrentPersona();
-        renderTodayInfo();
     }
 
+    // =============================
+    // 今日情報表示
+    // =============================
     private void renderTodayInfo() {
 
         int c = TodayEngine.todayCount(this);
         String n = TodayEngine.nextTitle(this);
-        if (n == null) n = "";
+
+        count.setText(getString(R.string.dashboard_today_count, c));
+        next.setText(getString(R.string.dashboard_next_event, n));
 
         boolean tight = TodayEngine.isTight(this);
 
         EmotionStateStore store = EmotionStateStore.getInstance();
-        EmotionState emotion;
 
-        if (tight) {
+        if(tight){
             count.setTextColor(Color.RED);
             store.set(EmotionStateStore.Emotion.ALERT);
-            emotion = EmotionState.ALERT;
         } else {
             count.setTextColor(Color.BLACK);
             store.set(EmotionStateStore.Emotion.CALM);
-            emotion = EmotionState.CALM;
         }
-
-        String personaId = CurrentPersonaStore.get(this);
-
-        // PersonaEngine generates combined dashboard line, but we keep two TextViews:
-        // - count: keep existing dashboard_today_count for UI clarity
-        // - next:  use PersonaEngine to provide persona-colored "next"
-        count.setText(getString(R.string.dashboard_today_count, c));
-
-        String nextLine = PersonaEngine.generate(
-                this,
-                personaId,
-                emotion,
-                PersonaChannel.DASHBOARD,
-                n,
-                null,
-                c
-        ).text;
-
-        // Put the PersonaEngine output into "next" field (safe single-line)
-        next.setText(nextLine);
     }
 
+    // =============================
+    // Persona反映
+    // =============================
     private void applyCurrentPersona() {
 
         String personaId = CurrentPersonaStore.get(this);
@@ -163,6 +149,9 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
+    // =============================
+    // 予定前通知の定期チェック
+    // =============================
     private void registerUpcomingChecker() {
 
         PeriodicWorkRequest req =

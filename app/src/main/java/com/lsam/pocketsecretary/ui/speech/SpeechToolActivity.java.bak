@@ -11,11 +11,6 @@ import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
 import com.lsam.pocketsecretary.persona.EmotionStateStore;
 import com.lsam.pocketsecretary.core.voice.VoiceManager;
-import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
-
-import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
-import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
-import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
 
 public class SpeechToolActivity extends BaseActivity {
 
@@ -23,6 +18,7 @@ public class SpeechToolActivity extends BaseActivity {
     protected void onCreate(Bundle b){
         super.onCreate(b);
 
+        // ✅ BaseActivity方式
         setBaseContent(R.layout.activity_speech_tool);
 
         TextView status = findViewById(R.id.txtResearchStatus);
@@ -31,10 +27,12 @@ public class SpeechToolActivity extends BaseActivity {
         boolean tight = TodayEngine.isTight(this);
 
         EmotionStateStore store = EmotionStateStore.getInstance();
-        EmotionStateStore.Emotion emotionLegacy = store.current();
+        EmotionStateStore.Emotion emotion = store.current();
 
-        String tightStr = tight ? "true" : "false";
-        String s = getString(R.string.persona_speech_status, today, tightStr, emotionLegacy.name());
+        String s = "Today: " + today +
+                " / Tight: " + tight +
+                " / Emotion: " + emotion.name();
+
         status.setText(s);
 
         EditText input = findViewById(R.id.editSpeechText);
@@ -54,27 +52,7 @@ public class SpeechToolActivity extends BaseActivity {
             float p = pitch.getProgress() / 100f;
 
             VoiceManager.configure(r, p);
-
-            // Phase F: route speech through PersonaEngine (optional transform; here pass-through)
-            String personaId = CurrentPersonaStore.get(this);
-
-            // Map legacy emotion to Phase F
-            EmotionState emo = EmotionState.fromLegacy(emotionLegacy.name());
-
-            String finalText = PersonaEngine.generate(
-                    this,
-                    personaId,
-                    emo,
-                    PersonaChannel.SPEECH_TOOL,
-                    text,
-                    null,
-                    null
-            ).text;
-
-            // memory bump (speech)
-            PersonaEngine.memory(this).bumpSpeechTool(personaId);
-
-            VoiceManager.speak(this, finalText);
+            VoiceManager.speak(this, text);
         });
     }
 

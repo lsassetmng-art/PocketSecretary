@@ -1,8 +1,21 @@
 package com.lsam.pocketsecretary.core.persona;
 
 import android.content.Context;
-import com.lsam.pocketsecretary.core.emotion.EmotionEngine;
 
+import com.lsam.pocketsecretary.core.emotion.EmotionEngine;
+import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
+import com.lsam.pocketsecretary.persona.EmotionStateStore;
+
+import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
+import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
+
+/**
+ * Phase F:
+ * - Keep API signature (additive-only friendly)
+ * - No Japanese literals here
+ * - Delegate morning message to PersonaEngine
+ */
 public class PersonaToneProvider {
 
     public static String buildMorningMessage(
@@ -11,58 +24,30 @@ public class PersonaToneProvider {
             EmotionEngine.Emotion emotion,
             int todayCount
     ) {
+        // personaId: prefer argument, fallback to CurrentPersonaStore
+        String personaId = (persona != null && !persona.trim().isEmpty())
+                ? persona
+                : CurrentPersonaStore.get(context);
 
-        if (todayCount == 0) {
-            return "今日は静かな一日になりそうです。";
-        }
+        EmotionState mapped = mapEmotion(emotion);
 
-        switch (persona.toLowerCase()) {
-
-            case "kayama":
-                return kayama(emotion, todayCount);
-
-            case "sakamoto":
-                return sakamoto(emotion, todayCount);
-
-            case "michelle":
-                return michelle(emotion, todayCount);
-
-            default:
-                return "今日は予定が " + todayCount + " 件あります。";
-        }
+        return PersonaEngine.generate(
+                context,
+                personaId,
+                mapped,
+                PersonaChannel.MORNING,
+                null,
+                null,
+                todayCount
+        ).text;
     }
 
-    private static String kayama(
-            EmotionEngine.Emotion emotion,
-            int count
-    ) {
-        switch (emotion) {
-            case ALERT:
-                return "今日は予定が多めですね。余裕を持ちましょう。";
-            case SPEAKING:
-                return "今日は予定が " + count + " 件あります。";
-            default:
-                return "今日も穏やかにいきましょう。";
+    private static EmotionState mapEmotion(EmotionEngine.Emotion e) {
+        if (e == null) return EmotionState.CALM;
+        switch (e) {
+            case ALERT: return EmotionState.ALERT;
+            case SPEAKING: return EmotionState.SPEAKING;
+            default: return EmotionState.CALM;
         }
-    }
-
-    private static String sakamoto(
-            EmotionEngine.Emotion emotion,
-            int count
-    ) {
-        if (emotion == EmotionEngine.Emotion.ALERT) {
-            return "予定が詰まっています。優先順位を整理しましょう。";
-        }
-        return "本日の予定は " + count + " 件です。";
-    }
-
-    private static String michelle(
-            EmotionEngine.Emotion emotion,
-            int count
-    ) {
-        if (emotion == EmotionEngine.Emotion.ALERT) {
-            return "今日は濃密な一日ですね。深呼吸を。";
-        }
-        return "今日は " + count + " の約束があります。";
     }
 }

@@ -7,7 +7,12 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.lsam.pocketsecretary.R;
+import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
 import com.lsam.pocketsecretary.service.NotificationService;
+
+import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
+import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
 
 public class ReminderWorker extends Worker {
 
@@ -21,15 +26,28 @@ public class ReminderWorker extends Worker {
     @Override
     public Result doWork() {
 
-        String message = getInputData().getString("message");
+        Context context = getApplicationContext();
 
+        String message = getInputData().getString("message");
         if (message == null) {
-            message = getApplicationContext()
-                    .getString(R.string.reminder_default_message);
+            message = context.getString(R.string.reminder_default_message);
         }
 
-        new NotificationService(getApplicationContext())
-                .notifyAndRecord("worker", message);
+        String personaId = CurrentPersonaStore.get(context);
+
+        // Route through PersonaEngine (REMINDER). Keep original message as summary.
+        String msg = PersonaEngine.generate(
+                context,
+                personaId,
+                EmotionState.ALERT,
+                PersonaChannel.REMINDER,
+                message,
+                null,
+                null
+        ).text;
+
+        new NotificationService(context)
+                .notifyAndRecord("worker", msg);
 
         return Result.success();
     }

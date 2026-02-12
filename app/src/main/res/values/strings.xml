@@ -77,4 +77,37 @@ Upgrade / FAQ は仮画面です。
     <string name="settings_save">保存</string>
     <string name="settings_saved">保存しました</string>
 
+    <!-- Version -->
+    <string name="persona_error_incompatible">（人格定義の互換性エラー）</string>
+
+    <!-- Morning -->
+    <string name="persona_morning_zero">今日は静かな一日になりそうです。</string>
+    <string name="persona_morning_default">今日は予定が %1$d 件あります。</string>
+
+    <string name="persona_kayama_alert">今日は予定が多めですね。余裕を持ちましょう。</string>
+    <string name="persona_kayama_speaking">今日は予定が %1$d 件あります。</string>
+    <string name="persona_kayama_calm">今日も穏やかにいきましょう。</string>
+
+    <string name="persona_sakamoto_alert">予定が詰まっています。優先順位を整理しましょう。</string>
+    <string name="persona_sakamoto_default">本日の予定は %1$d 件です。</string>
+
+    <string name="persona_michelle_alert">今日は濃密な一日ですね。深呼吸を。</string>
+    <string name="persona_michelle_default">今日は %1$d 件の約束があります。</string>
+
+    <!-- Upcoming -->
+    <string name="persona_upcoming_title">次の予定が近づいています（%1$d分前目安）</string>
+
+    <!-- Reminder -->
+    <string name="persona_reminder_fallback">リマインドです。</string>
+
+    <!-- Dashboard (Phase F用) -->
+    <string name="persona_dashboard_count">今日の予定は %1$d 件。</string>
+    <string name="persona_dashboard_next">次: %1$s</string>
+    <string name="persona_dashboard_next_none">次: なし</string>
+
+    <!-- Speech Tool (POSITIONAL FORMAT REQUIRED) -->
+    <string name="persona_speech_status">
+        Today: %1$d / Tight: %2$s / Emotion: %3$s
+    </string>
+
 </resources>
