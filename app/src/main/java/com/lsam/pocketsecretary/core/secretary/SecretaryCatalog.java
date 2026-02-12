@@ -1,24 +1,39 @@
 package com.lsam.pocketsecretary.core.secretary;
 
 import android.content.Context;
+
+import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.lsam.pocketsecretary.R;
+import java.util.Map;
 
 public final class SecretaryCatalog {
 
-    public static List<Secretary> list(Context context) {
-        List<Secretary> list = new ArrayList<>();
+    private SecretaryCatalog() {}
 
-        list.add(new Secretary("hiyori",
-                context.getString(R.string.sec_hiyori_name)));
+    public static List<SecretaryInfo> loadAll(Context context) {
 
-        list.add(new Secretary("aoi",
-                context.getString(R.string.sec_aoi_name)));
+        List<SecretaryInfo> list = new ArrayList<>();
 
-        list.add(new Secretary("ren",
-                context.getString(R.string.sec_ren_name)));
+        list.add(load(context, "alpha"));
+        list.add(load(context, "beta"));
+        list.add(load(context, "gamma"));
 
         return list;
+    }
+
+    private static SecretaryInfo load(Context context, String personaId) {
+
+        Map<String, String> map =
+                PersonaYamlLoader.load(context, personaId);
+
+        String displayName = map.get("display_name");
+
+        if (displayName == null) {
+            displayName = personaId;
+        }
+
+        return new SecretaryInfo(personaId, displayName);
     }
 }

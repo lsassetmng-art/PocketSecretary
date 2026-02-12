@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# persona pack (local only)
+/persona_keys/
+/persona_src/
+

@@ -9,59 +9,50 @@ public final class EmotionStateStore {
 
     public enum Emotion {
         CALM,
-        ALERT,
-        SPEAKING
+        FOCUS,
+        TIGHT,
+        HAPPY,
+        SPEAKING,
+        ALERT   // 旧互換（TIGHT相当）
     }
 
     private static final EmotionStateStore INSTANCE = new EmotionStateStore();
+
+    private final MutableLiveData<Emotion> emotionLiveData =
+            new MutableLiveData<>(Emotion.CALM);
+
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    private EmotionStateStore() {}
 
     public static EmotionStateStore getInstance() {
         return INSTANCE;
     }
 
-    private final MutableLiveData<Emotion> emotionLive =
-            new MutableLiveData<>(Emotion.CALM);
-
-    private final Handler handler = new Handler(Looper.getMainLooper());
-    private int token = 0;
-
-    private EmotionStateStore() {}
-
-    public LiveData<Emotion> live() {
-        return emotionLive;
+    public static EmotionStateStore get() {
+        return INSTANCE;
     }
 
     public Emotion current() {
-        Emotion e = emotionLive.getValue();
-        return e == null ? Emotion.CALM : e;
+        Emotion e = emotionLiveData.getValue();
+        return e != null ? e : Emotion.CALM;
     }
 
-    public void set(Emotion e) {
-        token++;
-        emotionLive.postValue(e);
+    public LiveData<Emotion> asLiveData() {
+        return emotionLiveData;
     }
 
-    public void setTemporary(Emotion e, long durationMs) {
-        token++;
-        int myToken = token;
-        emotionLive.postValue(e);
-
-        handler.postDelayed(() -> {
-            if (token != myToken) return;
-            token++;
-            emotionLive.postValue(Emotion.CALM);
-        }, durationMs);
+    public void set(Emotion emotion) {
+        // ALERT を内部的に TIGHT に正規化
+        if (emotion == Emotion.ALERT) {
+            emotion = Emotion.TIGHT;
+        }
+        final Emotion finalEmotion = emotion;
+        mainHandler.post(() -> emotionLiveData.setValue(finalEmotion));
     }
 
-    public void pulseAlert(long ms) {
-        setTemporary(Emotion.ALERT, ms);
-    }
-
-    public void speakingOn() {
-        set(Emotion.SPEAKING);
-    }
-
-    public void speakingOff() {
-        set(Emotion.CALM);
+    public void pulseAlert(long durationMs) {
+        set(Emotion.TIGHT);
+        mainHandler.postDelayed(() -> set(Emotion.CALM), durationMs);
     }
 }

@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Persona Name -->
+    <TextView
+        android:id="@+id/txtPersonaName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Persona Switch Row -->
+    <LinearLayout
+        android:id="@+id/layoutPersonaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnAlpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alpha" />
+
+        <Button
+            android:id="@+id/btnBeta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Beta" />
+
+        <Button
+            android:id="@+id/btnGamma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Gamma" />
+
+    </LinearLayout>
+
+    <!-- Today Count -->
     <TextView
         android:id="@+id/txtTodayCount"
         android:layout_width="match_parent"
@@ -12,6 +54,7 @@
         android:text="@string/dashboard_today_count_preview"
         android:textSize="20sp"/>
 
+    <!-- Next Event -->
     <TextView
         android:id="@+id/txtNextEvent"
         android:layout_width="match_parent"
@@ -20,10 +63,12 @@
         android:text="@string/dashboard_next_event_preview"
         android:textSize="16sp"/>
 
+    <!-- Speech Tool Button -->
     <Button
         android:id="@+id/btnSpeechTool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/dashboard_open_speech" />
+
 </LinearLayout>

@@ -55,12 +55,6 @@ Upgrade / FAQ は将来実装予定です。
     <string name="speech_input_hint">読み上げるテキストを入力</string>
     <string name="speech_play">読み上げる</string>
 
-    <!-- Secretary -->
-    <string name="sec_aoi_name">アオイ</string>
-    <string name="sec_hiyori_name">ヒヨリ</string>
-    <string name="sec_ren_name">レン</string>
-
-
     <!-- History -->
     <string name="history_unknown_source">不明</string>
     <string name="history_saved_toast">保存しました</string>

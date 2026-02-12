@@ -1,0 +1,28 @@
+[PHASE M-Design Manual Steps]
+
+A) Add 3 PNG files (replace placeholders later with PersonaOS outputs)
+- app/src/main/res/drawable-nodpi/ps_persona_alpha.png
+- app/src/main/res/drawable-nodpi/ps_persona_beta.png
+- app/src/main/res/drawable-nodpi/ps_persona_gamma.png
+
+B) Dashboard layout integration (non-breaking)
+1) Find your current dashboard layout file used by DashboardActivity (e.g., activity_dashboard.xml).
+2) Wrap existing root with:
+   <include layout="@layout/view_persona_fullscreen_shell"/>
+3) Move existing dashboard UI into the slot:
+   Replace psDashboardContentSlot with <include layout="@layout/<YOUR_EXISTING_DASHBOARD_CONTENT_LAYOUT>"/>
+   (Keep existing IDs intact.)
+
+C) DashboardActivity integration (minimal code)
+In onCreate after setContentView(...):
+- ImageView bg = findViewById(R.id.psPersonaBackground);
+- View tint = findViewById(R.id.psEmotionTintOverlay);
+
+Apply:
+PersonaDesignApplier.applyPersonaBackground(bg, PersonaCatalog3.PersonaId.ALPHA);
+PersonaDesignApplier.applyEmotionTint(tint, this);
+
+Also, when emotion changes (if you already observe LiveData), re-call applyEmotionTint(...).
+
+D) Persona switching (later)
+- Replace ALPHA with selection logic (3 personas).

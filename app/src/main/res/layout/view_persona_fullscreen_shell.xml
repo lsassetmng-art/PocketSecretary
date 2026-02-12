@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/psPersonaShellRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Fullscreen persona background -->
+    <ImageView
+        android:id="@+id/psPersonaBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null" />
+
+    <!-- Readability overlay -->
+    <View
+        android:id="@+id/psPersonaDimOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ps_overlay_dim" />
+
+    <!-- Emotion tint overlay (set programmatically) -->
+    <View
+        android:id="@+id/psEmotionTintOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <!-- Glass container for existing dashboard UI -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/psGlassCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:background="@drawable/ps_bg_glass_card"
+        android:padding="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <!-- You will insert existing dashboard root here via <include> -->
+        <FrameLayout
+            android:id="@+id/psDashboardContentSlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

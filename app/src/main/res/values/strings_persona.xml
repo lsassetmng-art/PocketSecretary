@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ps_comment_calm">今日は落ち着いて進めましょう。</string>
+    <string name="ps_comment_focus">集中していきましょう。</string>
+    <string name="ps_comment_tight">少し急ぎましょう。</string>
+    <string name="ps_comment_happy">良い流れです。</string>
+</resources>
