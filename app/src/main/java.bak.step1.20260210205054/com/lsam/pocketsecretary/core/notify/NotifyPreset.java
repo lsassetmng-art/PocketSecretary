@@ -7,8 +7,8 @@ public class NotifyPreset {
     public static void apply(Context c, String preset){
         boolean n30=false, n10=false, n5=false;
         switch (preset){
-            case "morning": n30=true; n10=true; break; // 朝は早め
-            case "noon":    n10=true; n5=true;  break; // 昼は直前
+            case "morning": n30=true; n10=true; break; // 譛昴・譌ｩ繧・
+            case "noon":    n10=true; n5=true;  break; // 譏ｼ縺ｯ逶ｴ蜑・
             case "night":   n30=true; n10=true; n5=true; break;
         }
         Prefs.putBool(c,"n30",n30);

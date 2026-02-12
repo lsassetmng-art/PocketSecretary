@@ -1,50 +1,39 @@
 package com.lsam.pocketsecretary.notification;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.lsam.pocketsecretary.R;
-import com.lsam.pocketsecretary.core.AppConstants;
-
 public class NotificationHelper {
 
-    public static void showNotification(Context context, String title, String text) {
+    public static void showNotification(
+            Context context,
+            String title,
+            String text
+    ) {
 
-        createChannel(context);
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        }
 
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(context, AppConstants.CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                new NotificationCompat.Builder(context, "pocket_secretary_channel")
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
                         .setContentTitle(title)
                         .setContentText(text)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat.from(context)
-                .notify(AppConstants.NOTIFICATION_ID, builder.build());
-    }
-
-    private static void createChannel(Context context) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            NotificationChannel channel =
-                    new NotificationChannel(
-                            AppConstants.CHANNEL_ID,
-                            "PocketSecretary",
-                            NotificationManager.IMPORTANCE_DEFAULT
-                    );
-
-            NotificationManager manager =
-                    context.getSystemService(NotificationManager.class);
-
-            if (manager != null) {
-                manager.createNotificationChannel(channel);
-            }
-        }
+                .notify(1001, builder.build());
     }
 }

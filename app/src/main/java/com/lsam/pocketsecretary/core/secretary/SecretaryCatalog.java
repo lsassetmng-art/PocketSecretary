@@ -6,8 +6,7 @@ import java.util.List;
 
 /**
  * SecretaryCatalog
- * Phase B 正本
- * 秘書定義の唯一の出入口
+ * 秘書一覧管理
  */
 public final class SecretaryCatalog {
 

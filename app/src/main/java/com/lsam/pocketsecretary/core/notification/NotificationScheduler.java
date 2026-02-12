@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.lsam.pocketsecretary.R;
 
 /**
- * Phase E: Notification 実動 + Scheduler API
+ * Phase E: Notification 螳溷虚 + Scheduler API
  */
 public final class NotificationScheduler {
 
@@ -44,7 +44,7 @@ public final class NotificationScheduler {
         nm.notify((int) System.currentTimeMillis(), b.build());
     }
 
-    // ---- Scheduler API（Phase E 用）----
+    // ---- Scheduler API・・hase E 逕ｨ・・---
     public static void scheduleExact(Context context, long atMillis, Intent intent) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 

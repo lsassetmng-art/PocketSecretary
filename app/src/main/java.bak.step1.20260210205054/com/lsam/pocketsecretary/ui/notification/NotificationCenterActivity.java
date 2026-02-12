@@ -25,20 +25,20 @@ public class NotificationCenterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_center);
 
         TextView hint = findViewById(R.id.txtNotifyHint);
-        hint.setText("Notify — 即時 / 10分後（設定でOFF可）");
+        hint.setText("Notify 窶・蜊ｳ譎・/ 10蛻・ｾ鯉ｼ郁ｨｭ螳壹〒OFF蜿ｯ・・);
 
         Button btnNow = findViewById(R.id.btnNotifyNow);
         Button btnIn10m = findViewById(R.id.btnNotifyIn10m);
 
         btnNow.setOnClickListener(v -> ensurePermissionThen(() -> {
             if (!Prefs.isNotifyEnabled(this)) return;
-            NotificationScheduler.fireNow(this, "PocketSecretary", "即時通知");
+            NotificationScheduler.fireNow(this, "PocketSecretary", "蜊ｳ譎る夂衍");
         }));
 
         btnIn10m.setOnClickListener(v -> ensurePermissionThen(() -> {
             if (!Prefs.isNotifyEnabled(this)) return;
             long at = System.currentTimeMillis() + 10L * 60L * 1000L;
-            NotificationScheduler.scheduleAt(this, at, "PocketSecretary", "10分後の通知");
+            NotificationScheduler.scheduleAt(this, at, "PocketSecretary", "10蛻・ｾ後・騾夂衍");
         }));
     }
 

@@ -26,15 +26,15 @@ public class ConsultEngine {
             switch (q){
                 case TODAY_BUSY:
                     return today.isEmpty()
-                        ? "今日は予定はありません。"
-                        : "今日は予定が" + today.size() + "件あります。";
+                        ? "莉頑律縺ｯ莠亥ｮ壹・縺ゅｊ縺ｾ縺帙ｓ縲・
+                        : "莉頑律縺ｯ莠亥ｮ壹′" + today.size() + "莉ｶ縺ゅｊ縺ｾ縺吶・;
                 case NEXT_EVENT:
                     for (long[] e: today){
                         if (e[0] > now){
-                            return "次は " + fmt(e[0]) + " から予定があります。";
+                            return "谺｡縺ｯ " + fmt(e[0]) + " 縺九ｉ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
                         }
                     }
-                    return "このあとの予定はありません。";
+                    return "縺薙・縺ゅ→縺ｮ莠亥ｮ壹・縺ゅｊ縺ｾ縺帙ｓ縲・;
                 case FREE_TIME:
                     return FreeTimeUtil.todaySummary(today);
                 case SHOULD_GO_NOW:
@@ -42,14 +42,14 @@ public class ConsultEngine {
                         if (e[0] > now){
                             long min = Math.max(0,(e[0]-now)/60000);
                             return (min>=10)
-                                ? "今出る必要はありません。余裕があります。"
-                                : "そろそろ出発した方がよさそうです。";
+                                ? "莉雁・繧句ｿ・ｦ√・縺ゅｊ縺ｾ縺帙ｓ縲ゆｽ呵｣輔′縺ゅｊ縺ｾ縺吶・
+                                : "縺昴ｍ縺昴ｍ蜃ｺ逋ｺ縺励◆譁ｹ縺後ｈ縺輔◎縺・〒縺吶・;
                         }
                     }
-                    return "今日は出発の必要はなさそうです。";
+                    return "莉頑律縺ｯ蜃ｺ逋ｺ縺ｮ蠢・ｦ√・縺ｪ縺輔◎縺・〒縺吶・;
             }
         }catch(Exception ignored){}
-        return "情報を取得できませんでした。";
+        return "諠・ｱ繧貞叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲・;
     }
 
     private static boolean isToday(long t){

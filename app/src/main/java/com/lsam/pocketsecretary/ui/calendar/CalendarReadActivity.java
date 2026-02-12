@@ -36,7 +36,7 @@ public class CalendarReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_read);
 
         TextView hint = findViewById(R.id.txtCalendarHint);
-        hint.setText("Calendar (READ ONLY) — 今日/明日");
+        hint.setText("Calendar (READ ONLY) 窶・莉頑律/譏取律");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {

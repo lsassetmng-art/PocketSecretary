@@ -13,7 +13,7 @@ public class VoiceManager {
         }
     }
 
-    // 将来：外部サービス差し替え用
+    // 蟆・擂・壼､夜Κ繧ｵ繝ｼ繝薙せ蟾ｮ縺玲崛縺育畑
     public static void setEngine(VoiceEngine e){
         engine = e;
     }

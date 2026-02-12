@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * OnboardingActivity
- * Phase A: BUILD UNBLOCK 用最小正本
+ * Phase A: BUILD UNBLOCK 逕ｨ譛蟆乗ｭ｣譛ｬ
  */
 public class OnboardingActivity extends AppCompatActivity {
 

@@ -12,7 +12,9 @@ import java.util.*;
 import java.util.Calendar;
 
 public class TemplatePickerActivity extends AppCompatActivity {
-    @Override protected void onCreate(Bundle b){
+
+    @Override
+    protected void onCreate(Bundle b){
         super.onCreate(b);
         setContentView(R.layout.activity_template_picker);
 
@@ -21,16 +23,24 @@ public class TemplatePickerActivity extends AppCompatActivity {
 
         List<String> rows = new ArrayList<>();
         for (EventTemplates.T t: ts){
-            rows.add(t.title + "（" + t.hour + ":00）");
+            rows.add(t.title + "  " + t.hour + ":00");
         }
 
-        lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, rows));
+        lv.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                rows));
+
         lv.setOnItemClickListener((p,v,pos,id)->{
             EventTemplates.T t = ts.get(pos);
             Calendar c = Calendar.getInstance();
             c.set(Calendar.HOUR_OF_DAY, t.hour);
             c.set(Calendar.MINUTE, 0);
-            SimpleEventStore.add(this, t.title, c.getTimeInMillis(), null);
+
+            SimpleEventStore.add(this,
+                    t.title,
+                    c.getTimeInMillis(),
+                    null);
+
             TemplateUsageStore.bump(this, t.title);
             finish();
         });

@@ -21,8 +21,7 @@ public class NotificationHistoryStore {
                 AppDatabase.class,
                 "pocketsecretary.db"
         )
-        // 履歴は小規模・READ ONLY 想定。UIでの表示を簡単にするため許可。
-        .allowMainThreadQueries()
+        // 螻･豁ｴ縺ｯ蟆剰ｦ乗ｨ｡繝ｻREAD ONLY 諠ｳ螳壹６I縺ｧ縺ｮ陦ｨ遉ｺ繧堤ｰ｡蜊倥↓縺吶ｋ縺溘ａ險ｱ蜿ｯ縲・        .allowMainThreadQueries()
         .build();
     }
 

@@ -1,58 +1,63 @@
 package com.lsam.pocketsecretary.service;
 
+import com.lsam.pocketsecretary.persona.EmotionStateStore;
+
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
-import android.text.TextUtils;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.history.NotificationHistoryStore;
+import com.lsam.pocketsecretary.persona.PersonaRegistry;
 import com.lsam.pocketsecretary.persona.SecretaryPersona;
 
 public class NotificationService {
 
     private static final String CHANNEL_ID = "pocket_secretary_channel";
+    private final Context context;
 
-    private final Context appContext;
-    private final SecretaryPersona persona; // null可
-
-    public NotificationService(Context context, SecretaryPersona persona) {
-        this.appContext = context.getApplicationContext();
-        this.persona = persona;
-        createNotificationChannel();
+    public NotificationService(Context context) {
+        this.context = context.getApplicationContext();
     }
 
-    public void notifyAndRecord(String source, String rawMessage) {
+    public void notifyAndRecord(String source, String message) {
+        EmotionStateStore.get().pulseAlert(2500);
 
-        String title = appContext.getString(R.string.notify_title);
-        String text = TextUtils.isEmpty(rawMessage)
-                ? appContext.getString(R.string.notify_text_default)
-                : rawMessage;
+        SecretaryPersona persona = PersonaRegistry.get(context);
+        String formatted = persona.format(message);
 
-        // Personaがあれば整形
-        if (persona != null) {
-            text = persona.formatNotification(text);
+        createChannel();
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
         }
 
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(appContext, CHANNEL_ID)
+                new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setContentTitle(title)
-                        .setContentText(text)
+                        .setContentTitle(persona.getName())
+                        .setContentText(formatted)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat.from(appContext)
+        NotificationManagerCompat.from(context)
                 .notify(1001, builder.build());
 
-        NotificationHistoryStore.get(appContext)
-                .appendAsync(source, title, text);
+        NotificationHistoryStore.get(context)
+                .appendAsync(persona.getName(), persona.getName(), formatted);
     }
 
-    private void createNotificationChannel() {
+    private void createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
                     new NotificationChannel(
@@ -60,11 +65,8 @@ public class NotificationService {
                             "PocketSecretaryChannel",
                             NotificationManager.IMPORTANCE_DEFAULT
                     );
-            NotificationManager manager =
-                    appContext.getSystemService(NotificationManager.class);
-            if (manager != null) {
-                manager.createNotificationChannel(channel);
-            }
+            context.getSystemService(NotificationManager.class)
+                    .createNotificationChannel(channel);
         }
     }
 }

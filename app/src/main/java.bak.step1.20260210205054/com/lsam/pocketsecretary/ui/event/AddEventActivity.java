@@ -18,7 +18,7 @@ public class AddEventActivity extends AppCompatActivity {
         Button btnDelete = findViewById(R.id.btnDeleteEvent);
 
         btnSave.setOnClickListener(v -> {
-            // v2.x: stub (保存処理は後続フェーズ)
+            // v2.x: stub (菫晏ｭ伜・逅・・蠕檎ｶ壹ヵ繧ｧ繝ｼ繧ｺ)
             finish();
         });
 

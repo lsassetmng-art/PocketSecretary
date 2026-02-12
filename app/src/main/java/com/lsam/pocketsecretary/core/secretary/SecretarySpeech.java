@@ -1,23 +1,25 @@
 package com.lsam.pocketsecretary.core.secretary;
 
-/**
- * SecretarySpeech
- * Phase B 正本
- * 文言生成のみを責務とする（I/O禁止）
- */
+import android.content.Context;
+import com.lsam.pocketsecretary.R;
+
 public final class SecretarySpeech {
 
     private SecretarySpeech() {}
 
-    public static String greet(Secretary s) {
-        return s.getDisplayName() + "です。よろしくお願いします。";
+    public static String greet(Context context, Secretary s) {
+        return s.getDisplayName() + context.getString(R.string.speech_greet_suffix);
     }
 
-    public static String planLine(Secretary s, String next) {
+    public static String planLine(Context context, Secretary s, String next) {
+
         if (next == null || next.isEmpty()) {
-            return "今日は特に予定は入っていません。";
+            return context.getString(R.string.speech_no_plan);
         }
-        return "次の予定は「" + next + "」です。";
+
+        return context.getString(R.string.speech_next_plan_prefix)
+                + next
+                + context.getString(R.string.speech_next_plan_suffix);
     }
 
     public static String notifyText(Secretary s, String baseText) {
