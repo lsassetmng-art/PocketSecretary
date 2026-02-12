@@ -2,8 +2,8 @@ package com.lsam.pocketsecretary.core.secretary;
 
 /**
  * Secretary
- * Phase B 雎・ｽ｣隴幢ｽｬ郢晢ｽ｢郢昴・ﾎ・
- * ID 邵ｺ・ｯ String繝ｻ繝ｻnum驕問扱・ｭ・｢繝ｻ繝ｻ */
+ * Phase B 髮弱・・ｽ・｣髫ｴ蟷｢・ｽ・ｬ驛｢譎｢・ｽ・｢驛｢譏ｴ繝ｻ・弱・
+ * ID 驍ｵ・ｺ繝ｻ・ｯ String郢晢ｽｻ郢晢ｽｻnum鬩募撫謇ｱ繝ｻ・ｭ繝ｻ・｢郢晢ｽｻ郢晢ｽｻ */
 public final class Secretary {
 
     private final String id;

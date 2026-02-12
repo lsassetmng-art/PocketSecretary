@@ -30,6 +30,6 @@ public class PersonaSelectActivity extends AppCompatActivity
 
         CurrentPersonaStore.set(this, personaId);
 
-        finish(); // 選択後に閉じる
+        finish();
     }
 }

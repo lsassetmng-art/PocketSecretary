@@ -2,41 +2,44 @@
 <resources>
 
     <string name="app_name">PocketSecretary</string>
+
+    <!-- Notification -->
     <string name="notify_button">通知する</string>
+    <string name="notify_text_default">通知を送信しました</string>
+    <string name="notify_title">通知</string>
 
+    <!-- Billing -->
     <string name="billing_stub_note">
-Billing（スタブUI）
+Billingは現在スタブ状態です。
 
-現在はスタブ画面です。
+現状はテスト画面です。
 Play Billing 実装は未対応です。
-Upgrade / FAQ は将来実装予定です。
+Upgrade / FAQ は仮画面です。
     </string>
 
-    <string name="notify_text_default">通知が送信されました</string>
-
+    <!-- Archive / Chat -->
     <string name="archive_title">アーカイブ</string>
-    <string name="notify_title">通知一覧</string>
     <string name="secretary_chat_title">秘書チャット</string>
 
     <!-- Persona -->
     <string name="prefix_alert">【重要】</string>
-    <string name="prefix_speaking">♪ </string>
+    <string name="prefix_speaking">▶ </string>
 
-    <!-- Notification -->
+    <!-- Notification Hints -->
     <string name="hint_tight_cont">予定が詰まっています。余裕を持って行動しましょう。</string>
-    <string name="hint_tight">予定が詰まっています。</string>
-    <string name="hint_cont">余裕があります。</string>
-    <string name="consult_followup">続きのご相談をお聞かせください。</string>
+    <string name="hint_tight">予定が多めです。</string>
+    <string name="hint_cont">次の予定があります。</string>
+    <string name="consult_followup">続きの相談をしますか？</string>
 
-    <!-- SecretarySpeech -->
+    <!-- Speech -->
     <string name="speech_greet_suffix">です。本日もよろしくお願いします。</string>
-    <string name="speech_no_plan">本日の予定は特にありません。</string>
+    <string name="speech_no_plan">本日の予定はありません。</string>
     <string name="speech_next_plan_prefix">次の予定は</string>
     <string name="speech_next_plan_suffix">です。</string>
 
-    <!-- EventTemplates -->
+    <!-- Templates -->
     <string name="template_morning_meeting">朝会</string>
-    <string name="template_meeting">打ち合わせ</string>
+    <string name="template_meeting">会議</string>
     <string name="template_standup">スタンドアップミーティング</string>
     <string name="template_gym">ジム</string>
     <string name="template_dinner">夕食</string>
@@ -44,25 +47,34 @@ Upgrade / FAQ は将来実装予定です。
     <!-- Dashboard -->
     <string name="dashboard_today_count">本日の予定：%1$d件</string>
     <string name="dashboard_next_event">次の予定：%1$s</string>
-    <string name="dashboard_today_count_preview">本日の予定：0件</string>
+    <string name="dashboard_today_count_preview">本日の予定：件</string>
     <string name="dashboard_next_event_preview">次の予定：なし</string>
     <string name="dashboard_open_speech">読み上げツールを開く</string>
 
     <!-- Premium -->
-    <string name="premium_stub_text">Premium（スタブUI）</string>
+    <string name="premium_stub_text">Premiumは現在スタブ状態です。</string>
 
     <!-- Speech Tool -->
     <string name="speech_input_hint">読み上げるテキストを入力</string>
-    <string name="speech_play">読み上げる</string>
+    <string name="speech_play">再生</string>
 
     <!-- History -->
     <string name="history_unknown_source">不明</string>
-    <string name="history_saved_toast">保存しました</string>
+    <string name="history_saved_toast">コピーしました</string>
 
     <!-- Calendar -->
-    <string name="calendar_read_only_hint">カレンダー（読み取り専用）</string>
+    <string name="calendar_read_only_hint">カレンダーは読み取り専用です。</string>
 
     <!-- Reminder -->
-    <string name="reminder_default_message">リマインダー通知です</string>
+    <string name="reminder_default_message">リマインダー通知です。</string>
+
+    <!-- Settings -->
+    <string name="settings_title">設定</string>
+    <string name="settings_morning_enabled">朝の通知を有効にする</string>
+    <string name="settings_morning_time">朝通知の時刻</string>
+    <string name="settings_pick_time">時刻を選ぶ</string>
+    <string name="settings_before_minutes">予定前通知（分）</string>
+    <string name="settings_save">保存</string>
+    <string name="settings_saved">保存しました</string>
 
 </resources>

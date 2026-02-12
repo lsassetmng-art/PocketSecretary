@@ -5,19 +5,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
 import com.lsam.pocketsecretary.persona.EmotionStateStore;
 import com.lsam.pocketsecretary.core.voice.VoiceManager;
 
-public class SpeechToolActivity extends AppCompatActivity {
+public class SpeechToolActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle b){
         super.onCreate(b);
-        setContentView(R.layout.activity_speech_tool);
+
+        // ✅ BaseActivity方式
+        setBaseContent(R.layout.activity_speech_tool);
 
         TextView status = findViewById(R.id.txtResearchStatus);
 
@@ -42,12 +44,20 @@ public class SpeechToolActivity extends AppCompatActivity {
         pitch.setProgress(100);
 
         play.setOnClickListener(v -> {
+
             String text = input.getText().toString();
+            if (text == null || text.trim().isEmpty()) return;
+
             float r = rate.getProgress() / 100f;
             float p = pitch.getProgress() / 100f;
 
             VoiceManager.configure(r, p);
             VoiceManager.speak(this, text);
         });
+    }
+
+    @Override
+    protected String getHeaderTitle() {
+        return "Speech Tool";
     }
 }

@@ -7,41 +7,68 @@ import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.widget.ImageView;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import java.io.InputStream;
+import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.lsam.pocketsecretary.service.NotificationService;
 import com.lsam.pocketsecretary.worker.ReminderWorker;
+import com.lsam.pocketsecretary.persona.EmotionStateStore;
+import com.lsam.pocketsecretary.core.event.SimpleEventStore;
+import com.lsam.pocketsecretary.core.notify.NotificationTextProvider;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class ManualNotificationActivity extends AppCompatActivity {
+public class ManualNotificationActivity extends BaseActivity {
 
     private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manual_notification);
 
+        // ✅ BaseActivity統一
+        setBaseContent(R.layout.activity_manual_notification);
+
+        initAvatar();
+        initUI();
+        initTTS();
+    }
+
+    @Override
+    protected String getHeaderTitle() {
+        return "Manual Notify";
+    }
+
+    // ==============================
+    // 初期化
+    // ==============================
+
+    private void initAvatar() {
         ImageView avatarImage = findViewById(R.id.avatarImage);
-        try {
-            InputStream is = getAssets().open("avatar_kayama.png");
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            avatarImage.setImageBitmap(bitmap);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateAvatar(
+                EmotionStateStore.getInstance()
+                        .current()
+                        .name()
+                        .toLowerCase()
+        );
+    }
+
+    private void initTTS() {
+        tts = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                tts.setLanguage(Locale.JAPAN);
+            }
+        });
+    }
+
+    private void initUI() {
 
         EditText inputMessage = findViewById(R.id.inputMessage);
         Button btnNotify = findViewById(R.id.btnNotify);
@@ -50,81 +77,104 @@ public class ManualNotificationActivity extends AppCompatActivity {
         Button btnHistory = findViewById(R.id.btnHistory);
         TimePicker timePicker = findViewById(R.id.timePicker);
 
-        tts = new TextToSpeech(this, status -> {
-            if (status == TextToSpeech.SUCCESS) {
-                tts.setLanguage(Locale.JAPAN);
-            }
-        });
-
+        // 即通知
         btnNotify.setOnClickListener(v ->
-                notifyViaService("manual", inputMessage.getText().toString())
+                notifyViaService("manual",
+                        inputMessage.getText().toString())
         );
 
+        // 通知＋読み上げ
         btnNotifySpeak.setOnClickListener(v -> {
             String msg = inputMessage.getText().toString();
             notifyViaService("manual", msg);
             speak(msg);
         });
 
-// Persona temporarily disabled for P5
-updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.getInstance().current().name().toLowerCase());
+        // 予約通知
+        btnSchedule.setOnClickListener(v ->
+                scheduleNotification(inputMessage, timePicker)
+        );
 
-        btnSchedule.setOnClickListener(v -> {
-
-            int hour;
-            int minute;
-
-            if (Build.VERSION.SDK_INT >= 23) {
-                hour = timePicker.getHour();
-                minute = timePicker.getMinute();
-            } else {
-                hour = timePicker.getCurrentHour();
-                minute = timePicker.getCurrentMinute();
-            }
-
-            Calendar now = Calendar.getInstance();
-            Calendar target = Calendar.getInstance();
-            target.set(Calendar.HOUR_OF_DAY, hour);
-            target.set(Calendar.MINUTE, minute);
-            target.set(Calendar.SECOND, 0);
-
-            if (target.before(now)) {
-                target.add(Calendar.DAY_OF_MONTH, 1);
-            }
-
-            long delay = target.getTimeInMillis() - now.getTimeInMillis();
-
-            String msg = inputMessage.getText().toString();
-            if (TextUtils.isEmpty(msg)) {
-                msg = getString(R.string.notify_text_default);
-        int todayCount = com.lsam.pocketsecretary.core.event.SimpleEventStore.countToday(this);
-        boolean tight = todayCount >= 3;
-        boolean cont = false;
-
-        String hint = com.lsam.pocketsecretary.core.notify.NotificationTextProvider.hint(this, tight, cont);
-
-        if(!hint.isEmpty()){
-            msg = msg + "\n" + hint;
-        }
-            }
-
-            Data data = new Data.Builder()
-                    .putString("message", msg)
-                    .build();
-
-            OneTimeWorkRequest request =
-                    new OneTimeWorkRequest.Builder(ReminderWorker.class)
-                            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                            .setInputData(data)
-                            .build();
-
-            WorkManager.getInstance(this).enqueue(request);
-        });
-
+        // 履歴
         btnHistory.setOnClickListener(v ->
-                startActivity(new Intent(this, HistoryActivity.class))
+                startActivity(new Intent(this,
+                        com.lsam.pocketsecretary.ui.history.HistoryActivity.class))
         );
     }
+
+    // ==============================
+    // 予約処理
+    // ==============================
+
+    private void scheduleNotification(EditText inputMessage,
+                                      TimePicker timePicker) {
+
+        int hour;
+        int minute;
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            hour = timePicker.getHour();
+            minute = timePicker.getMinute();
+        } else {
+            hour = timePicker.getCurrentHour();
+            minute = timePicker.getCurrentMinute();
+        }
+
+        Calendar now = Calendar.getInstance();
+        Calendar target = Calendar.getInstance();
+        target.set(Calendar.HOUR_OF_DAY, hour);
+        target.set(Calendar.MINUTE, minute);
+        target.set(Calendar.SECOND, 0);
+
+        if (target.before(now)) {
+            target.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        long delay =
+                target.getTimeInMillis() - now.getTimeInMillis();
+
+        String msg = buildMessage(inputMessage.getText().toString());
+
+        Data data = new Data.Builder()
+                .putString("message", msg)
+                .build();
+
+        OneTimeWorkRequest request =
+                new OneTimeWorkRequest.Builder(ReminderWorker.class)
+                        .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                        .setInputData(data)
+                        .build();
+
+        WorkManager.getInstance(this).enqueue(request);
+    }
+
+    private String buildMessage(String input) {
+
+        String msg = input;
+
+        if (TextUtils.isEmpty(msg)) {
+            msg = getString(R.string.notify_text_default);
+
+            int todayCount =
+                    SimpleEventStore.countToday(this);
+
+            boolean tight = todayCount >= 3;
+            boolean cont = false;
+
+            String hint =
+                    NotificationTextProvider.hint(this, tight, cont);
+
+            if (!hint.isEmpty()) {
+                msg = msg + "\n" + hint;
+            }
+        }
+
+        return msg;
+    }
+
+    // ==============================
+    // 通知・音声
+    // ==============================
 
     private void notifyViaService(String source, String message) {
         NotificationService service =
@@ -137,33 +187,44 @@ updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.getInstance().cu
             String t = TextUtils.isEmpty(text)
                     ? getString(R.string.notify_text_default)
                     : text;
-            tts.speak(t, TextToSpeech.QUEUE_FLUSH, null, null);
+
+            tts.speak(t,
+                    TextToSpeech.QUEUE_FLUSH,
+                    null,
+                    null);
         }
     }
 
     @Override
     protected void onDestroy() {
-        if (tts != null) tts.shutdown();
+        if (tts != null) {
+            tts.shutdown();
+        }
         super.onDestroy();
     }
 
+    // ==============================
+    // アバター
+    // ==============================
+
     private void updateAvatar(String emotion) {
-        android.widget.ImageView avatar = findViewById(R.id.avatarImage);
+
+        ImageView avatar = findViewById(R.id.avatarImage);
 
         String fileName = "avatar_calm.png";
 
         if ("alert".equals(emotion)) {
             fileName = "avatar_alert.png";
-        }
-        if ("speaking".equals(emotion)) {
+        } else if ("speaking".equals(emotion)) {
             fileName = "avatar_speaking.png";
         }
 
         try {
-            java.io.InputStream is = getAssets().open(fileName);
-            android.graphics.Bitmap bmp =
-                    android.graphics.BitmapFactory.decodeStream(is);
-            avatar.setImageBitmap(bmp);
-        } catch (Exception ignored) {}
+            InputStream is = getAssets().open(fileName);
+            avatar.setImageBitmap(
+                    android.graphics.BitmapFactory.decodeStream(is)
+            );
+        } catch (Exception ignored) {
+        }
     }
 }

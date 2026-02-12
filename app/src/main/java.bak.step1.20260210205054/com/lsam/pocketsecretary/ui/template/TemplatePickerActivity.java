@@ -21,7 +21,7 @@ public class TemplatePickerActivity extends AppCompatActivity {
 
         List<String> rows = new ArrayList<>();
         for (EventTemplates.T t: ts){
-            rows.add(t.title + "繝ｻ繝ｻ + t.hour + ":00繝ｻ繝ｻ);
+            rows.add(t.title + "郢晢ｽｻ郢晢ｽｻ + t.hour + ":00郢晢ｽｻ郢晢ｽｻ);
         }
 
         lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, rows));

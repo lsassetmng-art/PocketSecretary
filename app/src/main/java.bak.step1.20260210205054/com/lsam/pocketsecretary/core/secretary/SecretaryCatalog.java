@@ -7,9 +7,9 @@ public class SecretaryCatalog {
 
     public static List<Secretary> all() {
         List<Secretary> list = new ArrayList<>();
-        list.add(new Secretary("hiyori", "邵ｺ・ｲ郢ｧ蛹ｻ・・, "郢ｧ繝ｻ・・ｸｺ蜉ｱ・・));
-        list.add(new Secretary("aoi", "邵ｺ繧・凰邵ｺ繝ｻ, "鬮ｱ蜷ｶﾂｰ"));
-        list.add(new Secretary("ren", "郢ｧ蠕鯉ｽ・, "驕ｶ・ｯ騾ｧ繝ｻ));
+        list.add(new Secretary("hiyori", "驍ｵ・ｺ繝ｻ・ｲ驛｢・ｧ陋ｹ・ｻ繝ｻ繝ｻ, "驛｢・ｧ郢晢ｽｻ繝ｻ繝ｻ・ｸ・ｺ陷会ｽｱ繝ｻ繝ｻ));
+        list.add(new Secretary("aoi", "驍ｵ・ｺ郢ｧ繝ｻ蜃ｰ驍ｵ・ｺ郢晢ｽｻ, "鬯ｮ・ｱ陷ｷ・ｶ・ゑｽｰ"));
+        list.add(new Secretary("ren", "驛｢・ｧ陟暮ｯ会ｽｽ繝ｻ, "鬩包ｽｶ繝ｻ・ｯ鬨ｾ・ｧ郢晢ｽｻ));
         return list;
     }
 

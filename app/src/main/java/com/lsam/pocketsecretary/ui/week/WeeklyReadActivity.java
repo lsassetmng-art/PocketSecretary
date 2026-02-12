@@ -60,7 +60,7 @@ public class WeeklyReadActivity extends AppCompatActivity {
                 for(int d=0; d<7; d++){
                     if (rep!=null && d>0) at = RepeatUtil.nextAt(at, rep);
                     if (at>=start.getTimeInMillis() && at<end.getTimeInMillis()){
-                        rows.add("・滓ｨ抵ｽｵ・ｱ "+df.format(new Date(at))+"  "+title);
+                        rows.add("繝ｻ貊難ｽｨ謚ｵ・ｽ・ｵ繝ｻ・ｱ "+df.format(new Date(at))+"  "+title);
                     }
                 }
             }

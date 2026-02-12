@@ -3,7 +3,7 @@ package com.lsam.pocketsecretary.core.time;
 import java.util.*;
 
 public class FreeTimeUtil {
-    // events: List<long[]{start,end}> (end闕ｳ閧ｴ繝ｻ邵ｺ・ｯ start+1h 闔会ｽｮ)
+    // events: List<long[]{start,end}> (end髣包ｽｳ髢ｧ・ｴ郢晢ｽｻ驍ｵ・ｺ繝ｻ・ｯ start+1h 髣比ｼ夲ｽｽ・ｮ)
     public static String todaySummary(List<long[]> events){
         Calendar c=Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY,9); c.set(Calendar.MINUTE,0);
@@ -21,8 +21,8 @@ public class FreeTimeUtil {
             cur=Math.max(cur,en);
         }
         if (cur<workEnd) gaps.add(fmt(cur)+"-"+fmt(workEnd));
-        if (gaps.isEmpty()) return "闔蛾大ｾ狗ｸｺ・ｯ驕ｨ・ｺ邵ｺ閧ｴ蜃ｾ鬮｢阮吮ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ・;
-        return "闔蛾大ｾ狗ｸｺ・ｮ驕ｨ・ｺ邵ｺ閧ｴ蜃ｾ鬮｢繝ｻ "+String.join(", ", gaps);
+        if (gaps.isEmpty()) return "髣碑崟・ｰ螟ｧ・ｾ迢暦ｽｸ・ｺ繝ｻ・ｯ鬩包ｽｨ繝ｻ・ｺ驍ｵ・ｺ髢ｧ・ｴ陷・ｽｾ鬯ｮ・｢髦ｮ蜷ｮﾂ・ｲ驍ｵ・ｺ郢ｧ繝ｻ・ｽ鬘費ｽｸ・ｺ繝ｻ・ｾ驍ｵ・ｺ陝ｶ蜻ｻ・ｽ繝ｻ;
+        return "髣碑崟・ｰ螟ｧ・ｾ迢暦ｽｸ・ｺ繝ｻ・ｮ鬩包ｽｨ繝ｻ・ｺ驍ｵ・ｺ髢ｧ・ｴ陷・ｽｾ鬯ｮ・｢郢晢ｽｻ "+String.join(", ", gaps);
     }
     private static String fmt(long t){
         Calendar c=Calendar.getInstance(); c.setTimeInMillis(t);

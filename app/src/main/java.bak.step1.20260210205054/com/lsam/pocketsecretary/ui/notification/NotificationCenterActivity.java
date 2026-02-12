@@ -25,20 +25,20 @@ public class NotificationCenterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_center);
 
         TextView hint = findViewById(R.id.txtNotifyHint);
-        hint.setText("Notify 遯ｶ繝ｻ陷奇ｽｳ隴弱・/ 10陋ｻ繝ｻ・ｾ魃会ｽｼ驛・ｽｨ・ｭ陞ｳ螢ｹ縲丹FF陷ｿ・ｯ繝ｻ繝ｻ);
+        hint.setText("Notify 驕ｯ・ｶ郢晢ｽｻ髯ｷ螂・ｽｽ・ｳ髫ｴ蠑ｱ繝ｻ/ 10髯具ｽｻ郢晢ｽｻ繝ｻ・ｾ鬲・ｼ夲ｽｽ・ｼ鬩帙・・ｽ・ｨ繝ｻ・ｭ髯橸ｽｳ陞｢・ｹ邵ｲ荳ｹFF髯ｷ・ｿ繝ｻ・ｯ郢晢ｽｻ郢晢ｽｻ);
 
         Button btnNow = findViewById(R.id.btnNotifyNow);
         Button btnIn10m = findViewById(R.id.btnNotifyIn10m);
 
         btnNow.setOnClickListener(v -> ensurePermissionThen(() -> {
             if (!Prefs.isNotifyEnabled(this)) return;
-            NotificationScheduler.fireNow(this, "PocketSecretary", "陷奇ｽｳ隴弱ｋﾂ螟り｡・);
+            NotificationScheduler.fireNow(this, "PocketSecretary", "髯ｷ螂・ｽｽ・ｳ髫ｴ蠑ｱ・具ｾつ陞溘ｊ・｡繝ｻ);
         }));
 
         btnIn10m.setOnClickListener(v -> ensurePermissionThen(() -> {
             if (!Prefs.isNotifyEnabled(this)) return;
             long at = System.currentTimeMillis() + 10L * 60L * 1000L;
-            NotificationScheduler.scheduleAt(this, at, "PocketSecretary", "10陋ｻ繝ｻ・ｾ蠕後・鬨ｾ螟り｡・);
+            NotificationScheduler.scheduleAt(this, at, "PocketSecretary", "10髯具ｽｻ郢晢ｽｻ繝ｻ・ｾ陟募ｾ後・鬯ｨ・ｾ陞溘ｊ・｡繝ｻ);
         }));
     }
 

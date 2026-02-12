@@ -13,7 +13,7 @@ public final class EmotionStateStore {
         TIGHT,
         HAPPY,
         SPEAKING,
-        ALERT   // 旧互換（TIGHT相当）
+        ALERT
     }
 
     private static final EmotionStateStore INSTANCE = new EmotionStateStore();
@@ -43,7 +43,7 @@ public final class EmotionStateStore {
     }
 
     public void set(Emotion emotion) {
-        // ALERT を内部的に TIGHT に正規化
+        // ALERT 繧貞・驛ｨ逧・↓ TIGHT 縺ｫ豁｣隕丞喧
         if (emotion == Emotion.ALERT) {
             emotion = Emotion.TIGHT;
         }

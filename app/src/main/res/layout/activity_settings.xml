@@ -1,40 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/txtSettingsTitle"
+        android:id="@+id/txtTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Switch
+        android:id="@+id/swMorningEnabled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_morning_enabled"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/txtMorningTimeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
-        android:textSize="20sp"
-        android:paddingBottom="12dp" />
+        android:text="@string/settings_morning_time"
+        app:layout_constraintTop_toBottomOf="@id/swMorningEnabled"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/txtMorningTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="08:00"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/swMorningEnabled"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"/>
 
     <Button
-        android:id="@+id/btnWeekly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="週間表示" />
-
-    <CheckBox
-        android:id="@+id/chk30"
+        android:id="@+id/btnPickMorningTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="30分前に通知" />
+        android:text="@string/settings_pick_time"
+        app:layout_constraintTop_toTopOf="@id/txtMorningTime"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <CheckBox
-        android:id="@+id/chk10"
+    <TextView
+        android:id="@+id/txtBeforeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10分前に通知" />
+        android:text="@string/settings_before_minutes"
+        app:layout_constraintTop_toBottomOf="@id/txtMorningTime"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"/>
 
-    <CheckBox
-        android:id="@+id/chk5"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edtBeforeMinutes"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="5分前に通知" />
+        android:inputType="number"
+        android:hint="30"
+        app:layout_constraintTop_toBottomOf="@id/txtBeforeLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_save"
+        app:layout_constraintTop_toBottomOf="@id/edtBeforeMinutes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

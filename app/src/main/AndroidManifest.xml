@@ -39,7 +39,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.history.HistoryActivity"
             android:exported="false" />
 
         <activity

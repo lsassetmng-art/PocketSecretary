@@ -7,8 +7,11 @@ import android.graphics.Color;
 import android.graphics.Bitmap;
 import android.content.Intent;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
 import com.lsam.pocketsecretary.persona.EmotionStateStore;
@@ -17,10 +20,13 @@ import com.lsam.pocketsecretary.core.persona.PersonaEmotionApplier;
 import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
 import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
 import com.lsam.pocketsecretary.ui.persona.PersonaSelectBottomSheet;
+import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
+import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends BaseActivity {
 
     private ImageView bg;
     private TextView personaName;
@@ -30,18 +36,38 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle b){
         super.onCreate(b);
-        setContentView(R.layout.activity_dashboard_persona);
+
+        // ✅ BaseActivity方式
+        setBaseContent(R.layout.activity_dashboard_persona);
 
         bg = findViewById(R.id.psPersonaBackground);
         personaName = findViewById(R.id.txtPersonaName);
         count = findViewById(R.id.txtTodayCount);
         next  = findViewById(R.id.txtNextEvent);
 
+        // ===== 読み上げ =====
         findViewById(R.id.btnSpeechTool).setOnClickListener(v ->
                 startActivity(new Intent(this,
                         com.lsam.pocketsecretary.ui.speech.SpeechToolActivity.class))
         );
 
+        // ===== 履歴 =====
+        if (findViewById(R.id.btnHistory) != null) {
+            findViewById(R.id.btnHistory).setOnClickListener(v ->
+                    startActivity(new Intent(this,
+                            com.lsam.pocketsecretary.ui.history.HistoryActivity.class))
+            );
+        }
+
+        // ===== 手動通知 =====
+        if (findViewById(R.id.btnNotification) != null) {
+            findViewById(R.id.btnNotification).setOnClickListener(v ->
+                    startActivity(new Intent(this,
+                            com.lsam.pocketsecretary.ManualNotificationActivity.class))
+            );
+        }
+
+        // ===== Persona切替 =====
         personaName.setOnClickListener(v -> {
 
             PersonaSelectBottomSheet sheet =
@@ -55,6 +81,17 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         renderTodayInfo();
+
+        // ===== 朝通知 =====
+        MorningBriefingWorker.ensureScheduled(this);
+
+        // ===== 予定前チェック =====
+        registerUpcomingChecker();
+    }
+
+    @Override
+    protected String getHeaderTitle() {
+        return "Dashboard";
     }
 
     @Override
@@ -63,6 +100,9 @@ public class DashboardActivity extends AppCompatActivity {
         applyCurrentPersona();
     }
 
+    // =============================
+    // 今日情報表示
+    // =============================
     private void renderTodayInfo() {
 
         int c = TodayEngine.todayCount(this);
@@ -84,12 +124,15 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
+    // =============================
+    // Persona反映
+    // =============================
     private void applyCurrentPersona() {
 
         String personaId = CurrentPersonaStore.get(this);
 
         Bitmap bmp = PersonaLoader.loadPersonaImage(this, personaId);
-        if (bmp != null && bg != null) {
+        if (bmp != null) {
             bg.setImageBitmap(bmp);
         }
 
@@ -98,10 +141,31 @@ public class DashboardActivity extends AppCompatActivity {
         Map<String, String> personaMap =
                 PersonaYamlLoader.load(this, personaId);
 
-        String displayName = personaMap.get("display_name");
-
-        if (displayName != null && personaName != null) {
-            personaName.setText(displayName);
+        if (personaMap != null) {
+            String displayName = personaMap.get("display_name");
+            if (displayName != null) {
+                personaName.setText(displayName);
+            }
         }
+    }
+
+    // =============================
+    // 予定前通知の定期チェック
+    // =============================
+    private void registerUpcomingChecker() {
+
+        PeriodicWorkRequest req =
+                new PeriodicWorkRequest.Builder(
+                        UpcomingEventWorker.class,
+                        15,
+                        TimeUnit.MINUTES
+                ).build();
+
+        WorkManager.getInstance(this)
+                .enqueueUniquePeriodicWork(
+                        "upcoming_checker",
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        req
+                );
     }
 }

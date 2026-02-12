@@ -13,7 +13,7 @@ public class VoiceManager {
         }
     }
 
-    // 陝・・謫ゅ・螢ｼ・､螟慚夂ｹｧ・ｵ郢晢ｽｼ郢晁侭縺幄淦・ｮ邵ｺ邇ｲ蟠帷ｸｺ閧ｲ逡・
+    // 髯昴・繝ｻ隰ｫ繧・・陞｢・ｼ繝ｻ・､陞滓・螟ゑｽｹ・ｧ繝ｻ・ｵ驛｢譎｢・ｽ・ｼ驛｢譎∽ｾｭ邵ｺ蟷・ｷｦ繝ｻ・ｮ驍ｵ・ｺ驍・ｽｲ陝蟶ｷ・ｸ・ｺ髢ｧ・ｲ騾｡繝ｻ
     public static void setEngine(VoiceEngine e){
         engine = e;
     }
