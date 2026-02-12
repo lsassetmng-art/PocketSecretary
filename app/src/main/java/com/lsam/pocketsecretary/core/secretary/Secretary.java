@@ -2,9 +2,8 @@ package com.lsam.pocketsecretary.core.secretary;
 
 /**
  * Secretary
- * Phase B 正本モデル
- * ID は String（enum禁止）
- */
+ * Phase B 豁｣譛ｬ繝｢繝・Ν
+ * ID 縺ｯ String・・num遖∵ｭ｢・・ */
 public final class Secretary {
 
     private final String id;

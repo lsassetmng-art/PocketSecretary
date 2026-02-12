@@ -1,36 +1,32 @@
-// DISABLED_FOR_PLAY_SAFETY
 package com.lsam.pocketsecretary.core.notify;
 
+import android.content.Context;
+import com.lsam.pocketsecretary.R;
 import java.util.*;
 
 public class NotificationTextProvider {
-    private static final Random R = new Random();
 
-    private static String pick(String[] a){ return a[R.nextInt(a.length)]; }
+    private static final Random RANDOM = new Random();
 
-    public static String prefix(){
-        int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (h < 12) return pick(new String[]{"Good morning.","Checking today."});
-        if (h < 18) return pick(new String[]{"Checking.","Next event."});
-        return pick(new String[]{"Hello.","Just a reminder."});
+    private static String pick(String[] a){
+        return a[RANDOM.nextInt(a.length)];
     }
 
-    public static String body(int min, String title){
-        return pick(new String[]{
-            min+"JP_TEXT: "+title,
-            "JP_TEXT（"+min+"JP_TEXT）: "+title,
-            "JP_TEXT（"+min+"JP_TEXT）: "+title
-        });
-    }
+    public static String hint(Context context, boolean tight, boolean cont){
 
-    public static String hint(boolean tight, boolean cont){
-        if (tight && cont) return "JP_TEXT。JP_TEXT。";
-        if (tight) return "JP_TEXT。";
-        if (cont) return "JP_TEXT、JP_TEXT。";
+        if (tight && cont)
+            return context.getString(R.string.hint_tight_cont);
+
+        if (tight)
+            return context.getString(R.string.hint_tight);
+
+        if (cont)
+            return context.getString(R.string.hint_cont);
+
         return "";
     }
 
-    public static String consultFollowUp(){
-        return "JP_TEXT、JP_TEXT。";
+    public static String consultFollowUp(Context context){
+        return context.getString(R.string.consult_followup);
     }
 }

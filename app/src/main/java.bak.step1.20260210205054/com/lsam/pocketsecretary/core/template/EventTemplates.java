@@ -10,11 +10,11 @@ public class EventTemplates {
     }
     public static List<T> list(){
         return Arrays.asList(
-            new T("会議",10),
-            new T("打合せ",14),
-            new T("通院",9),
-            new T("ジム",18),
-            new T("勉強",20)
+            new T("莨夊ｭｰ",10),
+            new T("謇灘粋縺・,14),
+            new T("騾夐劼",9),
+            new T("繧ｸ繝",18),
+            new T("蜍牙ｼｷ",20)
         );
     }
 }

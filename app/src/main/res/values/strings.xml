@@ -1,20 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">秘書</string>
 
-    <!-- Phase C UI keys -->
-    <string name="secretary_list_title">secretary.list.title</string>
-    <string name="secretary_chat_title">secretary.chat.title</string>
+    <string name="app_name">PocketSecretary</string>
+    <string name="notify_button">通知する</string>
 
-    <string name="notify_button">notify.button</string>
-    <string name="notify_title">秘書</string>
-    <string name="archive_title">archive.title</string>
-    <string name="notify_text_default">ご予定のお時間になりました</string>
-    <string name="history_title">通知履歴</string>
-    <string name="history_empty">履歴はまだありません</string>
-    <string name="btn_history">履歴を見る</string>
-    <string name="hint_message">通知メッセージを入力</string>
-    <string name="btn_notify">通知する</string>
-    <string name="btn_notify_speak">通知＋音声</string>
-    <string name="btn_schedule">この時刻に通知</string>
+<string name="billing_stub_note">
+Billing (Stub UI)
+
+現在はスタブ画面です。
+Play Billing 実装は未接続です。
+Upgrade / FAQ は今後実装予定です。
+</string>
+
+<string name="notify_text_default">通知があります。</string>
+
+<string name="archive_title">書庫</string>
+<string name="notify_title">通知一覧</string>
+<string name="secretary_chat_title">秘書チャット</string>
+
+    <!-- Persona -->
+    <string name="prefix_alert">[Important]</string>
+    <string name="prefix_speaking">♪ </string>
+
+    <!-- Notification -->
+    <string name="hint_tight_cont">予定が詰まっています。継続案件です。</string>
+    <string name="hint_tight">予定が詰まっています。</string>
+    <string name="hint_cont">継続案件です。</string>
+    <string name="consult_followup">前回の内容をご確認ください。</string>
+
+    <!-- SecretarySpeech -->
+    <string name="speech_greet_suffix">です。本日もよろしくお願いします。</string>
+    <string name="speech_no_plan">本日の予定は特にありません。</string>
+    <string name="speech_next_plan_prefix">次の予定は「</string>
+    <string name="speech_next_plan_suffix">」です。</string>
+
+    <!-- EventTemplates -->
+    <string name="template_morning_meeting">朝会</string>
+    <string name="template_meeting">打ち合わせ</string>
+    <string name="template_standup">ミーティング</string>
+    <string name="template_gym">ジム</string>
+    <string name="template_dinner">夕食</string>
+
 </resources>

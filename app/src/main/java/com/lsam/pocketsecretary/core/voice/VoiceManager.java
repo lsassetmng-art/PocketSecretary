@@ -6,7 +6,8 @@ import android.speech.tts.TextToSpeech;
 import java.util.Locale;
 
 /**
- * Phase E: Voice 実動（TTS）
+ * VoiceManager
+ * TextToSpeech wrapper
  */
 public final class VoiceManager {
 
@@ -24,13 +25,11 @@ public final class VoiceManager {
         });
     }
 
-    // 既存 API
     public static void speak(String text) {
         if (tts == null) return;
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ps");
     }
 
-    // 互換用オーバーロード（ConsultActivity 等）
     public static void speak(Context context, String text) {
         init(context);
         speak(text);

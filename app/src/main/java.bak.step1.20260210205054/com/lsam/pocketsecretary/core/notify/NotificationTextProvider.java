@@ -20,28 +20,28 @@ public class NotificationTextProvider {
 
     public static String reminderLine(int minutes, String title){
         String[] m = new String[]{
-            minutes + "分後に予定です: " + title,
-            "まもなく予定です（" + minutes + "分）: " + title,
-            "予定の時間が近いです（" + minutes + "分）: " + title
+            minutes + "蛻・ｾ後↓莠亥ｮ壹〒縺・ " + title,
+            "縺ｾ繧ゅ↑縺丈ｺ亥ｮ壹〒縺呻ｼ・ + minutes + "蛻・ｼ・ " + title,
+            "莠亥ｮ壹・譎る俣縺瑚ｿ代＞縺ｧ縺呻ｼ・ + minutes + "蛻・ｼ・ " + title
         };
         return pick(m);
     }
 
     public static String secretaryPrefix(){
         int b = band();
-        if (b==0) return pick(new String[]{"おはようございます。", "今日も確認します。"});
-        if (b==1) return pick(new String[]{"確認します。", "次の予定です。"});
-        return pick(new String[]{"お疲れさまです。", "念のためお知らせします。"});
+        if (b==0) return pick(new String[]{"縺翫・繧医≧縺斐＊縺・∪縺吶・, "莉頑律繧ら｢ｺ隱阪＠縺ｾ縺吶・});
+        if (b==1) return pick(new String[]{"遒ｺ隱阪＠縺ｾ縺吶・, "谺｡縺ｮ莠亥ｮ壹〒縺吶・});
+        return pick(new String[]{"縺顔夢繧後＆縺ｾ縺ｧ縺吶・, "蠢ｵ縺ｮ縺溘ａ縺顔衍繧峨○縺励∪縺吶・});
     }
 
     public static String contextHint(boolean tight, boolean consecutive){
-        if (tight && consecutive) return "移動時間に注意してください。続けて予定があります。";
-        if (tight) return "移動時間に注意してください。";
-        if (consecutive) return "この後、続けて予定があります。";
+        if (tight && consecutive) return "遘ｻ蜍墓凾髢薙↓豕ｨ諢上＠縺ｦ縺上□縺輔＞縲らｶ壹￠縺ｦ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
+        if (tight) return "遘ｻ蜍墓凾髢薙↓豕ｨ諢上＠縺ｦ縺上□縺輔＞縲・;
+        if (consecutive) return "縺薙・蠕後∫ｶ壹￠縺ｦ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
         return "";
     }
 
     public static String consultFollowUp(){
-        return "必要でしたら、また聞いてください。";
+        return "蠢・ｦ√〒縺励◆繧峨√∪縺溯◇縺・※縺上□縺輔＞縲・;
     }
 }

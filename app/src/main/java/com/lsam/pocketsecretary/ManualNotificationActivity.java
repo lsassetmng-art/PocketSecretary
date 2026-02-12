@@ -8,6 +8,10 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.io.InputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.Data;
@@ -29,6 +33,15 @@ public class ManualNotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_notification);
+
+        ImageView avatarImage = findViewById(R.id.avatarImage);
+        try {
+            InputStream is = getAssets().open("avatar_kayama.png");
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            avatarImage.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         EditText inputMessage = findViewById(R.id.inputMessage);
         Button btnNotify = findViewById(R.id.btnNotify);
@@ -52,6 +65,9 @@ public class ManualNotificationActivity extends AppCompatActivity {
             notifyViaService("manual", msg);
             speak(msg);
         });
+
+// Persona temporarily disabled for P5
+updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.get().current().name().toLowerCase());
 
         btnSchedule.setOnClickListener(v -> {
 
@@ -103,7 +119,7 @@ public class ManualNotificationActivity extends AppCompatActivity {
 
     private void notifyViaService(String source, String message) {
         NotificationService service =
-                new NotificationService(this, null);
+                new NotificationService(this);
         service.notifyAndRecord(source, message);
     }
 
@@ -120,5 +136,25 @@ public class ManualNotificationActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (tts != null) tts.shutdown();
         super.onDestroy();
+    }
+
+    private void updateAvatar(String emotion) {
+        android.widget.ImageView avatar = findViewById(R.id.avatarImage);
+
+        String fileName = "avatar_calm.png";
+
+        if ("alert".equals(emotion)) {
+            fileName = "avatar_alert.png";
+        }
+        if ("speaking".equals(emotion)) {
+            fileName = "avatar_speaking.png";
+        }
+
+        try {
+            java.io.InputStream is = getAssets().open(fileName);
+            android.graphics.Bitmap bmp =
+                    android.graphics.BitmapFactory.decodeStream(is);
+            avatar.setImageBitmap(bmp);
+        } catch (Exception ignored) {}
     }
 }

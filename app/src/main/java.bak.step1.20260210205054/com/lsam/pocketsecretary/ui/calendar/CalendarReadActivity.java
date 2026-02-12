@@ -36,7 +36,7 @@ public class CalendarReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_read);
 
         TextView hint = findViewById(R.id.txtCalendarHint);
-        hint.setText("Calendar (READ ONLY) — 今日/明日");
+        hint.setText("Calendar (READ ONLY) 窶・莉頑律/譏取律");
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -88,9 +88,9 @@ public class CalendarReadActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        // Phase6.5: 空状態メッセージ
+        // Phase6.5: 遨ｺ迥ｶ諷九Γ繝・そ繝ｼ繧ｸ
         if (items.isEmpty()) {
-            items.add("今日は予定がありません。ゆっくりいきましょう。");
+            items.add("莉頑律縺ｯ莠亥ｮ壹′縺ゅｊ縺ｾ縺帙ｓ縲ゅｆ縺｣縺上ｊ縺・″縺ｾ縺励ｇ縺・・);
         }
 
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));

@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 
 /**
  * AndroidPrefsStore
- * Phase A1 正本実装
- */
+ * Phase A1 豁｣譛ｬ螳溯｣・ */
 public final class AndroidPrefsStore implements PrefsStore {
 
     private static final String NAME = "pocketsecretary_prefs";

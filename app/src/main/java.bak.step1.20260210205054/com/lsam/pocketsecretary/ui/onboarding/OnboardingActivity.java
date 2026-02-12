@@ -85,9 +85,9 @@ public class OnboardingActivity extends AppCompatActivity {
         }
 
         txtState.setText(
-                "権限状態\n" +
-                "・カレンダー(READ): " + (cal ? "OK" : "未許可") + "\n" +
-                "・通知: " + (notif ? "OK" : "未許可")
+                "讓ｩ髯千憾諷欺n" +
+                "繝ｻ繧ｫ繝ｬ繝ｳ繝繝ｼ(READ): " + (cal ? "OK" : "譛ｪ險ｱ蜿ｯ") + "\n" +
+                "繝ｻ騾夂衍: " + (notif ? "OK" : "譛ｪ險ｱ蜿ｯ")
         );
     }
 }
