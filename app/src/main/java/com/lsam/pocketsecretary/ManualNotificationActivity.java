@@ -67,7 +67,7 @@ public class ManualNotificationActivity extends AppCompatActivity {
         });
 
 // Persona temporarily disabled for P5
-updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.get().current().name().toLowerCase());
+updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.getInstance().current().name().toLowerCase());
 
         btnSchedule.setOnClickListener(v -> {
 
@@ -97,6 +97,15 @@ updateAvatar(com.lsam.pocketsecretary.persona.EmotionStateStore.get().current().
             String msg = inputMessage.getText().toString();
             if (TextUtils.isEmpty(msg)) {
                 msg = getString(R.string.notify_text_default);
+        int todayCount = com.lsam.pocketsecretary.core.event.SimpleEventStore.countToday(this);
+        boolean tight = todayCount >= 3;
+        boolean cont = false;
+
+        String hint = com.lsam.pocketsecretary.core.notify.NotificationTextProvider.hint(this, tight, cont);
+
+        if(!hint.isEmpty()){
+            msg = msg + "\n" + hint;
+        }
             }
 
             Data data = new Data.Builder()

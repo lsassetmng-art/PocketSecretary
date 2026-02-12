@@ -20,28 +20,28 @@ public class NotificationTextProvider {
 
     public static String reminderLine(int minutes, String title){
         String[] m = new String[]{
-            minutes + "蛻・ｾ後↓莠亥ｮ壹〒縺・ " + title,
-            "縺ｾ繧ゅ↑縺丈ｺ亥ｮ壹〒縺呻ｼ・ + minutes + "蛻・ｼ・ " + title,
-            "莠亥ｮ壹・譎る俣縺瑚ｿ代＞縺ｧ縺呻ｼ・ + minutes + "蛻・ｼ・ " + title
+            minutes + "陋ｻ繝ｻ・ｾ蠕娯・闔莠･・ｮ螢ｹ縲堤ｸｺ繝ｻ " + title,
+            "邵ｺ・ｾ郢ｧ繧・・邵ｺ荳茨ｽｺ莠･・ｮ螢ｹ縲堤ｸｺ蜻ｻ・ｼ繝ｻ + minutes + "陋ｻ繝ｻ・ｼ繝ｻ " + title,
+            "闔莠･・ｮ螢ｹ繝ｻ隴弱ｋ菫｣邵ｺ迹夲ｽｿ莉｣・樒ｸｺ・ｧ邵ｺ蜻ｻ・ｼ繝ｻ + minutes + "陋ｻ繝ｻ・ｼ繝ｻ " + title
         };
         return pick(m);
     }
 
     public static String secretaryPrefix(){
         int b = band();
-        if (b==0) return pick(new String[]{"縺翫・繧医≧縺斐＊縺・∪縺吶・, "莉頑律繧ら｢ｺ隱阪＠縺ｾ縺吶・});
-        if (b==1) return pick(new String[]{"遒ｺ隱阪＠縺ｾ縺吶・, "谺｡縺ｮ莠亥ｮ壹〒縺吶・});
-        return pick(new String[]{"縺顔夢繧後＆縺ｾ縺ｧ縺吶・, "蠢ｵ縺ｮ縺溘ａ縺顔衍繧峨○縺励∪縺吶・});
+        if (b==0) return pick(new String[]{"邵ｺ鄙ｫ繝ｻ郢ｧ蛹ｻ竕ｧ邵ｺ譁撰ｼ顔ｸｺ繝ｻ竏ｪ邵ｺ蜷ｶﾂ繝ｻ, "闔蛾大ｾ狗ｹｧ繧会ｽ｢・ｺ髫ｱ髦ｪ・邵ｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ});
+        if (b==1) return pick(new String[]{"驕抵ｽｺ髫ｱ髦ｪ・邵ｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ, "隹ｺ・｡邵ｺ・ｮ闔莠･・ｮ螢ｹ縲堤ｸｺ蜷ｶﾂ繝ｻ});
+        return pick(new String[]{"邵ｺ鬘泌､｢郢ｧ蠕鯉ｼ・ｸｺ・ｾ邵ｺ・ｧ邵ｺ蜷ｶﾂ繝ｻ, "陟｢・ｵ邵ｺ・ｮ邵ｺ貅假ｽ∫ｸｺ鬘碑｡咲ｹｧ蟲ｨ笳狗ｸｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ});
     }
 
     public static String contextHint(boolean tight, boolean consecutive){
-        if (tight && consecutive) return "遘ｻ蜍墓凾髢薙↓豕ｨ諢上＠縺ｦ縺上□縺輔＞縲らｶ壹￠縺ｦ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
-        if (tight) return "遘ｻ蜍墓凾髢薙↓豕ｨ諢上＠縺ｦ縺上□縺輔＞縲・;
-        if (consecutive) return "縺薙・蠕後∫ｶ壹￠縺ｦ莠亥ｮ壹′縺ゅｊ縺ｾ縺吶・;
+        if (tight && consecutive) return "驕假ｽｻ陷榊｢灘・鬮｢阮吮・雎包ｽｨ隲｢荳奇ｼ邵ｺ・ｦ邵ｺ荳岩味邵ｺ霈費ｼ樒ｸｲ繧会ｽｶ螢ｹ・邵ｺ・ｦ闔莠･・ｮ螢ｹ窶ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ;
+        if (tight) return "驕假ｽｻ陷榊｢灘・鬮｢阮吮・雎包ｽｨ隲｢荳奇ｼ邵ｺ・ｦ邵ｺ荳岩味邵ｺ霈費ｼ樒ｸｲ繝ｻ;
+        if (consecutive) return "邵ｺ阮吶・陟募ｾ個竏ｫ・ｶ螢ｹ・邵ｺ・ｦ闔莠･・ｮ螢ｹ窶ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ;
         return "";
     }
 
     public static String consultFollowUp(){
-        return "蠢・ｦ√〒縺励◆繧峨√∪縺溯◇縺・※縺上□縺輔＞縲・;
+        return "陟｢繝ｻ・ｦ竏壹堤ｸｺ蜉ｱ笳・ｹｧ蟲ｨﾂ竏壺穐邵ｺ貅ｯ笳・ｸｺ繝ｻ窶ｻ邵ｺ荳岩味邵ｺ霈費ｼ樒ｸｲ繝ｻ;
     }
 }

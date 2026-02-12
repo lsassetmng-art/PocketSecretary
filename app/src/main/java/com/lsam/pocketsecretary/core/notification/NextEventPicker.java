@@ -35,7 +35,7 @@ public class NextEventPicker {
 
         // Internal (repeat aware)
         try{
-            JSONArray arr = SimpleEventStore.list(c);
+            JSONArray arr = SimpleEventStore.listAsJson(c);
             for (int i=0;i<arr.length();i++){
                 JSONObject o = arr.getJSONObject(i);
                 long base = o.getLong("startAt");

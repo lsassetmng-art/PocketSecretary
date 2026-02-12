@@ -3,7 +3,7 @@ package com.lsam.pocketsecretary.core.time;
 import java.util.*;
 
 public class FreeTimeUtil {
-    // events: List<long[]{start,end}> (end荳肴・縺ｯ start+1h 莉ｮ)
+    // events: List<long[]{start,end}> (end闕ｳ閧ｴ繝ｻ邵ｺ・ｯ start+1h 闔会ｽｮ)
     public static String todaySummary(List<long[]> events){
         Calendar c=Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY,9); c.set(Calendar.MINUTE,0);
@@ -21,8 +21,8 @@ public class FreeTimeUtil {
             cur=Math.max(cur,en);
         }
         if (cur<workEnd) gaps.add(fmt(cur)+"-"+fmt(workEnd));
-        if (gaps.isEmpty()) return "莉頑律縺ｯ遨ｺ縺肴凾髢薙′縺ゅｊ縺ｾ縺帙ｓ";
-        return "莉頑律縺ｮ遨ｺ縺肴凾髢・ "+String.join(", ", gaps);
+        if (gaps.isEmpty()) return "闔蛾大ｾ狗ｸｺ・ｯ驕ｨ・ｺ邵ｺ閧ｴ蜃ｾ鬮｢阮吮ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ・;
+        return "闔蛾大ｾ狗ｸｺ・ｮ驕ｨ・ｺ邵ｺ閧ｴ蜃ｾ鬮｢繝ｻ "+String.join(", ", gaps);
     }
     private static String fmt(long t){
         Calendar c=Calendar.getInstance(); c.setTimeInMillis(t);

@@ -27,7 +27,7 @@ public class NotificationService {
     }
 
     public void notifyAndRecord(String source, String message) {
-        EmotionStateStore.get().pulseAlert(2500);
+        EmotionStateStore.getInstance().pulseAlert(2500);
 
         SecretaryPersona persona = PersonaRegistry.get(context);
         String formatted = persona.format(message);

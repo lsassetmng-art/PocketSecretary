@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.service.NotificationService;
 
 public class ReminderWorker extends Worker {
@@ -21,8 +22,10 @@ public class ReminderWorker extends Worker {
     public Result doWork() {
 
         String message = getInputData().getString("message");
+
         if (message == null) {
-            message = "縺比ｺ亥ｮ壹・縺頑凾髢薙↓縺ｪ繧翫∪縺励◆";
+            message = getApplicationContext()
+                    .getString(R.string.reminder_default_message);
         }
 
         new NotificationService(getApplicationContext())

@@ -2,8 +2,8 @@ package com.lsam.pocketsecretary.infra.prefs;
 
 /**
  * PrefsStore
- * Phase A1 豁｣蠑上う繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ
- * UI / Domain 縺ｯ蠢・★縺薙ｌ邨檎罰
+ * Phase A1 雎・ｽ｣陟台ｸ翫≧郢晢ｽｳ郢ｧ・ｿ郢晢ｽｼ郢晁ｼ斐♂郢晢ｽｼ郢ｧ・ｹ
+ * UI / Domain 邵ｺ・ｯ陟｢繝ｻ笘・ｸｺ阮呻ｽ碁お讙守ｽｰ
  */
 public interface PrefsStore {
 

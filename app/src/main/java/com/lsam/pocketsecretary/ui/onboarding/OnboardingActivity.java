@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * OnboardingActivity
- * Phase A: BUILD UNBLOCK 逕ｨ譛蟆乗ｭ｣譛ｬ
+ * Phase A: BUILD UNBLOCK 騾包ｽｨ隴崢陝・ｹ暦ｽｭ・｣隴幢ｽｬ
  */
 public class OnboardingActivity extends AppCompatActivity {
 

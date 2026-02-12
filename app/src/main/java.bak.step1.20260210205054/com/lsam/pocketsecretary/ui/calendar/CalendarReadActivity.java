@@ -36,7 +36,7 @@ public class CalendarReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_read);
 
         TextView hint = findViewById(R.id.txtCalendarHint);
-        hint.setText("Calendar (READ ONLY) 窶・莉頑律/譏取律");
+        hint.setText("Calendar (READ ONLY) 遯ｶ繝ｻ闔蛾大ｾ・隴丞叙蠕・);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -88,9 +88,9 @@ public class CalendarReadActivity extends AppCompatActivity {
             cursor.close();
         }
 
-        // Phase6.5: 遨ｺ迥ｶ諷九Γ繝・そ繝ｼ繧ｸ
+        // Phase6.5: 驕ｨ・ｺ霑･・ｶ隲ｷ荵斟鍋ｹ昴・縺晉ｹ晢ｽｼ郢ｧ・ｸ
         if (items.isEmpty()) {
-            items.add("莉頑律縺ｯ莠亥ｮ壹′縺ゅｊ縺ｾ縺帙ｓ縲ゅｆ縺｣縺上ｊ縺・″縺ｾ縺励ｇ縺・・);
+            items.add("闔蛾大ｾ狗ｸｺ・ｯ闔莠･・ｮ螢ｹ窶ｲ邵ｺ繧・ｽ顔ｸｺ・ｾ邵ｺ蟶呻ｽ鍋ｸｲ繧・ｽ・ｸｺ・｣邵ｺ荳奇ｽ顔ｸｺ繝ｻ窶ｳ邵ｺ・ｾ邵ｺ蜉ｱ・・ｸｺ繝ｻﾂ繝ｻ);
         }
 
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));

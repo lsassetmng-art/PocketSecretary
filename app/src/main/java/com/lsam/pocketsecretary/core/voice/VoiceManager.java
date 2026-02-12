@@ -41,4 +41,12 @@ public final class VoiceManager {
             tts = null;
         }
     }
+
+    // Phase K additive
+    public static void configure(float rate, float pitch){
+        if (tts != null){
+            tts.setSpeechRate(rate);
+            tts.setPitch(pitch);
+        }
+    }
 }

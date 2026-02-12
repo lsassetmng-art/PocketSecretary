@@ -23,7 +23,7 @@ public class UpcomingEventPicker {
     private static void addInternal(Context c, ArrayList<Ev> out){
         long now = System.currentTimeMillis();
         try{
-            JSONArray arr = SimpleEventStore.list(c);
+            JSONArray arr = SimpleEventStore.listAsJson(c);
             for (int i=0;i<arr.length();i++){
                 JSONObject o = arr.getJSONObject(i);
                 String title=o.getString("title");
