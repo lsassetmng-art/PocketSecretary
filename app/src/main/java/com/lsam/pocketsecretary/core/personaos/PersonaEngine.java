@@ -11,6 +11,12 @@ import com.lsam.pocketsecretary.core.personaos.model.*;
 import com.lsam.pocketsecretary.core.personaos.provider.LocalPersonaProvider;
 import com.lsam.pocketsecretary.core.personaos.provider.PersonaProvider;
 
+// Phase H imports (additive)
+import com.lsam.pocketsecretary.core.stats.UsageStatsStore;
+import com.lsam.pocketsecretary.core.stats.EngagementTracker;
+import com.lsam.pocketsecretary.core.personaos.EmotionEvolutionEngine;
+import com.lsam.pocketsecretary.core.personaos.ToneAdjustment;
+
 public final class PersonaEngine {
 
     private static volatile PersonaProvider provider;
@@ -56,6 +62,30 @@ public final class PersonaEngine {
         String reqId = UUID.randomUUID().toString();
         String nowIso = Instant.now().toString();
 
+        EmotionState baseState =
+                (emotionState != null) ? emotionState : EmotionState.CALM;
+
+        // =====================================================
+        // Phase H: Emotion Evolution (additive only)
+        // =====================================================
+        UsageStatsStore stats = new UsageStatsStore(context);
+        EngagementTracker tracker = new EngagementTracker(context);
+
+        EmotionEvolutionEngine evolution =
+                new EmotionEvolutionEngine(stats, tracker, 5);
+
+        ToneAdjustment adj =
+                evolution.evolve(baseState.name(), baseState.name());
+
+        EmotionState evolvedState = baseState;
+
+        if (adj != null && adj.getAdjustedTone() != null) {
+            evolvedState = EmotionState.fromLegacy(
+                    adj.getAdjustedTone()
+            );
+        }
+        // =====================================================
+
         PersonaContext ctx = new PersonaContext(
                 reqId,
                 "PocketSecretary",
@@ -63,14 +93,16 @@ public final class PersonaEngine {
                 "ja-JP",
                 "Asia/Tokyo",
                 nowIso,
-                (emotionState != null) ? emotionState : EmotionState.CALM,
+                evolvedState,
                 channel,
                 summary,
                 timeIso,
                 todayCount
         );
 
-        PersonaRequest req = new PersonaRequest(ctx, PersonaRequest.Constraints.defaults());
+        PersonaRequest req =
+                new PersonaRequest(ctx, PersonaRequest.Constraints.defaults());
+
         return provider.generate(req);
     }
 
@@ -84,5 +116,4 @@ public final class PersonaEngine {
     ) {
         provider = remoteProvider;
     }
-
 }
