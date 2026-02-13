@@ -1,61 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootDashboard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@color/brand_bg">
+    android:layout_height="match_parent">
 
-    <!-- ===== Persona Header ===== -->
+    <!-- 背景 -->
+    <ImageView
+        android:id="@+id/imgDashboardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- 吹き出し（既存txtNextLineを流用） -->
+    <TextView
+        android:id="@+id/txtNextLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="96dp"
+        android:padding="16dp"
+        android:background="@drawable/bg_speech_bubble"
+        android:textColor="#222222"
+        android:textSize="16sp"
+        android:lineSpacingMultiplier="1.2"
+        android:maxWidth="260dp"
+        android:elevation="6dp" />
+
+    <!-- 秘書キャラクター（右下 / 既存imgPersonaCard） -->
+    <ImageView
+        android:id="@+id/imgPersonaCard"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
+
+    <!-- Persona名（上部に軽く配置） -->
     <TextView
         android:id="@+id/txtPersonaName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Secretary"
-        android:textSize="20sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/brand_primary"/>
+        android:textColor="#222222" />
 
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/brand_divider"/>
-
-    <!-- ===== Persona Card ===== -->
+    <!-- 左下ボタン群 -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:id="@+id/bottomLeftButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/brand_card_bg"
-        android:padding="20dp">
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp">
 
-        <ImageView
-            android:id="@+id/imgPersonaCard"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="@color/brand_surface"/>
-
-        <TextView
-            android:id="@+id/txtNextLine"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnSchedule"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="本日の状況をお伝えします。"
-            android:textSize="16sp"
-            android:textColor="@color/brand_primary"/>
+            android:text="@string/btn_schedule"
+            android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnOpenTools"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="秘書ツールを開く"/>
+            android:text="@string/btn_tools"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnArchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_archive" />
     </LinearLayout>
 
-</LinearLayout>
+    <!-- 設定 -->
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_settings" />
+
+</FrameLayout>

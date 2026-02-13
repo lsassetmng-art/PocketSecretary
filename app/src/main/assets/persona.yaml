@@ -1,9 +1,0 @@
-version: 1
-
-persona:
-  id: kayama_01
-  name: 加山秘書
-
-avatar:
-  type: local
-  image: avatar_kayama.png

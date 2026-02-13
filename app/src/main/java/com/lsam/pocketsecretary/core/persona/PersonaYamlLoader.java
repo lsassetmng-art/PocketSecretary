@@ -2,9 +2,10 @@ package com.lsam.pocketsecretary.core.persona;
 
 import android.content.Context;
 
+import com.lsam.pocketsecretary.core.assets.AssetRepository;
+
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,14 +14,19 @@ public final class PersonaYamlLoader {
     private PersonaYamlLoader() {}
 
     public static Map<String, String> load(Context context, String personaId) {
+
         Map<String, String> map = new HashMap<>();
 
         try {
-            InputStream is = context.getAssets()
-                    .open("persona/" + personaId + "/persona.yaml");
+
+            // 🔹 AssetRepository経由で統一
+            String path = AssetRepository.personaYaml(personaId);
+            String yamlText = AssetRepository.loadText(context, path);
+
+            if (yamlText == null) return map;
 
             BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(is));
+                    new BufferedReader(new StringReader(yamlText));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -40,7 +46,9 @@ public final class PersonaYamlLoader {
 
             reader.close();
 
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace(); // ← ローカル完成フェーズではログ出す
+
         }
 
         return map;

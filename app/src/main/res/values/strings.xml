@@ -131,5 +131,11 @@ Upgrade / FAQ は仮画面です。
         少し距離が近くなってきましたね。
     </string>
 
+<string name="btn_schedule">予定確認</string>
+<string name="btn_tools">秘書ツール</string>
+<string name="greeting_template">おはようございます。\n本日は予定が%1$d件ございます。</string>
+<string name="header_dashboard">ダッシュボード</string>
+<string name="btn_archive">書庫閲覧</string>
+
 </resources>
 

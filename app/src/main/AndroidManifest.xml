@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
 
-        <!-- ✅ ランチャー -->
+        <!-- Launcher -->
         <activity
             android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
@@ -25,22 +25,22 @@
 
         </activity>
 
-        <!-- ✅ Settings -->
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
 
-        <!-- ✅ Persona選択画面 -->
+        <activity
+            android:name=".ui.archive.ArchiveActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.persona.PersonaSelectActivity"
             android:exported="false" />
 
-        <!-- ✅ Tools画面（追加） -->
         <activity
             android:name=".ui.tools.SecretaryToolsActivity"
             android:exported="false" />
 
-        <!-- 内部ツール -->
         <activity
             android:name=".ManualNotificationActivity"
             android:exported="false" />
