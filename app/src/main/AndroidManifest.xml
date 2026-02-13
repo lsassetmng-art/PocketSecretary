@@ -24,7 +24,12 @@
 
         </activity>
 
-        <!-- ✅ Persona選択画面（追加） -->
+        <!-- ✅ Settings（追加） -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+
+        <!-- ✅ Persona選択画面 -->
         <activity
             android:name=".ui.persona.PersonaSelectActivity"
             android:exported="false" />
