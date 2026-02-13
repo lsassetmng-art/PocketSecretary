@@ -27,6 +27,9 @@ import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
 import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
 import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
 
+// ✅ Phase J metrics
+import com.lsam.pocketsecretary.core.metrics.UsageMetrics;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +45,9 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(b);
 
         setBaseContent(R.layout.activity_dashboard_persona);
+
+        // ✅ Phase J: launch count
+        new UsageMetrics(this).recordLaunch();
 
         bg = findViewById(R.id.psPersonaBackground);
         personaName = findViewById(R.id.txtPersonaName);
@@ -61,10 +67,14 @@ public class DashboardActivity extends BaseActivity {
         }
 
         if (findViewById(R.id.btnNotification) != null) {
-            findViewById(R.id.btnNotification).setOnClickListener(v ->
-                    startActivity(new Intent(this,
-                            com.lsam.pocketsecretary.ManualNotificationActivity.class))
-            );
+            findViewById(R.id.btnNotification).setOnClickListener(v -> {
+
+                // ✅ Phase J: notification shown metric
+                new UsageMetrics(this).recordNotificationShown();
+
+                startActivity(new Intent(this,
+                        com.lsam.pocketsecretary.ManualNotificationActivity.class));
+            });
         }
 
         personaName.setOnClickListener(v -> {
@@ -73,8 +83,12 @@ public class DashboardActivity extends BaseActivity {
                     new PersonaSelectBottomSheet(personaId -> {
 
                         CurrentPersonaStore.set(this, personaId);
+
+                        // ✅ Phase J: persona change metric
+                        new UsageMetrics(this).recordPersonaChange();
+
                         applyCurrentPersona();
-                        renderTodayInfo(); // reflect immediately
+                        renderTodayInfo();
                     });
 
             sheet.show(getSupportFragmentManager(), "persona_select");
@@ -122,9 +136,6 @@ public class DashboardActivity extends BaseActivity {
 
         String personaId = CurrentPersonaStore.get(this);
 
-        // PersonaEngine generates combined dashboard line, but we keep two TextViews:
-        // - count: keep existing dashboard_today_count for UI clarity
-        // - next:  use PersonaEngine to provide persona-colored "next"
         count.setText(getString(R.string.dashboard_today_count, c));
 
         String nextLine = PersonaEngine.generate(
@@ -137,7 +148,6 @@ public class DashboardActivity extends BaseActivity {
                 c
         ).text;
 
-        // Put the PersonaEngine output into "next" field (safe single-line)
         next.setText(nextLine);
     }
 
