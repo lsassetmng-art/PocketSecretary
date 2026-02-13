@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand Base -->
+    <color name="brand_bg">#F5F7FA</color>
+    <color name="brand_surface">#FFFFFF</color>
+    <color name="brand_primary">#1F2A44</color>
+    <color name="brand_secondary">#6B7280</color>
+    <color name="brand_accent">#4A6CF7</color>
+    <color name="brand_divider">#E0E4EA</color>
+
+    <!-- Text -->
+    <color name="brand_text_primary">#1F2A44</color>
+    <color name="brand_text_secondary">#6B7280</color>
+
+    <!-- Emotion -->
+    <color name="ps_emotion_calm_bg">#F5F7FA</color>
+    <color name="ps_emotion_focus_bg">#EEF4FF</color>
+    <color name="ps_emotion_tight_bg">#FFF0F0</color>
+    <color name="ps_emotion_happy_bg">#FFF9E6</color>
+
 </resources>

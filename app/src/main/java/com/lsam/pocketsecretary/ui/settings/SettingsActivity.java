@@ -8,13 +8,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 
 import java.util.Calendar;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     private Switch swMorning;
     private TextView txtMorningTime;
@@ -24,7 +23,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
-        setContentView(R.layout.activity_settings);
+
+        setBaseContent(R.layout.activity_settings);
 
         swMorning = findViewById(R.id.swMorningEnabled);
         txtMorningTime = findViewById(R.id.txtMorningTime);
@@ -50,5 +50,16 @@ public class SettingsActivity extends AppCompatActivity {
                         getString(R.string.settings_saved),
                         Toast.LENGTH_SHORT).show()
         );
+    }
+
+    @Override
+    protected String getHeaderTitle() {
+        return "設定";
+    }
+
+    // ✅ 設定画面では設定ボタンを非表示
+    @Override
+    protected boolean showSettingsButton() {
+        return false;
     }
 }

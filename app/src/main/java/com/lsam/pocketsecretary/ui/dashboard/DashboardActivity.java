@@ -3,7 +3,6 @@ package com.lsam.pocketsecretary.ui.dashboard;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.ImageView;
-import android.graphics.Color;
 import android.graphics.Bitmap;
 import android.content.Intent;
 
@@ -14,20 +13,17 @@ import androidx.work.WorkManager;
 import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
-import com.lsam.pocketsecretary.persona.EmotionStateStore;
 import com.lsam.pocketsecretary.core.persona.PersonaLoader;
 import com.lsam.pocketsecretary.core.persona.PersonaEmotionApplier;
 import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
 import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
 import com.lsam.pocketsecretary.ui.persona.PersonaSelectBottomSheet;
+import com.lsam.pocketsecretary.ui.tools.SecretaryToolsActivity;
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
-
 import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
 import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
 import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
-
-// ✅ Phase J metrics
 import com.lsam.pocketsecretary.core.metrics.UsageMetrics;
 
 import java.util.Map;
@@ -35,10 +31,9 @@ import java.util.concurrent.TimeUnit;
 
 public class DashboardActivity extends BaseActivity {
 
-    private ImageView bg;
+    private ImageView personaCardImage;
     private TextView personaName;
-    private TextView count;
-    private TextView next;
+    private TextView nextLine;
 
     @Override
     protected void onCreate(Bundle b){
@@ -46,64 +41,32 @@ public class DashboardActivity extends BaseActivity {
 
         setBaseContent(R.layout.activity_dashboard_persona);
 
-        // ✅ Phase J: launch count
-        new UsageMetrics(this).recordLaunch();
-
-        bg = findViewById(R.id.psPersonaBackground);
         personaName = findViewById(R.id.txtPersonaName);
-        count = findViewById(R.id.txtTodayCount);
-        next  = findViewById(R.id.txtNextEvent);
+        nextLine = findViewById(R.id.txtNextLine);
+        personaCardImage = findViewById(R.id.imgPersonaCard);
 
-        findViewById(R.id.btnSpeechTool).setOnClickListener(v ->
-                startActivity(new Intent(this,
-                        com.lsam.pocketsecretary.ui.speech.SpeechToolActivity.class))
+        findViewById(R.id.btnOpenTools).setOnClickListener(v ->
+                startActivity(new Intent(this, SecretaryToolsActivity.class))
         );
 
-        if (findViewById(R.id.btnHistory) != null) {
-            findViewById(R.id.btnHistory).setOnClickListener(v ->
-                    startActivity(new Intent(this,
-                            com.lsam.pocketsecretary.ui.history.HistoryActivity.class))
-            );
-        }
-
-        if (findViewById(R.id.btnNotification) != null) {
-            findViewById(R.id.btnNotification).setOnClickListener(v -> {
-
-                // ✅ Phase J: notification shown metric
-                new UsageMetrics(this).recordNotificationShown();
-
-                startActivity(new Intent(this,
-                        com.lsam.pocketsecretary.ManualNotificationActivity.class));
-            });
-        }
-
         personaName.setOnClickListener(v -> {
-
             PersonaSelectBottomSheet sheet =
                     new PersonaSelectBottomSheet(personaId -> {
-
                         CurrentPersonaStore.set(this, personaId);
-
-                        // ✅ Phase J: persona change metric
-                        new UsageMetrics(this).recordPersonaChange();
-
                         applyCurrentPersona();
                         renderTodayInfo();
                     });
-
             sheet.show(getSupportFragmentManager(), "persona_select");
         });
 
         renderTodayInfo();
-
         MorningBriefingWorker.ensureScheduled(this);
-
         registerUpcomingChecker();
     }
 
     @Override
     protected String getHeaderTitle() {
-        return "Dashboard";
+        return "ダッシュボード";
     }
 
     @Override
@@ -115,40 +78,32 @@ public class DashboardActivity extends BaseActivity {
 
     private void renderTodayInfo() {
 
-        int c = TodayEngine.todayCount(this);
-        String n = TodayEngine.nextTitle(this);
-        if (n == null) n = "";
-
-        boolean tight = TodayEngine.isTight(this);
-
-        EmotionStateStore store = EmotionStateStore.getInstance();
-        EmotionState emotion;
-
-        if (tight) {
-            count.setTextColor(Color.RED);
-            store.set(EmotionStateStore.Emotion.ALERT);
-            emotion = EmotionState.ALERT;
-        } else {
-            count.setTextColor(Color.BLACK);
-            store.set(EmotionStateStore.Emotion.CALM);
-            emotion = EmotionState.CALM;
-        }
+        int todayCount = TodayEngine.todayCount(this);
+        String nextTitle = TodayEngine.nextTitle(this);
+        if (nextTitle == null) nextTitle = "";
 
         String personaId = CurrentPersonaStore.get(this);
 
-        count.setText(getString(R.string.dashboard_today_count, c));
-
-        String nextLine = PersonaEngine.generate(
+        String generated = PersonaEngine.generate(
                 this,
                 personaId,
-                emotion,
+                EmotionState.CALM,
                 PersonaChannel.DASHBOARD,
-                n,
+                nextTitle,
                 null,
-                c
+                todayCount
         ).text;
 
-        next.setText(nextLine);
+        // ===== Phase N 成長演出（数値非表示） =====
+        int streak = new UsageMetrics(this).getStreakDays();
+
+        if (streak >= 7) {
+            generated += "\n" + getString(R.string.ps_growth_stage_2);
+        } else if (streak >= 3) {
+            generated += "\n" + getString(R.string.ps_growth_stage_1);
+        }
+
+        nextLine.setText(generated);
     }
 
     private void applyCurrentPersona() {
@@ -156,8 +111,8 @@ public class DashboardActivity extends BaseActivity {
         String personaId = CurrentPersonaStore.get(this);
 
         Bitmap bmp = PersonaLoader.loadPersonaImage(this, personaId);
-        if (bmp != null) {
-            bg.setImageBitmap(bmp);
+        if (bmp != null && personaCardImage != null) {
+            personaCardImage.setImageBitmap(bmp);
         }
 
         PersonaEmotionApplier.applyBaseEmotion(this, personaId);

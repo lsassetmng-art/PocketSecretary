@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     private FrameLayout contentContainer;
@@ -17,23 +19,26 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ベースレイアウトをセット
         super.setContentView(R.layout.activity_base);
 
         contentContainer = findViewById(R.id.baseContentContainer);
 
-        // タイトル設定
         TextView title = findViewById(R.id.txtHeaderTitle);
         if (title != null) {
             title.setText(getHeaderTitle());
         }
 
-        // 設定ボタン
         View settings = findViewById(R.id.headerSettings);
         if (settings != null) {
-            settings.setOnClickListener(v ->
-                    startActivity(new Intent(this, SettingsActivity.class))
-            );
+
+            if (showSettingsButton()) {
+                settings.setVisibility(View.VISIBLE);
+                settings.setOnClickListener(v ->
+                        startActivity(new Intent(this, SettingsActivity.class))
+                );
+            } else {
+                settings.setVisibility(View.GONE);
+            }
         }
 
         applyEdgePadding();
@@ -45,6 +50,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract String getHeaderTitle();
+
+    // ✅ 子クラスで制御可能
+    protected boolean showSettingsButton() {
+        return true;
+    }
 
     protected void applyEdgePadding() {
         View header = findViewById(R.id.commonHeaderRoot);
