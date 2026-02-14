@@ -1,7 +1,0 @@
-{
-  "engine": "android_tts",
-  "locale": "ja-JP",
-  "pitch": 1.0,
-  "speechRate": 0.95,
-  "style": "calm"
-}

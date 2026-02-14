@@ -1,7 +1,0 @@
-{
-  "background_id": "default",
-  "type": "desk_set",
-  "includes": ["morning", "day", "night"],
-  "is_premium": false,
-  "asset_version": 1
-}

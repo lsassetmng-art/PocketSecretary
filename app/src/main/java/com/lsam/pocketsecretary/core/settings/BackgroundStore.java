@@ -31,6 +31,7 @@ public final class BackgroundStore {
         SharedPreferences pref =
                 context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        return pref.getString(KEY_BACKGROUND_ID, "default");
+        // 🔥 Canonical v1.1 default
+        return pref.getString(KEY_BACKGROUND_ID, "desk_set_001");
     }
 }

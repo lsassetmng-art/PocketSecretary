@@ -1,0 +1,9 @@
+﻿persona_id: alpha
+display_name: アルファ
+
+required_visual_pack_id: michelle_default
+compatible_visual_packs:
+  - michelle_default
+
+required_background_pack_id: desk_set_001
+min_visual_revision: 1

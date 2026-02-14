@@ -14,7 +14,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.assets.AssetRepository;
 import com.lsam.pocketsecretary.core.persona.PersonaMetaLoader;
+import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
 import com.lsam.pocketsecretary.core.settings.SkinStore;
+
+import java.util.Map;
 
 public class SkinPickerBottomSheet extends BottomSheetDialogFragment {
 
@@ -62,11 +65,21 @@ public class SkinPickerBottomSheet extends BottomSheetDialogFragment {
                         container,
                         false);
 
-        String previewPath =
-                AssetRepository.personaSkin(personaId, skinId)
-                        + "character_base.png";
+        // 🔥 Canonical v1.1 対応
+        Map<String, String> personaYaml =
+                PersonaYamlLoader.load(requireContext(), personaId);
 
-        Bitmap bmp = AssetRepository.loadBitmap(getContext(), previewPath);
+        String visualPackId = personaYaml.get("required_visual_pack_id");
+
+        String previewPath =
+                AssetRepository.visualSkinImage(
+                        visualPackId,
+                        skinId,
+                        "character_base.png"
+                );
+
+        Bitmap bmp =
+                AssetRepository.loadBitmap(getContext(), previewPath);
 
         if (bmp != null) {
             ((android.widget.ImageView)
