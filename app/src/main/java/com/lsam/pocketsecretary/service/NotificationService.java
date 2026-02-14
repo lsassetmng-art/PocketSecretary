@@ -1,7 +1,5 @@
 package com.lsam.pocketsecretary.service;
 
-import com.lsam.pocketsecretary.persona.EmotionStateStore;
-
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,9 +11,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
+import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
+import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
+import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
 import com.lsam.pocketsecretary.history.NotificationHistoryStore;
-import com.lsam.pocketsecretary.persona.PersonaRegistry;
-import com.lsam.pocketsecretary.persona.SecretaryPersona;
+
+import java.util.Map;
 
 public class NotificationService {
 
@@ -27,10 +30,24 @@ public class NotificationService {
     }
 
     public void notifyAndRecord(String source, String message) {
-        EmotionStateStore.getInstance().pulseAlert(2500);
 
-        SecretaryPersona persona = PersonaRegistry.get(context);
-        String formatted = persona.format(message);
+        String personaId = CurrentPersonaStore.get(context);
+
+        Map<String, String> yaml =
+                PersonaYamlLoader.load(context, personaId);
+
+        String displayName = yaml.get("display_name");
+        if (displayName == null) displayName = personaId;
+
+        String generated = PersonaEngine.generate(
+                context,
+                personaId,
+                EmotionState.CALM,
+                PersonaChannel.DASHBOARD,
+                message,
+                null,
+                0
+        ).text;
 
         createChannel();
 
@@ -46,15 +63,15 @@ public class NotificationService {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setContentTitle(persona.getName())
-                        .setContentText(formatted)
+                        .setContentTitle(displayName)
+                        .setContentText(generated)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat.from(context)
                 .notify(1001, builder.build());
 
         NotificationHistoryStore.get(context)
-                .appendAsync(persona.getName(), persona.getName(), formatted);
+                .appendAsync(displayName, displayName, generated);
     }
 
     private void createChannel() {

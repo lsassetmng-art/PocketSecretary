@@ -1,0 +1,14 @@
+persona_id: gamma
+display_name: ガンマ
+
+required_visual_pack_id: gamma_default
+compatible_visual_packs:
+  - gamma_default
+
+required_background_pack_id: desk_set_001
+min_visual_revision: 1
+
+emotion_base: CALM
+voice_profile: default
+author: PocketSecretary
+description: Soft encouragement persona

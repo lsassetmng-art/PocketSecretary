@@ -31,7 +31,8 @@ public class PersonaAdapter extends RecyclerView.Adapter<PersonaAdapter.VH> {
         this.listener = listener;
 
         try {
-            String[] dirs = context.getAssets().list("persona");
+            // 🔥 Canonical v1.1 対応
+            String[] dirs = context.getAssets().list("runtime/persona");
             if (dirs != null) {
                 personaIds.addAll(Arrays.asList(dirs));
             }

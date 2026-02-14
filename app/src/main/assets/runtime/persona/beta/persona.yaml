@@ -1,0 +1,14 @@
+persona_id: beta
+display_name: ベータ
+
+required_visual_pack_id: beta_default
+compatible_visual_packs:
+  - beta_default
+
+required_background_pack_id: desk_set_001
+min_visual_revision: 1
+
+emotion_base: CALM
+voice_profile: default
+author: PocketSecretary
+description: Calm support persona
