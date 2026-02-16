@@ -1,5 +1,7 @@
 package com.lsam.pocketsecretary.service;
 
+import com.lsam.pocketsecretary.core.voice.VoicePlayer;
+
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,6 +18,8 @@ import com.lsam.pocketsecretary.core.persona.PersonaYamlLoader;
 import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
 import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
 import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaResponse;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaToneTag;
 import com.lsam.pocketsecretary.history.NotificationHistoryStore;
 
 import java.util.Map;
@@ -33,13 +37,12 @@ public class NotificationService {
 
         String personaId = CurrentPersonaStore.get(context);
 
-        Map<String, String> yaml =
-                PersonaYamlLoader.load(context, personaId);
+        Map<String, String> yaml = PersonaYamlLoader.load(context, personaId);
 
         String displayName = yaml.get("display_name");
         if (displayName == null) displayName = personaId;
 
-        String generated = PersonaEngine.generate(
+        PersonaResponse response = PersonaEngine.generate(
                 context,
                 personaId,
                 EmotionState.CALM,
@@ -47,7 +50,13 @@ public class NotificationService {
                 message,
                 null,
                 0
-        ).text;
+        );
+
+        String generated = response.text;
+        PersonaToneTag tone =
+                response.toneTag != null
+                        ? response.toneTag
+                        : PersonaToneTag.CALM;
 
         createChannel();
 
@@ -66,6 +75,8 @@ public class NotificationService {
                         .setContentTitle(displayName)
                         .setContentText(generated)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        VoicePlayer.get(context).speak(generated, tone);
 
         NotificationManagerCompat.from(context)
                 .notify(1001, builder.build());

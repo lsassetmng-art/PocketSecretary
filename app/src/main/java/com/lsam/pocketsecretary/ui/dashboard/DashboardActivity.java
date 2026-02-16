@@ -1,7 +1,6 @@
 package com.lsam.pocketsecretary.ui.dashboard;
 
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -17,20 +16,18 @@ import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.assets.AssetRepository;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
-import com.lsam.pocketsecretary.core.metrics.UsageMetrics;
 import com.lsam.pocketsecretary.core.persona.CurrentPersonaStore;
 import com.lsam.pocketsecretary.core.persona.PersonaEmotionApplier;
 import com.lsam.pocketsecretary.core.persona.PersonaMetaLoader;
 import com.lsam.pocketsecretary.core.personaos.PersonaEngine;
+import com.lsam.pocketsecretary.core.personaos.edge.PersonaOsGateway;
 import com.lsam.pocketsecretary.core.personaos.model.EmotionState;
 import com.lsam.pocketsecretary.core.personaos.model.PersonaChannel;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaResponse;
+import com.lsam.pocketsecretary.core.personaos.model.PersonaToneTag;
+import com.lsam.pocketsecretary.core.personaos.visual.VisualComposeRepository;
 import com.lsam.pocketsecretary.core.settings.BackgroundStore;
 import com.lsam.pocketsecretary.core.settings.SkinStore;
-import com.lsam.pocketsecretary.ui.archive.ArchiveActivity;
-import com.lsam.pocketsecretary.ui.background.BackgroundPickerBottomSheet;
-import com.lsam.pocketsecretary.ui.persona.PersonaSelectBottomSheet;
-import com.lsam.pocketsecretary.ui.persona.SkinPickerBottomSheet;
-import com.lsam.pocketsecretary.ui.tools.SecretaryToolsActivity;
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
 
@@ -57,74 +54,13 @@ public class DashboardActivity extends BaseActivity {
         nextLine = findViewById(R.id.txtNextLine);
         personaCardImage = findViewById(R.id.imgPersonaCard);
 
-        // ===== ボタン安全化 =====
-
-        if (findViewById(R.id.btnOpenTools) != null) {
-            findViewById(R.id.btnOpenTools).setOnClickListener(v ->
-                    startActivity(new Intent(this, SecretaryToolsActivity.class))
-            );
-        }
-
-        if (findViewById(R.id.btnArchive) != null) {
-            findViewById(R.id.btnArchive).setOnClickListener(v ->
-                    startActivity(new Intent(this, ArchiveActivity.class))
-            );
-        }
-
-        if (findViewById(R.id.btnSchedule) != null) {
-            findViewById(R.id.btnSchedule).setOnClickListener(v -> {
-                // TODO ScheduleActivity
-            });
-        }
-
-        // ※現状 btnSettings は「背景ピッカー」扱い（仕様通りなら後で Settings に戻してOK）
-        if (findViewById(R.id.btnSettings) != null) {
-            findViewById(R.id.btnSettings).setOnClickListener(v ->
-                    new BackgroundPickerBottomSheet(() -> {
-                        applyBackground();
-                    }).show(getSupportFragmentManager(), "bg_picker")
-            );
-        }
-
-        // ===== Persona選択 =====
-        if (personaName != null) {
-
-            personaName.setOnClickListener(v -> {
-                PersonaSelectBottomSheet sheet =
-                        new PersonaSelectBottomSheet(personaId -> {
-                            CurrentPersonaStore.set(this, personaId);
-                            applyCurrentPersona();
-                            renderTodayInfo();
-                        });
-                sheet.show(getSupportFragmentManager(), "persona_select");
-            });
-
-            // ★長押しでSkin切替（skin_id は VisualPack の skins/{skin_id} を指す）
-            personaName.setOnLongClickListener(v -> {
-
-                String personaId = CurrentPersonaStore.get(this);
-
-                new SkinPickerBottomSheet(personaId, () -> {
-                    applyCurrentPersona();
-                }).show(getSupportFragmentManager(), "skin_picker");
-
-                return true;
-            });
-        }
-
         applyBackground();
         applyCurrentPersona();
         renderTodayInfo();
 
         MorningBriefingWorker.ensureScheduled(this);
         registerUpcomingChecker();
-
         startBreathingAnimation();
-    }
-
-    @Override
-    protected String getHeaderTitle() {
-        return getString(R.string.header_dashboard);
     }
 
     @Override
@@ -143,7 +79,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     // =========================================================
-    // 背景（Canonical v1.1: runtime/background/{pack_id}/(morning|day|night).png を読む）
+    // Background
     // =========================================================
     private void applyBackground() {
 
@@ -151,7 +87,7 @@ public class DashboardActivity extends BaseActivity {
 
         String backgroundPackId = BackgroundStore.get(this);
         if (backgroundPackId == null || backgroundPackId.isEmpty()) {
-            backgroundPackId = "desk_set_001"; // 初期同梱前提（数値表示なし）
+            backgroundPackId = "desk_set_001";
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -162,25 +98,16 @@ public class DashboardActivity extends BaseActivity {
         else if (hour <= 17) type = "day";
         else type = "night";
 
-        // まず時間帯 → 無ければ day/morning/night の順でフォールバック（安全化）
         Bitmap bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, type));
-        if (bmp == null) {
-            bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "day"));
-        }
-        if (bmp == null) {
-            bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "morning"));
-        }
-        if (bmp == null) {
-            bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "night"));
-        }
+        if (bmp == null) bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "day"));
+        if (bmp == null) bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "morning"));
+        if (bmp == null) bmp = AssetRepository.loadBitmap(this, AssetRepository.backgroundImage(backgroundPackId, "night"));
 
-        if (bmp != null) {
-            backgroundImage.setImageBitmap(bmp);
-        }
+        if (bmp != null) backgroundImage.setImageBitmap(bmp);
     }
 
     // =========================================================
-    // 今日情報
+    // Today + PersonaOS (JWT必須版)
     // =========================================================
     private void renderTodayInfo() {
 
@@ -192,7 +119,7 @@ public class DashboardActivity extends BaseActivity {
 
         String personaId = CurrentPersonaStore.get(this);
 
-        String generated = PersonaEngine.generate(
+        PersonaResponse response = PersonaEngine.generate(
                 this,
                 personaId,
                 EmotionState.CALM,
@@ -200,67 +127,49 @@ public class DashboardActivity extends BaseActivity {
                 nextTitle,
                 null,
                 todayCount
-        ).text;
+        );
 
-        int streak = new UsageMetrics(this).getStreakDays();
-        if (streak >= 7) {
-            generated += "\n" + getString(R.string.ps_growth_stage_2);
-        } else if (streak >= 3) {
-            generated += "\n" + getString(R.string.ps_growth_stage_1);
-        }
+        nextLine.setText(response.text);
 
-        nextLine.setText(generated);
+        // 🔐 PersonaOS 呼び出し（JWT必須）
+        try {
+            PersonaOsGateway.onDashboardOpened(
+                    this,
+                    personaId
+            );
+        } catch (Throwable ignored) {}
+
+        PersonaToneTag tone =
+                response.toneTag != null
+                        ? response.toneTag
+                        : PersonaToneTag.CALM;
+
+        EmotionAnimator.apply(personaCardImage, tone);
     }
 
     // =========================================================
-    // Persona適用（Canonical v1.1: runtime/persona -> persona.yaml から required_visual_pack_id を引き、
-    //                           runtime/visual/{visual_pack_id}/skins/{skin_id}/character_base.png を読む）
+    // Persona base + visual-compose
     // =========================================================
     private void applyCurrentPersona() {
 
         if (personaCardImage == null) return;
 
         String personaId = CurrentPersonaStore.get(this);
-        if (personaId == null || personaId.isEmpty()) {
-            personaId = "alpha";
-        }
+        if (personaId == null || personaId.isEmpty()) personaId = "alpha";
 
-        // persona.yaml が無ければ alpha へフォールバック（UIに数値は出さない）
-        if (!AssetRepository.exists(this, AssetRepository.personaYaml(personaId))) {
-            personaId = "alpha";
-            CurrentPersonaStore.set(this, personaId);
-        }
-
-        PersonaMetaLoader.PersonaMeta meta =
-                PersonaMetaLoader.load(this, personaId);
-
+        PersonaMetaLoader.PersonaMeta meta = PersonaMetaLoader.load(this, personaId);
         if (meta == null) return;
 
-        // required_visual_pack_id が無いと表示できないので、ここも安全化
         String visualPackId = meta.requiredVisualPackId;
-        if (visualPackId == null || visualPackId.isEmpty()) {
-            visualPackId = "michelle_default"; // 初期同梱前提
-        }
+        if (visualPackId == null || visualPackId.isEmpty()) visualPackId = "michelle_default";
 
-        String skinId = SkinStore.get(
+        String baseSkinId = SkinStore.get(this, personaId, meta.defaultSkin);
+        if (baseSkinId == null || baseSkinId.isEmpty()) baseSkinId = "default";
+
+        Bitmap bmp = AssetRepository.loadBitmap(
                 this,
-                personaId,
-                meta.defaultSkin
+                AssetRepository.visualSkinImage(visualPackId, baseSkinId, "character_base.png")
         );
-
-        String path = AssetRepository.visualSkinImage(
-                visualPackId,
-                skinId,
-                "character_base.png"
-        );
-
-        Bitmap bmp = AssetRepository.loadBitmap(this, path);
-
-        // skin が無い場合は default を試す（安全化）
-        if (bmp == null && (skinId == null || !skinId.equals("default"))) {
-            bmp = AssetRepository.loadBitmap(this,
-                    AssetRepository.visualSkinImage(visualPackId, "default", "character_base.png"));
-        }
 
         if (bmp != null) {
             personaCardImage.setImageBitmap(bmp);
@@ -269,37 +178,29 @@ public class DashboardActivity extends BaseActivity {
         PersonaEmotionApplier.applyBaseEmotion(this, personaId);
 
         if (personaName != null) {
-            if (meta.displayName != null && !meta.displayName.isEmpty()) {
-                personaName.setText(meta.displayName);
-            } else {
-                personaName.setText(personaId);
-            }
+            personaName.setText(
+                    meta.displayName != null && !meta.displayName.isEmpty()
+                            ? meta.displayName
+                            : personaId
+            );
         }
+
+        VisualComposeRepository.applyIfConfigured(this, personaId, personaCardImage);
     }
 
-    // =========================================================
-    // 呼吸アニメ
-    // =========================================================
     private void startBreathingAnimation() {
-
         if (personaCardImage == null) return;
 
         stopBreathingAnimation();
 
-        breathingAnimator =
-                ValueAnimator.ofFloat(1.0f, 1.015f);
-
+        breathingAnimator = ValueAnimator.ofFloat(1.0f, 1.015f);
         breathingAnimator.setDuration(2200);
-        breathingAnimator.setRepeatCount(
-                ValueAnimator.INFINITE);
-        breathingAnimator.setRepeatMode(
-                ValueAnimator.REVERSE);
-        breathingAnimator.setInterpolator(
-                new AccelerateDecelerateInterpolator());
+        breathingAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        breathingAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        breathingAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         breathingAnimator.addUpdateListener(animation -> {
-            float scale =
-                    (float) animation.getAnimatedValue();
+            float scale = (float) animation.getAnimatedValue();
             personaCardImage.setScaleY(scale);
         });
 
@@ -307,7 +208,6 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void stopBreathingAnimation() {
-
         if (breathingAnimator != null) {
             breathingAnimator.cancel();
             breathingAnimator = null;
@@ -318,11 +218,7 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    // =========================================================
-    // Worker
-    // =========================================================
     private void registerUpcomingChecker() {
-
         PeriodicWorkRequest req =
                 new PeriodicWorkRequest.Builder(
                         UpcomingEventWorker.class,
@@ -337,4 +233,10 @@ public class DashboardActivity extends BaseActivity {
                         req
                 );
     }
+
+    @Override
+    protected String getHeaderTitle() {
+        return getString(R.string.app_name);
+    }
+
 }

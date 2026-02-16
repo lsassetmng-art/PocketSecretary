@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootPersonaSelect"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txtStageInfo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="秘書を選択"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp"/>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Stage: s0"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/rowStageButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp">
+
+        <Button
+            android:id="@+id/btnStageS0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="s0" />
+
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnStageS1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="s1" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPersona"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content" />
 </LinearLayout>

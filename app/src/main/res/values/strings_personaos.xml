@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ps_supabase_project_ref">ihrukfdlcolygyvccujd</string>
+    <string name="ps_supabase_anon_key">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlocnVrZmRsY29seWd5dmNjdWpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4OTI4MTksImV4cCI6MjA4NjQ2ODgxOX0.bDCZOeVAnLAR3_3vGsZtEozBhewkbUc0aoNpqVT6PkM</string>
+    <string name="ps_output_bucket">OUTPUT_BUCKET</string>
+    <string name="ps_visual_compose_function_path">functions/v1/visual-compose</string>
+</resources>
+
