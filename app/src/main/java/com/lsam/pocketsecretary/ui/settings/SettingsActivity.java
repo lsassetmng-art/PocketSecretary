@@ -1,8 +1,8 @@
 package com.lsam.pocketsecretary.ui.settings;
 
 import android.app.TimePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -11,20 +11,21 @@ import android.widget.Toast;
 
 import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
+import com.lsam.pocketsecretary.core.settings.NotificationSettingsStore;
+import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class SettingsActivity extends BaseActivity {
-
-    private static final String PREF_NAME = "ps_settings";
-    private static final String KEY_MORNING_ENABLED = "morning_enabled";
-    private static final String KEY_MORNING_TIME = "morning_time";
-    private static final String KEY_BEFORE_MINUTES = "before_minutes";
 
     private Switch swMorning;
     private TextView txtMorningTime;
     private EditText edtBefore;
     private Button btnSave;
+
+    private int pickedHour = 8;
+    private int pickedMinute = 0;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -39,76 +40,102 @@ public class SettingsActivity extends BaseActivity {
 
         Button btnPick = findViewById(R.id.btnPickMorningTime);
 
-        // 🔥 既存設定を読み込み
         loadSettings();
 
-        btnPick.setOnClickListener(v -> {
-            Calendar now = Calendar.getInstance();
-            new TimePickerDialog(
-                    this,
-                    (view, hour, minute) ->
-                            txtMorningTime.setText(
-                                    String.format("%02d:%02d", hour, minute)
-                            ),
-                    now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE),
-                    true
-            ).show();
-        });
+        if (btnPick != null) {
+            btnPick.setOnClickListener(v -> {
 
-        btnSave.setOnClickListener(v -> {
-            saveSettings();
-            Toast.makeText(
-                    this,
-                    getString(R.string.settings_saved),
-                    Toast.LENGTH_SHORT
-            ).show();
-        });
+                Calendar now = Calendar.getInstance();
+
+                int h = pickedHour;
+                int m = pickedMinute;
+
+                if (h < 0 || h > 23) h = now.get(Calendar.HOUR_OF_DAY);
+                if (m < 0 || m > 59) m = now.get(Calendar.MINUTE);
+
+                new TimePickerDialog(
+                        this,
+                        (view, hour, minute) -> {
+                            pickedHour = hour;
+                            pickedMinute = minute;
+                            txtMorningTime.setText(formatTime(hour, minute));
+                        },
+                        h,
+                        m,
+                        true
+                ).show();
+            });
+        }
+
+        if (btnSave != null) {
+            btnSave.setOnClickListener(v -> {
+                saveSettings();
+                MorningBriefingWorker.ensureScheduled(this);
+
+                Toast.makeText(
+                        this,
+                        getString(R.string.settings_saved),
+                        Toast.LENGTH_SHORT
+                ).show();
+            });
+        }
     }
 
-    // =========================================================
-    // 🔵 読み込み
-    // =========================================================
     private void loadSettings() {
 
-        SharedPreferences pref =
-                getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        boolean enabled =
+                NotificationSettingsStore.isMorningEnabled(this);
 
-        swMorning.setChecked(
-                pref.getBoolean(KEY_MORNING_ENABLED, false)
+        int hour =
+                NotificationSettingsStore.getMorningHour(this);
+
+        int minute =
+                NotificationSettingsStore.getMorningMinute(this);
+
+        int before =
+                NotificationSettingsStore.getReminderBeforeMinutes(this);
+
+        swMorning.setChecked(enabled);
+
+        pickedHour = hour;
+        pickedMinute = minute;
+
+        txtMorningTime.setText(formatTime(hour, minute));
+        edtBefore.setText(String.valueOf(before));
+    }
+
+    private void saveSettings() {
+
+        int before = 30;
+
+        String s = edtBefore.getText() != null ?
+                edtBefore.getText().toString().trim() : "";
+
+        if (!TextUtils.isEmpty(s)) {
+            try {
+                before = Integer.parseInt(s);
+            } catch (Exception ignored) {}
+        }
+
+        NotificationSettingsStore.setMorningEnabled(
+                this,
+                swMorning.isChecked()
         );
 
-        txtMorningTime.setText(
-                pref.getString(KEY_MORNING_TIME, "07:30")
+        NotificationSettingsStore.setMorningTime(
+                this,
+                pickedHour,
+                pickedMinute
         );
 
-        edtBefore.setText(
-                String.valueOf(
-                        pref.getInt(KEY_BEFORE_MINUTES, 10)
-                )
+        NotificationSettingsStore.setReminderBeforeMinutes(
+                this,
+                before
         );
     }
 
-    // =========================================================
-    // 🔵 保存
-    // =========================================================
-    private void saveSettings() {
-
-        SharedPreferences pref =
-                getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-
-        int before = 10;
-        try {
-            before = Integer.parseInt(
-                    edtBefore.getText().toString()
-            );
-        } catch (Exception ignored) {}
-
-        pref.edit()
-                .putBoolean(KEY_MORNING_ENABLED, swMorning.isChecked())
-                .putString(KEY_MORNING_TIME, txtMorningTime.getText().toString())
-                .putInt(KEY_BEFORE_MINUTES, before)
-                .apply();
+    private static String formatTime(int hour, int minute) {
+        return String.format(Locale.US, "%02d:%02d", hour, minute);
     }
 
     @Override

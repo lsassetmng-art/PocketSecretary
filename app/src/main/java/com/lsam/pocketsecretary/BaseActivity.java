@@ -1,17 +1,25 @@
 package com.lsam.pocketsecretary;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.lsam.pocketsecretary.ui.settings.SettingsActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private static final int REQ_NOTIFICATION_PERMISSION = 1001;
 
     private FrameLayout contentContainer;
 
@@ -42,6 +50,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         applyEdgePadding();
+
+        // ✅ Additive: Android13+ notification permission
+        ensureNotificationPermission();
     }
 
     protected void setBaseContent(int layoutRes) {
@@ -51,7 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract String getHeaderTitle();
 
-    // ✅ 子クラスで制御可能
     protected boolean showSettingsButton() {
         return true;
     }
@@ -79,5 +89,38 @@ public abstract class BaseActivity extends AppCompatActivity {
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    // =========================================================
+    // Notification Permission (Android 13+)
+    // =========================================================
+
+    private void ensureNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        REQ_NOTIFICATION_PERMISSION
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_NOTIFICATION_PERMISSION) {
+            // No-op (permission result handled passively)
+        }
     }
 }

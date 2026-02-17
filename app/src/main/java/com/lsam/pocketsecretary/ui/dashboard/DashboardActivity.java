@@ -72,56 +72,64 @@ public class DashboardActivity extends BaseActivity {
     }
 
     // =========================================================
-    // 🔥 ナビ完全定義
+    // Navigation
     // =========================================================
     private void wireNavigation() {
 
-        // 背景タップ → 背景選択
+        // Background tap -> background select
         if (backgroundImage != null) {
             backgroundImage.setOnClickListener(v ->
                     startActivity(new Intent(this, BackgroundSelectActivity.class))
             );
         }
 
-        // キャラ or 名前 → Persona選択
+        // Persona tap -> persona select
         View.OnClickListener personaListener =
                 v -> startActivity(new Intent(this, PersonaSelectActivity.class));
 
-        if (personaCardImage != null)
+        if (personaCardImage != null) {
             personaCardImage.setOnClickListener(personaListener);
+        }
 
-        if (personaName != null)
+        if (personaName != null) {
             personaName.setOnClickListener(personaListener);
+        }
 
-        // 下部ボタン
+        // Bottom buttons
         View btnTools = findViewById(R.id.btnOpenTools);
-        if (btnTools != null)
+        if (btnTools != null) {
             btnTools.setOnClickListener(v ->
                     startActivity(new Intent(this, SecretaryToolsActivity.class)));
+        }
 
         View btnArchive = findViewById(R.id.btnArchive);
-        if (btnArchive != null)
+        if (btnArchive != null) {
             btnArchive.setOnClickListener(v ->
                     startActivity(new Intent(this, ArchiveActivity.class)));
+        }
 
         View btnSchedule = findViewById(R.id.btnSchedule);
-        if (btnSchedule != null)
+        if (btnSchedule != null) {
             btnSchedule.setOnClickListener(v ->
                     startActivity(new Intent(this, SecretaryListActivity.class)));
+        }
 
-        // ⚠️ btnSettingsは削除済み（ヘッダーが管理）
+        // NOTE:
+        // Settings navigation is owned by BaseActivity headerSettings.
+        // If a layout-level btnSettings exists, remove it from XML.
     }
 
     // =========================================================
-    // 🎨 背景表示
+    // Background
     // =========================================================
     private void applyBackground() {
 
         if (backgroundImage == null) return;
 
         String packId = BackgroundStore.get(this);
-        if (packId == null || packId.isEmpty())
+        if (packId == null || packId.isEmpty()) {
             packId = "desk_set_001";
+        }
 
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         String type =
@@ -133,28 +141,36 @@ public class DashboardActivity extends BaseActivity {
                 AssetRepository.backgroundImage(packId, type)
         );
 
-        if (bmp != null)
+        if (bmp != null) {
             backgroundImage.setImageBitmap(bmp);
+        }
     }
 
     // =========================================================
-    // 👤 Persona表示
+    // Persona
     // =========================================================
     private void applyCurrentPersona() {
 
         if (personaCardImage == null) return;
 
         String personaId = CurrentPersonaStore.get(this);
-        if (personaId == null || personaId.isEmpty())
+        if (personaId == null || personaId.isEmpty()) {
             personaId = "alpha";
+        }
 
         PersonaMetaLoader.PersonaMeta meta =
                 PersonaMetaLoader.load(this, personaId);
         if (meta == null) return;
 
         String visualPackId = meta.requiredVisualPackId;
-        String skinId =
-                SkinStore.get(this, personaId, meta.defaultSkin);
+        if (visualPackId == null || visualPackId.isEmpty()) {
+            visualPackId = "michelle_default";
+        }
+
+        String skinId = SkinStore.get(this, personaId, meta.defaultSkin);
+        if (skinId == null || skinId.isEmpty()) {
+            skinId = "default";
+        }
 
         Bitmap bmp = AssetRepository.loadBitmap(
                 this,
@@ -165,24 +181,32 @@ public class DashboardActivity extends BaseActivity {
                 )
         );
 
-        if (bmp != null)
+        if (bmp != null) {
             personaCardImage.setImageBitmap(bmp);
+        }
 
-        if (personaName != null)
+        if (personaName != null) {
             personaName.setText(meta.displayName);
+        }
 
-        VisualComposeRepository.applyIfConfigured(
-                this, personaId, personaCardImage);
+        if (personaCardImage != null) {
+            VisualComposeRepository.applyIfConfigured(
+                    this, personaId, personaCardImage);
+        }
     }
 
     // =========================================================
-    // 💬 今日メッセージ
+    // Today message
     // =========================================================
     private void renderTodayInfo() {
 
         if (nextLine == null) return;
 
         String personaId = CurrentPersonaStore.get(this);
+        if (personaId == null || personaId.isEmpty()) {
+            personaId = "alpha";
+        }
+
         int todayCount = TodayEngine.todayCount(this);
         String nextTitle = TodayEngine.nextTitle(this);
 
@@ -194,7 +218,8 @@ public class DashboardActivity extends BaseActivity {
                         PersonaChannel.DASHBOARD,
                         nextTitle,
                         null,
-                        todayCount);
+                        todayCount
+                );
 
         nextLine.setText(response.text);
 
@@ -211,7 +236,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     // =========================================================
-    // 🌬 呼吸アニメ
+    // Breathing animation
     // =========================================================
     private void startBreathingAnimation() {
 
@@ -227,9 +252,10 @@ public class DashboardActivity extends BaseActivity {
                 new AccelerateDecelerateInterpolator());
 
         breathingAnimator.addUpdateListener(animation -> {
-            if (personaCardImage != null)
+            if (personaCardImage != null) {
                 personaCardImage.setScaleY(
                         (float) animation.getAnimatedValue());
+            }
         });
 
         breathingAnimator.start();
@@ -243,7 +269,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     // =========================================================
-    // 🕒 Worker登録
+    // Worker
     // =========================================================
     private void registerUpcomingChecker() {
 
@@ -272,5 +298,11 @@ public class DashboardActivity extends BaseActivity {
     @Override
     protected String getHeaderTitle() {
         return getString(R.string.app_name);
+    }
+
+    // Dashboard uses header settings as the canonical settings entry.
+    @Override
+    protected boolean showSettingsButton() {
+        return true;
     }
 }

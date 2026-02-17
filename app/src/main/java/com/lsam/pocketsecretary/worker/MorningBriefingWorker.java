@@ -1,6 +1,7 @@
 package com.lsam.pocketsecretary.worker;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.ExistingWorkPolicy;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class MorningBriefingWorker extends Worker {
 
     public static final String UNIQUE_WORK = "morning_briefing_once";
+    private static final String TAG = "MorningWorker";
 
     public MorningBriefingWorker(
             @NonNull Context context,
@@ -34,10 +36,12 @@ public class MorningBriefingWorker extends Worker {
     @Override
     public Result doWork() {
 
+        Log.d(TAG, "doWork executed");
+
         Context context = getApplicationContext();
 
-        // OFFなら何もしない（ただし次回のOFF状態も維持したいので再スケジュールはしない）
         if (!NotificationSettingsStore.isMorningEnabled(context)) {
+            Log.d(TAG, "Morning disabled");
             return Result.success();
         }
 
@@ -46,14 +50,13 @@ public class MorningBriefingWorker extends Worker {
         EmotionEngine.Emotion emotion =
                 EmotionEngine.evaluate(context);
 
-        // 感情を反映（= ③ 実装）
         try {
             EmotionStateStore.getInstance().set(
                     mapEmotion(emotion)
             );
         } catch (Exception ignored) {}
 
-        String persona = "kayama"; // 設定化は次フェーズ（今は落ちない固定）
+        String persona = "kayama";
 
         String message =
                 PersonaToneProvider.buildMorningMessage(
@@ -68,16 +71,20 @@ public class MorningBriefingWorker extends Worker {
 
         service.notifyAndRecord("morning", message);
 
-        // 次回を再スケジュール（毎日 指定時刻）
+        Log.d(TAG, "Notification sent");
+
         schedule(context);
 
         return Result.success();
     }
 
     public static void ensureScheduled(Context context) {
-        // ONなら schedule、OFFなら何もしない
+        Log.d(TAG, "ensureScheduled called");
+
         if (NotificationSettingsStore.isMorningEnabled(context)) {
             schedule(context);
+        } else {
+            Log.d(TAG, "Morning disabled at ensure");
         }
     }
 
@@ -90,6 +97,8 @@ public class MorningBriefingWorker extends Worker {
 
         long delayMs = computeDelayMs(hour, minute);
 
+        Log.d(TAG, "Scheduling with delay(ms): " + delayMs);
+
         OneTimeWorkRequest req =
                 new OneTimeWorkRequest.Builder(MorningBriefingWorker.class)
                         .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
@@ -101,6 +110,8 @@ public class MorningBriefingWorker extends Worker {
                 ExistingWorkPolicy.REPLACE,
                 req
         );
+
+        Log.d(TAG, "Work enqueued");
     }
 
     private static long computeDelayMs(int hour, int minute) {
