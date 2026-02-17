@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Android 13+ 通知権限 -->
+    <!-- 🌐 ネットワーク（Supabase / Edge / API） -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 🔔 Android 13+ 通知 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
@@ -14,9 +17,11 @@
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
 
-        <!-- Launcher -->
+        <!-- =============================== -->
+        <!-- 🚀 Launcher -->
+        <!-- =============================== -->
         <activity
-            android:name=".App"
+            android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
 
             <intent-filter>
@@ -26,40 +31,56 @@
 
         </activity>
 
+        <!-- =============================== -->
+        <!-- 🎨 背景選択 -->
+        <!-- =============================== -->
+        <activity
+            android:name=".ui.background.BackgroundSelectActivity"
+            android:exported="false" />
+
+        <!-- ⚙ 設定 -->
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
 
+        <!-- 📦 アーカイブ -->
         <activity
             android:name=".ui.archive.ArchiveActivity"
             android:exported="false" />
 
+        <!-- 👤 人格選択 -->
         <activity
             android:name=".ui.persona.PersonaSelectActivity"
             android:exported="false" />
 
+        <!-- 🛠 秘書ツール -->
         <activity
             android:name=".ui.tools.SecretaryToolsActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".ManualNotificationActivity"
-            android:exported="false" />
-
+        <!-- 📅 スケジュール -->
         <activity
             android:name=".ui.secretary.SecretaryListActivity"
             android:exported="false" />
 
+        <!-- 📜 履歴 -->
         <activity
             android:name=".ui.history.HistoryActivity"
             android:exported="false" />
 
+        <!-- 💳 プレミアム -->
         <activity
             android:name=".ui.billing.PremiumActivity"
             android:exported="false" />
 
+        <!-- 🔊 読み上げ -->
         <activity
             android:name=".ui.speech.SpeechToolActivity"
+            android:exported="false" />
+
+        <!-- 🔔 手動通知 -->
+        <activity
+            android:name=".ManualNotificationActivity"
             android:exported="false" />
 
     </application>

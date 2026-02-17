@@ -20,6 +20,7 @@ Upgrade / FAQ は仮画面です。
     <!-- Archive / Chat -->
     <string name="archive_title">アーカイブ</string>
     <string name="secretary_chat_title">秘書チャット</string>
+    <string name="title_settings">設定</string>
 
     <!-- Persona -->
     <string name="prefix_alert">【重要】</string>
