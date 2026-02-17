@@ -32,8 +32,8 @@ import com.lsam.pocketsecretary.core.settings.SkinStore;
 import com.lsam.pocketsecretary.ui.archive.ArchiveActivity;
 import com.lsam.pocketsecretary.ui.background.BackgroundSelectActivity;
 import com.lsam.pocketsecretary.ui.persona.PersonaSelectActivity;
-import com.lsam.pocketsecretary.ui.secretary.SecretaryListActivity;
 import com.lsam.pocketsecretary.ui.tools.SecretaryToolsActivity;
+import com.lsam.pocketsecretary.ui.event.EventListActivity; // ← ★追加
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
 
@@ -76,14 +76,12 @@ public class DashboardActivity extends BaseActivity {
     // =========================================================
     private void wireNavigation() {
 
-        // Background tap -> background select
         if (backgroundImage != null) {
             backgroundImage.setOnClickListener(v ->
                     startActivity(new Intent(this, BackgroundSelectActivity.class))
             );
         }
 
-        // Persona tap -> persona select
         View.OnClickListener personaListener =
                 v -> startActivity(new Intent(this, PersonaSelectActivity.class));
 
@@ -95,7 +93,6 @@ public class DashboardActivity extends BaseActivity {
             personaName.setOnClickListener(personaListener);
         }
 
-        // Bottom buttons
         View btnTools = findViewById(R.id.btnOpenTools);
         if (btnTools != null) {
             btnTools.setOnClickListener(v ->
@@ -108,15 +105,12 @@ public class DashboardActivity extends BaseActivity {
                     startActivity(new Intent(this, ArchiveActivity.class)));
         }
 
+        // ★ 修正箇所：予定確認ボタン → EventListActivity
         View btnSchedule = findViewById(R.id.btnSchedule);
         if (btnSchedule != null) {
             btnSchedule.setOnClickListener(v ->
-                    startActivity(new Intent(this, SecretaryListActivity.class)));
+                    startActivity(new Intent(this, EventListActivity.class)));
         }
-
-        // NOTE:
-        // Settings navigation is owned by BaseActivity headerSettings.
-        // If a layout-level btnSettings exists, remove it from XML.
     }
 
     // =========================================================
@@ -268,9 +262,6 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    // =========================================================
-    // Worker
-    // =========================================================
     private void registerUpcomingChecker() {
 
         PeriodicWorkRequest req =
@@ -300,7 +291,6 @@ public class DashboardActivity extends BaseActivity {
         return getString(R.string.app_name);
     }
 
-    // Dashboard uses header settings as the canonical settings entry.
     @Override
     protected boolean showSettingsButton() {
         return true;
