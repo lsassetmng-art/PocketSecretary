@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.lsam.pocketsecretary.BaseActivity;
+import com.lsam.pocketsecretary.core.schedule.EventScheduler;
 import com.lsam.pocketsecretary.data.event.EventDatabase;
 import com.lsam.pocketsecretary.data.event.EventEntity;
-import com.lsam.pocketsecretary.worker.EventNotificationWorker;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -221,7 +221,7 @@ public class EventEditActivity extends BaseActivity {
                 notifyAt = System.currentTimeMillis() + 1000L;
             }
 
-            EventNotificationWorker.scheduleNext(
+            EventScheduler.scheduleExact(
                     getApplicationContext(),
                     e.id,
                     notifyAt
