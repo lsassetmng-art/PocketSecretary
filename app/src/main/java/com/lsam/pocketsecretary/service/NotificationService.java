@@ -79,7 +79,7 @@ public class NotificationService {
         VoicePlayer.get(context).speak(generated, tone);
 
         NotificationManagerCompat.from(context)
-                .notify(1001, builder.build());
+                .notify(source.hashCode(), builder.build());
 
         NotificationHistoryStore.get(context)
                 .appendAsync(displayName, displayName, generated);
