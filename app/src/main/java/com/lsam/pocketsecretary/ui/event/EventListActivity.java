@@ -1,3 +1,6 @@
+// =========================================================
+// app/src/main/java/com/lsam/pocketsecretary/ui/event/EventListActivity.java
+// =========================================================
 package com.lsam.pocketsecretary.ui.event;
 
 import android.content.Intent;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.WorkManager;
 
 import com.lsam.pocketsecretary.BaseActivity;
+import com.lsam.pocketsecretary.core.schedule.EventScheduler;
 import com.lsam.pocketsecretary.data.event.EventDatabase;
 import com.lsam.pocketsecretary.data.event.EventEntity;
 
@@ -27,11 +31,7 @@ public class EventListActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private EventAdapter adapter;
 
-    private enum Mode {
-        MONTH,
-        TODAY
-    }
-
+    private enum Mode { MONTH, TODAY }
     private Mode mode = Mode.MONTH;
 
     private int viewYear;
@@ -57,20 +57,11 @@ public class EventListActivity extends BaseActivity {
         LinearLayout top = new LinearLayout(this);
         top.setOrientation(LinearLayout.HORIZONTAL);
 
-        btnPrev = new Button(this);
-        btnPrev.setText("<");
-
-        btnNext = new Button(this);
-        btnNext.setText(">");
-
-        btnToday = new Button(this);
-        btnToday.setText("Today");
-
-        btnMonth = new Button(this);
-        btnMonth.setText("Month");
-
-        btnAdd = new Button(this);
-        btnAdd.setText("Add");
+        btnPrev = new Button(this); btnPrev.setText("<");
+        btnNext = new Button(this); btnNext.setText(">");
+        btnToday = new Button(this); btnToday.setText("Today");
+        btnMonth = new Button(this); btnMonth.setText("Month");
+        btnAdd = new Button(this); btnAdd.setText("Add");
 
         top.addView(btnPrev, weightLp());
         top.addView(btnNext, weightLp());
@@ -198,17 +189,12 @@ public class EventListActivity extends BaseActivity {
     }
 
     @Override
-    protected String getHeaderTitle() {
-        return "Events";
-    }
+    protected String getHeaderTitle() { return "Events"; }
 
     @Override
-    protected boolean showSettingsButton() {
-        return false;
-    }
+    protected boolean showSettingsButton() { return false; }
 
-    private class EventAdapter
-            extends RecyclerView.Adapter<EventViewHolder> {
+    private class EventAdapter extends RecyclerView.Adapter<EventViewHolder> {
 
         private List<EventEntity> data;
 
@@ -218,22 +204,15 @@ public class EventListActivity extends BaseActivity {
         }
 
         @Override
-        public EventViewHolder onCreateViewHolder(
-                ViewGroup parent,
-                int viewType
-        ) {
+        public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LinearLayout row = new LinearLayout(parent.getContext());
             row.setOrientation(LinearLayout.VERTICAL);
             return new EventViewHolder(row);
         }
 
         @Override
-        public void onBindViewHolder(
-                EventViewHolder holder,
-                int position
-        ) {
-            EventEntity e = data.get(position);
-            holder.bind(e);
+        public void onBindViewHolder(EventViewHolder holder, int position) {
+            holder.bind(data.get(position));
         }
 
         @Override
@@ -242,8 +221,7 @@ public class EventListActivity extends BaseActivity {
         }
     }
 
-    private class EventViewHolder
-            extends RecyclerView.ViewHolder {
+    private class EventViewHolder extends RecyclerView.ViewHolder {
 
         private final LinearLayout container;
 
@@ -257,10 +235,7 @@ public class EventListActivity extends BaseActivity {
             container.removeAllViews();
 
             Button btnInfo = new Button(container.getContext());
-            btnInfo.setText(
-                    e.title + " - " +
-                            formatTime(e.startAt, e.timeZone)
-            );
+            btnInfo.setText(e.title + " - " + formatTime(e.startAt, e.timeZone));
 
             Button btnDelete = new Button(container.getContext());
             btnDelete.setText("Delete");
@@ -271,11 +246,14 @@ public class EventListActivity extends BaseActivity {
             btnDelete.setOnClickListener(v -> {
                 new Thread(() -> {
 
-                    // 1️⃣ Cancel scheduled work
+                    // ✅ AlarmManager cancel (current canonical)
+                    EventScheduler.cancel(getApplicationContext(), e.id);
+
+                    // ✅ WorkManager cancel (legacy safe)
                     WorkManager.getInstance(getApplicationContext())
                             .cancelUniqueWork("event_" + e.id);
 
-                    // 2️⃣ Delete from DB
+                    // ✅ DB delete
                     EventDatabase.get(getApplicationContext())
                             .eventDao()
                             .deleteById(e.id);
@@ -286,9 +264,7 @@ public class EventListActivity extends BaseActivity {
             });
 
             btnInfo.setOnClickListener(v -> {
-                Intent intent =
-                        new Intent(EventListActivity.this,
-                                EventEditActivity.class);
+                Intent intent = new Intent(EventListActivity.this, EventEditActivity.class);
                 intent.putExtra(EXTRA_EVENT_ID, e.id);
                 startActivity(intent);
             });
@@ -296,12 +272,8 @@ public class EventListActivity extends BaseActivity {
     }
 
     private String formatTime(long millis, String tz) {
-        TimeZone zone =
-                TimeZone.getTimeZone(
-                        tz != null ? tz : "Asia/Tokyo"
-                );
-        SimpleDateFormat sdf =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        TimeZone zone = TimeZone.getTimeZone(tz != null ? tz : "Asia/Tokyo");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         sdf.setTimeZone(zone);
         return sdf.format(millis);
     }

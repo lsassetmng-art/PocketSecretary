@@ -1,3 +1,6 @@
+// =========================================================
+// app/src/main/java/com/lsam/pocketsecretary/ui/event/EventEditActivity.java
+// =========================================================
 package com.lsam.pocketsecretary.ui.event;
 
 import android.os.Bundle;
@@ -14,17 +17,16 @@ import com.lsam.pocketsecretary.core.schedule.EventScheduler;
 import com.lsam.pocketsecretary.data.event.EventDatabase;
 import com.lsam.pocketsecretary.data.event.EventEntity;
 
-import java.util.Locale;
 import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity {
 
     private EditText edtTitle;
     private EditText edtStart;
+    private Spinner spFreq;
     private EditText edtInterval;
     private EditText edtCount;
     private EditText edtUntil;
-    private Spinner spFreq;
 
     private String editingEventId;
 
@@ -54,13 +56,13 @@ public class EventEditActivity extends BaseActivity {
         ));
 
         edtInterval = new EditText(this);
-        edtInterval.setHint("Interval");
+        edtInterval.setHint("Interval (optional)");
 
         edtCount = new EditText(this);
-        edtCount.setHint("Count");
+        edtCount.setHint("Count (optional)");
 
         edtUntil = new EditText(this);
-        edtUntil.setHint("Until epoch millis");
+        edtUntil.setHint("Until epoch millis (optional)");
 
         Button btnSave = new Button(this);
         btnSave.setText("Save");
@@ -94,14 +96,14 @@ public class EventEditActivity extends BaseActivity {
                 edtTitle.setText(e.title != null ? e.title : "");
                 edtStart.setText(String.valueOf(e.startAt));
 
+                // recurrence (RRULE-like simple string)
                 String freq = "NONE";
                 String interval = "";
-                if (e.recurrenceRule != null) {
-                    String rule = e.recurrenceRule;
-                    String f = extractValue(rule, "FREQ");
+                if (!TextUtils.isEmpty(e.recurrenceRule)) {
+                    String f = extractValue(e.recurrenceRule, "FREQ");
                     if (!TextUtils.isEmpty(f)) freq = f;
 
-                    String it = extractValue(rule, "INTERVAL");
+                    String it = extractValue(e.recurrenceRule, "INTERVAL");
                     if (!TextUtils.isEmpty(it)) interval = it;
                 }
 
@@ -110,10 +112,14 @@ public class EventEditActivity extends BaseActivity {
 
                 if (e.recurrenceCount != null) {
                     edtCount.setText(String.valueOf(e.recurrenceCount));
+                } else {
+                    edtCount.setText("");
                 }
 
                 if (e.recurrenceUntil != null) {
                     edtUntil.setText(String.valueOf(e.recurrenceUntil));
+                } else {
+                    edtUntil.setText("");
                 }
             });
         }).start();
@@ -144,7 +150,7 @@ public class EventEditActivity extends BaseActivity {
                 ? spFreq.getSelectedItem().toString()
                 : "NONE";
 
-        final String interval = edtInterval.getText() != null
+        final String intervalStr = edtInterval.getText() != null
                 ? edtInterval.getText().toString().trim()
                 : "";
 
@@ -181,6 +187,7 @@ public class EventEditActivity extends BaseActivity {
             e.reminderBeforeMin = 10;
             e.localOnly = true;
 
+            // recurrence init
             e.recurrenceRule = null;
             e.recurrenceCount = null;
             e.recurrenceUntil = null;
@@ -188,9 +195,11 @@ public class EventEditActivity extends BaseActivity {
             if (!"NONE".equals(freq)) {
                 StringBuilder r = new StringBuilder();
                 r.append("FREQ=").append(freq);
-                if (!TextUtils.isEmpty(interval)) {
-                    r.append(";INTERVAL=").append(interval);
+
+                if (!TextUtils.isEmpty(intervalStr)) {
+                    r.append(";INTERVAL=").append(intervalStr);
                 }
+
                 e.recurrenceRule = r.toString();
 
                 if (!TextUtils.isEmpty(countStr)) {
@@ -210,6 +219,9 @@ public class EventEditActivity extends BaseActivity {
                 }
             }
 
+            // edit時は lastOccurrenceAt をリセット（次回計算を startAt 기준に）
+            e.lastOccurrenceAt = null;
+
             EventDatabase.get(getApplicationContext())
                     .eventDao()
                     .upsert(e);
@@ -221,6 +233,7 @@ public class EventEditActivity extends BaseActivity {
                 notifyAt = System.currentTimeMillis() + 1000L;
             }
 
+            // schedule (AlarmManager)
             EventScheduler.scheduleExact(
                     getApplicationContext(),
                     e.id,
@@ -228,6 +241,7 @@ public class EventEditActivity extends BaseActivity {
             );
 
             runOnUiThread(this::finish);
+
         }).start();
     }
 

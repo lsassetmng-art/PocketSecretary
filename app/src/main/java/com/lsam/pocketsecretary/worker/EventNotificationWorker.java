@@ -1,7 +1,9 @@
+// =========================================================
+// app/src/main/java/com/lsam/pocketsecretary/worker/EventNotificationWorker.java
+// =========================================================
 package com.lsam.pocketsecretary.worker;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -25,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 public class EventNotificationWorker extends Worker {
 
     public static final String KEY_EVENT_ID = "event_id";
-    private static final String TAG = "EventWorker";
 
     public EventNotificationWorker(
             @NonNull Context context,
@@ -55,19 +56,17 @@ public class EventNotificationWorker extends Worker {
                         : event.startAt;
 
         String message =
-                event.title + " at " +
+                (event.title != null ? event.title : "(no title)") + " at " +
                         formatTime(baseStart, event.timeZone);
 
         new NotificationService(context)
                 .notifyAndRecord("event_" + eventId, message);
 
-        // If no recurrence → stop
-        if (event.recurrenceRule == null ||
-                event.recurrenceRule.trim().isEmpty()) {
+        // no recurrence
+        if (event.recurrenceRule == null || event.recurrenceRule.trim().isEmpty()) {
             return Result.success();
         }
 
-        // Compute next from last processed occurrence
         Long nextStart = RRuleEngine.computeNextOccurrenceMillis(
                 baseStart,
                 event.recurrenceRule,
@@ -78,7 +77,6 @@ public class EventNotificationWorker extends Worker {
 
         if (nextStart == null) return Result.success();
 
-        // Update lastOccurrenceAt
         event.lastOccurrenceAt = nextStart;
 
         if (event.recurrenceCount != null && event.recurrenceCount > 0) {
@@ -89,15 +87,12 @@ public class EventNotificationWorker extends Worker {
                 .eventDao()
                 .update(event);
 
-        long nextNotify =
-                nextStart - event.reminderBeforeMin * 60_000L;
-
+        long nextNotify = nextStart - event.reminderBeforeMin * 60_000L;
         if (nextNotify < System.currentTimeMillis()) {
             nextNotify = System.currentTimeMillis() + 1000L;
         }
 
         scheduleNext(context, eventId, nextNotify);
-
         return Result.success();
     }
 
@@ -106,7 +101,6 @@ public class EventNotificationWorker extends Worker {
             String eventId,
             long nextTimeMillis
     ) {
-
         long delay = nextTimeMillis - System.currentTimeMillis();
         if (delay < 0) delay = 0;
 
@@ -129,12 +123,8 @@ public class EventNotificationWorker extends Worker {
     }
 
     private String formatTime(long millis, String tz) {
-        TimeZone zone =
-                TimeZone.getTimeZone(
-                        tz != null ? tz : "Asia/Tokyo"
-                );
-        SimpleDateFormat sdf =
-                new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        TimeZone zone = TimeZone.getTimeZone(tz != null ? tz : "Asia/Tokyo");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
         sdf.setTimeZone(zone);
         return sdf.format(new Date(millis));
     }

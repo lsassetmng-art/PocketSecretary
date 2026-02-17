@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lsam.pocketsecretary">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".PocketSecretaryApp"
@@ -15,6 +16,7 @@
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
 
+        <!-- Launcher -->
         <activity
             android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
@@ -24,6 +26,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Other Activities -->
         <activity android:name=".ui.background.BackgroundSelectActivity" android:exported="false" />
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
         <activity android:name=".ui.archive.ArchiveActivity" android:exported="false" />
@@ -35,21 +38,22 @@
         <activity android:name=".ui.speech.SpeechToolActivity" android:exported="false" />
         <activity android:name=".ManualNotificationActivity" android:exported="false" />
 
-        <!-- 📅 Event Screens -->
-        <activity android:name=".ui.event.EventListActivity" android:exported="false"/>
-        <activity android:name=".ui.event.EventEditActivity" android:exported="false"/>
+        <!-- Event Screens -->
+        <activity android:name=".ui.event.EventListActivity" android:exported="false" />
+        <activity android:name=".ui.event.EventEditActivity" android:exported="false" />
 
-        <!-- 🔔 Alarm Receiver -->
+        <!-- Alarm Receiver -->
         <receiver
             android:name=".receiver.EventAlarmReceiver"
-            android:exported="false"/>
+            android:exported="false" />
 
-        <!-- 🔁 Boot Restore -->
+        <!-- Boot Restore -->
         <receiver
             android:name=".receiver.BootCompletedReceiver"
-            android:exported="false">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

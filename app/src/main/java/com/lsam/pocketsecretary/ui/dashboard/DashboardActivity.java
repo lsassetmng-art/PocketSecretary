@@ -1,3 +1,7 @@
+// =========================================================
+// app/src/main/java/com/lsam/pocketsecretary/ui/dashboard/DashboardActivity.java
+// ※ あなたの貼った版のまま、btnScheduleだけ EventListActivity に向ける
+// =========================================================
 package com.lsam.pocketsecretary.ui.dashboard;
 
 import android.animation.ValueAnimator;
@@ -31,9 +35,9 @@ import com.lsam.pocketsecretary.core.settings.BackgroundStore;
 import com.lsam.pocketsecretary.core.settings.SkinStore;
 import com.lsam.pocketsecretary.ui.archive.ArchiveActivity;
 import com.lsam.pocketsecretary.ui.background.BackgroundSelectActivity;
+import com.lsam.pocketsecretary.ui.event.EventListActivity;
 import com.lsam.pocketsecretary.ui.persona.PersonaSelectActivity;
 import com.lsam.pocketsecretary.ui.tools.SecretaryToolsActivity;
-import com.lsam.pocketsecretary.ui.event.EventListActivity; // ← ★追加
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
 
@@ -71,9 +75,6 @@ public class DashboardActivity extends BaseActivity {
         startBreathingAnimation();
     }
 
-    // =========================================================
-    // Navigation
-    // =========================================================
     private void wireNavigation() {
 
         if (backgroundImage != null) {
@@ -85,13 +86,8 @@ public class DashboardActivity extends BaseActivity {
         View.OnClickListener personaListener =
                 v -> startActivity(new Intent(this, PersonaSelectActivity.class));
 
-        if (personaCardImage != null) {
-            personaCardImage.setOnClickListener(personaListener);
-        }
-
-        if (personaName != null) {
-            personaName.setOnClickListener(personaListener);
-        }
+        if (personaCardImage != null) personaCardImage.setOnClickListener(personaListener);
+        if (personaName != null) personaName.setOnClickListener(personaListener);
 
         View btnTools = findViewById(R.id.btnOpenTools);
         if (btnTools != null) {
@@ -105,7 +101,7 @@ public class DashboardActivity extends BaseActivity {
                     startActivity(new Intent(this, ArchiveActivity.class)));
         }
 
-        // ★ 修正箇所：予定確認ボタン → EventListActivity
+        // ✅ 予定確認ボタン -> EventListActivity
         View btnSchedule = findViewById(R.id.btnSchedule);
         if (btnSchedule != null) {
             btnSchedule.setOnClickListener(v ->
@@ -113,93 +109,56 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
-    // =========================================================
-    // Background
-    // =========================================================
     private void applyBackground() {
-
         if (backgroundImage == null) return;
 
         String packId = BackgroundStore.get(this);
-        if (packId == null || packId.isEmpty()) {
-            packId = "desk_set_001";
-        }
+        if (packId == null || packId.isEmpty()) packId = "desk_set_001";
 
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        String type =
-                hour <= 10 ? "morning" :
-                hour <= 17 ? "day" : "night";
+        String type = hour <= 10 ? "morning" : hour <= 17 ? "day" : "night";
 
         Bitmap bmp = AssetRepository.loadBitmap(
                 this,
                 AssetRepository.backgroundImage(packId, type)
         );
 
-        if (bmp != null) {
-            backgroundImage.setImageBitmap(bmp);
-        }
+        if (bmp != null) backgroundImage.setImageBitmap(bmp);
     }
 
-    // =========================================================
-    // Persona
-    // =========================================================
     private void applyCurrentPersona() {
 
         if (personaCardImage == null) return;
 
         String personaId = CurrentPersonaStore.get(this);
-        if (personaId == null || personaId.isEmpty()) {
-            personaId = "alpha";
-        }
+        if (personaId == null || personaId.isEmpty()) personaId = "alpha";
 
-        PersonaMetaLoader.PersonaMeta meta =
-                PersonaMetaLoader.load(this, personaId);
+        PersonaMetaLoader.PersonaMeta meta = PersonaMetaLoader.load(this, personaId);
         if (meta == null) return;
 
         String visualPackId = meta.requiredVisualPackId;
-        if (visualPackId == null || visualPackId.isEmpty()) {
-            visualPackId = "michelle_default";
-        }
+        if (visualPackId == null || visualPackId.isEmpty()) visualPackId = "michelle_default";
 
         String skinId = SkinStore.get(this, personaId, meta.defaultSkin);
-        if (skinId == null || skinId.isEmpty()) {
-            skinId = "default";
-        }
+        if (skinId == null || skinId.isEmpty()) skinId = "default";
 
         Bitmap bmp = AssetRepository.loadBitmap(
                 this,
-                AssetRepository.visualSkinImage(
-                        visualPackId,
-                        skinId,
-                        "character_base.png"
-                )
+                AssetRepository.visualSkinImage(visualPackId, skinId, "character_base.png")
         );
 
-        if (bmp != null) {
-            personaCardImage.setImageBitmap(bmp);
-        }
+        if (bmp != null) personaCardImage.setImageBitmap(bmp);
+        if (personaName != null) personaName.setText(meta.displayName);
 
-        if (personaName != null) {
-            personaName.setText(meta.displayName);
-        }
-
-        if (personaCardImage != null) {
-            VisualComposeRepository.applyIfConfigured(
-                    this, personaId, personaCardImage);
-        }
+        VisualComposeRepository.applyIfConfigured(this, personaId, personaCardImage);
     }
 
-    // =========================================================
-    // Today message
-    // =========================================================
     private void renderTodayInfo() {
 
         if (nextLine == null) return;
 
         String personaId = CurrentPersonaStore.get(this);
-        if (personaId == null || personaId.isEmpty()) {
-            personaId = "alpha";
-        }
+        if (personaId == null || personaId.isEmpty()) personaId = "alpha";
 
         int todayCount = TodayEngine.todayCount(this);
         String nextTitle = TodayEngine.nextTitle(this);
@@ -217,38 +176,28 @@ public class DashboardActivity extends BaseActivity {
 
         nextLine.setText(response.text);
 
-        try {
-            PersonaOsGateway.onDashboardOpened(this, personaId);
-        } catch (Throwable ignored) {}
+        try { PersonaOsGateway.onDashboardOpened(this, personaId); }
+        catch (Throwable ignored) {}
 
         PersonaToneTag tone =
-                response.toneTag != null ?
-                        response.toneTag :
-                        PersonaToneTag.CALM;
+                response.toneTag != null ? response.toneTag : PersonaToneTag.CALM;
 
         EmotionAnimator.apply(personaCardImage, tone);
     }
 
-    // =========================================================
-    // Breathing animation
-    // =========================================================
     private void startBreathingAnimation() {
 
         stopBreathingAnimation();
 
-        breathingAnimator =
-                ValueAnimator.ofFloat(1.0f, 1.015f);
-
+        breathingAnimator = ValueAnimator.ofFloat(1.0f, 1.015f);
         breathingAnimator.setDuration(2200);
         breathingAnimator.setRepeatCount(ValueAnimator.INFINITE);
         breathingAnimator.setRepeatMode(ValueAnimator.REVERSE);
-        breathingAnimator.setInterpolator(
-                new AccelerateDecelerateInterpolator());
+        breathingAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         breathingAnimator.addUpdateListener(animation -> {
             if (personaCardImage != null) {
-                personaCardImage.setScaleY(
-                        (float) animation.getAnimatedValue());
+                personaCardImage.setScaleY((float) animation.getAnimatedValue());
             }
         });
 
@@ -263,7 +212,6 @@ public class DashboardActivity extends BaseActivity {
     }
 
     private void registerUpcomingChecker() {
-
         PeriodicWorkRequest req =
                 new PeriodicWorkRequest.Builder(
                         UpcomingEventWorker.class,
@@ -275,7 +223,8 @@ public class DashboardActivity extends BaseActivity {
                 .enqueueUniquePeriodicWork(
                         "upcoming_checker",
                         ExistingPeriodicWorkPolicy.KEEP,
-                        req);
+                        req
+                );
     }
 
     @Override
