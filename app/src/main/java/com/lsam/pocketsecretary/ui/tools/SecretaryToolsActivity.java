@@ -1,3 +1,6 @@
+// =========================================================
+// app/src/main/java/com/lsam/pocketsecretary/ui/tools/SecretaryToolsActivity.java
+// =========================================================
 package com.lsam.pocketsecretary.ui.tools;
 
 import android.content.Intent;
@@ -7,6 +10,7 @@ import com.lsam.pocketsecretary.BaseActivity;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.ManualNotificationActivity;
 import com.lsam.pocketsecretary.ui.history.HistoryActivity;
+import com.lsam.pocketsecretary.ui.hub.AllFeaturesActivity;
 import com.lsam.pocketsecretary.ui.speech.SpeechToolActivity;
 
 public class SecretaryToolsActivity extends BaseActivity {
@@ -22,28 +26,26 @@ public class SecretaryToolsActivity extends BaseActivity {
 
     @Override
     protected String getHeaderTitle() {
-        return "秘書ツール";
+        return getString(R.string.ps_feature_hub_title);
     }
-
-    // =========================
-    // Actions
-    // =========================
 
     private void bindActions() {
 
-        // 通知
         findViewById(R.id.btnManualNotify).setOnClickListener(v ->
                 startActivity(new Intent(this, ManualNotificationActivity.class))
         );
 
-        // 履歴
         findViewById(R.id.btnHistory).setOnClickListener(v ->
                 startActivity(new Intent(this, HistoryActivity.class))
         );
 
-        // 読み上げ
         findViewById(R.id.btnSpeechTool).setOnClickListener(v ->
                 startActivity(new Intent(this, SpeechToolActivity.class))
+        );
+
+        // 新規：全機能ハブ
+        findViewById(R.id.btnOpenAllFeatures).setOnClickListener(v ->
+                startActivity(new Intent(this, AllFeaturesActivity.class))
         );
     }
 }

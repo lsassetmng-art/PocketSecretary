@@ -57,6 +57,36 @@
             </intent-filter>
         </receiver>
 
+            <!-- =============================== -->
+        <!-- Skeleton Feature Hub -->
+        <!-- =============================== -->
+        <activity
+            android:name=".ui.hub.AllFeaturesActivity"
+            android:exported="false" />
+
+        <!-- =============================== -->
+        <!-- Skeleton Features -->
+        <!-- =============================== -->
+        <activity android:name=".ui.todo.TodoListActivity" android:exported="false" />
+        <activity android:name=".ui.todo.TodoEditActivity" android:exported="false" />
+
+        <activity android:name=".ui.calculator.CalculatorActivity" android:exported="false" />
+
+        <activity android:name=".ui.memo.MemoListActivity" android:exported="false" />
+        <activity android:name=".ui.memo.MemoEditActivity" android:exported="false" />
+
+        <activity android:name=".ui.library.LibraryActivity" android:exported="false" />
+
+        <activity android:name=".ui.transit.TransitFareActivity" android:exported="false" />
+
+        <activity android:name=".ui.business.BusinessModeActivity" android:exported="false" />
+        <activity android:name=".ui.businesscard.BusinessCardLinkActivity" android:exported="false" />
+        <activity android:name=".ui.mbo.MboLinkActivity" android:exported="false" />
+        <activity android:name=".ui.request.RequestHubActivity" android:exported="false" />
+
+        <activity android:name=".ui.consult.ConsultStubActivity" android:exported="false" />
+        <activity android:name=".ui.summary.SummaryStubActivity" android:exported="false" />
+
     </application>
 
 </manifest>

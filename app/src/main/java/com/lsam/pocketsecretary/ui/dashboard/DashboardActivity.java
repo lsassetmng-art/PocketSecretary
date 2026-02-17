@@ -1,6 +1,5 @@
 // =========================================================
 // app/src/main/java/com/lsam/pocketsecretary/ui/dashboard/DashboardActivity.java
-// ※ あなたの貼った版のまま、btnScheduleだけ EventListActivity に向ける
 // =========================================================
 package com.lsam.pocketsecretary.ui.dashboard;
 
@@ -101,7 +100,7 @@ public class DashboardActivity extends BaseActivity {
                     startActivity(new Intent(this, ArchiveActivity.class)));
         }
 
-        // ✅ 予定確認ボタン -> EventListActivity
+        // 予定確認ボタン → EventListActivity
         View btnSchedule = findViewById(R.id.btnSchedule);
         if (btnSchedule != null) {
             btnSchedule.setOnClickListener(v ->
