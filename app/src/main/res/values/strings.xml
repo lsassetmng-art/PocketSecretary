@@ -235,4 +235,12 @@ Upgrade / FAQ は後日追加します。
   <string name="todo_move_down">Move down</string>
   <string name="save">Save</string>
   <string name="delete">Delete</string>
+  <string name="event_today">Today</string>
+  <string name="event_month">Month</string>
+  <string name="event_empty">No events</string>
+  <string name="event_todos_suffix">todos</string>
+  <string name="event_all_day">All-day</string>
+  <string name="event_timezone_unknown">Local</string>
+  <string name="event_open_edit">Open</string>
+  <string name="todo_linked">Linked</string>
 </resources>

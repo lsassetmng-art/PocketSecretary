@@ -63,7 +63,7 @@ public class TodoRepository {
     // ------------------------------
     // Create / Update
     // ------------------------------
-    public void create(String title, String content, Long dueAt, Long eventId, Callback<Long> cb) {
+    public void create(String title, String content, Long dueAt, String eventId, Callback<Long> cb) {
         executor.execute(() -> {
             try {
                 TodoEntity e = new TodoEntity();
@@ -82,12 +82,12 @@ public class TodoRepository {
         });
     }
 
-    public void update(long id, String title, String content, Long dueAt, Long eventId, Callback<Void> cb) {
+    public void update(long id, String title, String content, Long dueAt, String eventId, Callback<Void> cb) {
         executor.execute(() -> {
             try {
                 TodoEntity e = dao.getById(id);
                 if (e == null) throw new IllegalStateException("Todo not found");
-                boolean scopeChanged = !sameLong(e.eventId, eventId);
+                boolean scopeChanged = !sameString(e.eventId, eventId);
 
                 e.title = title;
                 e.content = content;
@@ -203,18 +203,18 @@ public class TodoRepository {
     // ------------------------------
     // Priority (scope-based, 10-step)
     // ------------------------------
-    private int nextPriority(Long eventId) {
+    private int nextPriority(String eventId) {
         Integer max = (eventId == null) ? dao.getMaxPriorityNullScope() : dao.getMaxPriorityForEvent(eventId);
         return (max == null) ? 10 : (max + 10);
     }
 
     // Must be called inside transaction if scope changes, to avoid race
-    private int nextPriorityInternal(Long eventId) {
+    private int nextPriorityInternal(String eventId) {
         Integer max = (eventId == null) ? dao.getMaxPriorityNullScope() : dao.getMaxPriorityForEvent(eventId);
         return (max == null) ? 10 : (max + 10);
     }
 
-    private static boolean sameLong(Long a, Long b) {
+    private static boolean sameString(String a, String b) {
         if (a == null && b == null) return true;
         if (a == null || b == null) return false;
         return a.longValue() == b.longValue();

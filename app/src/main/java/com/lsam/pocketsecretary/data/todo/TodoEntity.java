@@ -23,5 +23,5 @@ public class TodoEntity {
     public Long dueAt;       // nullable (epoch millis)
     public String status;    // "open" | "done"
     public int priority;     // scope-stable
-    public Long eventId;     // nullable (loose link)
+    public String eventId;  // nullable (loose link to EventEntity.id)     // nullable (loose link)
 }

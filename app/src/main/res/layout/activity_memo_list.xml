@@ -6,18 +6,25 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <EditText
+        android:id="@+id/searchInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search"
+        android:layout_marginBottom="12dp"/>
+
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No items"
+        android:text="No memos"
         android:gravity="center"
         android:visibility="gone"
         android:textSize="14sp"
         android:layout_marginTop="24dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/todoRecyclerView"
+        android:id="@+id/memoRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

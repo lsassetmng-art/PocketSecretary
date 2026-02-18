@@ -15,27 +15,17 @@ import com.lsam.pocketsecretary.data.todo.TodoEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.VH> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     public interface Listener {
-        void onItemClick(TodoEntity e);
-        void onItemLongPress(TodoEntity e);
-        void onStatusToggle(TodoEntity e);
-        void onSelectionChanged(int count);
+        void onToggle(TodoEntity entity);
     }
 
-    private final Listener listener;
     private List<TodoEntity> items;
-
-    private boolean selectionMode = false;
-    private final Set<Long> selectedIds = new HashSet<>();
-
-    private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private final Listener listener;
 
     public TodoAdapter(List<TodoEntity> items, Listener listener) {
         this.items = items;
@@ -47,121 +37,64 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.VH> {
         notifyDataSetChanged();
     }
 
-    public boolean isSelectionMode() {
-        return selectionMode;
-    }
-
-    public void exitSelectionMode() {
-        selectionMode = false;
-        selectedIds.clear();
-        notifyDataSetChanged();
-        if (listener != null) listener.onSelectionChanged(0);
-    }
-
-    public void enterSelectionMode(long firstId) {
-        selectionMode = true;
-        selectedIds.clear();
-        selectedIds.add(firstId);
-        notifyDataSetChanged();
-        if (listener != null) listener.onSelectionChanged(selectedIds.size());
-    }
-
-    public Set<Long> getSelectedIds() {
-        return new HashSet<>(selectedIds);
-    }
-
-    private void toggleSelection(long id) {
-        if (selectedIds.contains(id)) selectedIds.remove(id);
-        else selectedIds.add(id);
-        notifyDataSetChanged();
-        if (listener != null) listener.onSelectionChanged(selectedIds.size());
-    }
-
     @NonNull
     @Override
-    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo, parent, false);
-        return new VH(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_todo, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH h, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         TodoEntity e = items.get(position);
 
-        h.title.setText(e.title == null ? "" : e.title);
+        holder.title.setText(e.title);
+        holder.content.setText(e.content == null ? "" : e.content);
 
-        boolean done = "done".equals(e.status);
-        h.status.setChecked(done);
+        holder.checkBox.setChecked("done".equals(e.status));
 
-        if (done) {
-            h.title.setPaintFlags(h.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            h.title.setAlpha(0.6f);
+        if ("done".equals(e.status)) {
+            holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.title.setAlpha(0.5f);
         } else {
-            h.title.setPaintFlags(h.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            h.title.setAlpha(1.0f);
+            holder.title.setPaintFlags(holder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.title.setAlpha(1f);
         }
 
-        if (e.dueAt == null) {
-            h.due.setText("");
+        if (e.dueAt != null) {
+            String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                    .format(new Date(e.dueAt));
+            holder.due.setText(formatted);
+            holder.due.setVisibility(View.VISIBLE);
         } else {
-            h.due.setText(df.format(new Date(e.dueAt)));
+            holder.due.setVisibility(View.GONE);
         }
 
-        if (e.eventId == null) {
-            h.eventLink.setText("");
-        } else {
-            h.eventLink.setText("Linked");
-        }
-
-        if (selectionMode) {
-            h.select.setVisibility(View.VISIBLE);
-            h.select.setChecked(selectedIds.contains(e.id));
-        } else {
-            h.select.setVisibility(View.GONE);
-        }
-
-        h.status.setOnClickListener(v -> {
-            if (listener != null) listener.onStatusToggle(e);
+        holder.checkBox.setOnClickListener(v -> {
+            if (listener != null) listener.onToggle(e);
         });
-
-        h.itemView.setOnClickListener(v -> {
-            if (selectionMode) {
-                toggleSelection(e.id);
-            } else {
-                if (listener != null) listener.onItemClick(e);
-            }
-        });
-
-        h.itemView.setOnLongClickListener(v -> {
-            if (!selectionMode) {
-                if (listener != null) listener.onItemLongPress(e);
-                return true;
-            }
-            return false;
-        });
-
-        h.select.setOnClickListener(v -> toggleSelection(e.id));
     }
 
     @Override
     public int getItemCount() {
-        return items == null ? 0 : items.size();
+        return items.size();
     }
 
-    static class VH extends RecyclerView.ViewHolder {
-        CheckBox status;
-        TextView title;
-        TextView due;
-        TextView eventLink;
-        CheckBox select;
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        VH(@NonNull View itemView) {
+        CheckBox checkBox;
+        TextView title;
+        TextView content;
+        TextView due;
+
+        ViewHolder(View itemView) {
             super(itemView);
-            status = itemView.findViewById(R.id.checkboxStatus);
+            checkBox = itemView.findViewById(R.id.checkboxStatus);
             title = itemView.findViewById(R.id.textTitle);
+            content = itemView.findViewById(R.id.textContent);
             due = itemView.findViewById(R.id.textDue);
-            eventLink = itemView.findViewById(R.id.textEventLink);
-            select = itemView.findViewById(R.id.checkboxSelect);
         }
     }
 }

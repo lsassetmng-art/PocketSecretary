@@ -49,21 +49,21 @@ public interface TodoDao {
 
     // ---------- Event link (loose) ----------
     @Query("SELECT COUNT(*) FROM todo WHERE eventId = :eventId AND status='open'")
-    int countOpenByEventId(long eventId);
+    int countOpenByEventId(String eventId);
 
     // ---------- Priority scope max ----------
     @Query("SELECT MAX(priority) FROM todo WHERE eventId IS NULL")
     Integer getMaxPriorityNullScope();
 
     @Query("SELECT MAX(priority) FROM todo WHERE eventId = :eventId")
-    Integer getMaxPriorityForEvent(long eventId);
+    Integer getMaxPriorityForEvent(String eventId);
 
     // ---------- Scope list for move up/down (within same scope + status) ----------
     @Query("SELECT * FROM todo " +
             "WHERE ( (eventId IS NULL AND :eventId IS NULL) OR (eventId = :eventId) ) " +
             "AND status = :status " +
             "ORDER BY priority ASC, createdAt DESC")
-    List<TodoEntity> getScopeByStatus(Long eventId, String status);
+    List<TodoEntity> getScopeByStatus(String eventId, String status);
 
     // Direct priority update
     @Query("UPDATE todo SET priority = :priority WHERE id = :id")

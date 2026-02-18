@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Expression -->
     <TextView
         android:id="@+id/expressionDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:gravity="end"/>
+        android:textSize="20sp"
+        android:gravity="end"
+        android:layout_marginBottom="4dp"/>
 
+    <!-- Result -->
     <TextView
         android:id="@+id/resultDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="32sp"
-        android:gravity="end"/>
+        android:gravity="end"
+        android:layout_marginBottom="12dp"
+        android:paddingBottom="8dp"
+        android:background="@android:color/transparent"/>
 
+    <!-- Buttons -->
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="4">
 
-        <Button android:id="@+id/btn7" android:text="7"/>
-        <Button android:id="@+id/btn8" android:text="8"/>
-        <Button android:id="@+id/btn9" android:text="9"/>
-        <Button android:id="@+id/btnDivide" android:text="/"/>
+        <!-- Row 1 -->
+        <Button android:id="@+id/btn7" android:text="7" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn8" android:text="8" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn9" android:text="9" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnDivide" android:text="/" android:layout_height="64dp"/>
 
-        <Button android:id="@+id/btn4" android:text="4"/>
-        <Button android:id="@+id/btn5" android:text="5"/>
-        <Button android:id="@+id/btn6" android:text="6"/>
-        <Button android:id="@+id/btnMultiply" android:text="*"/>
+        <!-- Row 2 -->
+        <Button android:id="@+id/btn4" android:text="4" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn5" android:text="5" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn6" android:text="6" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnMultiply" android:text="*" android:layout_height="64dp"/>
 
-        <Button android:id="@+id/btn1" android:text="1"/>
-        <Button android:id="@+id/btn2" android:text="2"/>
-        <Button android:id="@+id/btn3" android:text="3"/>
-        <Button android:id="@+id/btnMinus" android:text="-"/>
+        <!-- Row 3 -->
+        <Button android:id="@+id/btn1" android:text="1" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn2" android:text="2" android:layout_height="64dp"/>
+        <Button android:id="@+id/btn3" android:layout_height="64dp" android:text="3"/>
+        <Button android:id="@+id/btnMinus" android:text="-" android:layout_height="64dp"/>
 
-        <Button android:id="@+id/btn0" android:text="0"/>
-        <Button android:id="@+id/btnDot" android:text="."/>
-        <Button android:id="@+id/btnEqual" android:text="="/>
-        <Button android:id="@+id/btnPlus" android:text="+"/>
+        <!-- Row 4 -->
+        <Button android:id="@+id/btn0" android:text="0" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnDot" android:text="." android:layout_height="64dp"/>
+        <Button android:id="@+id/btnEqual" android:text="=" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnPlus" android:text="+" android:layout_height="64dp"/>
 
-        <Button android:id="@+id/btnClear" android:text="C"/>
-        <Button android:id="@+id/btnBack" android:text="<-"/>
+        <!-- Row 5 -->
+        <Button android:id="@+id/btnClear" android:text="C" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnBack" android:text="<-" android:layout_height="64dp"/>
     </GridLayout>
 
+    <!-- History -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:text="History"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/historyRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"/>
 </LinearLayout>

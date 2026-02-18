@@ -1,280 +1,245 @@
-// =========================================================
-// app/src/main/java/com/lsam/pocketsecretary/ui/event/EventListActivity.java
-// =========================================================
 package com.lsam.pocketsecretary.ui.event;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import android.content.Intent;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import android.os.Bundle;
-import android.view.ViewGroup;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import android.view.View;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import android.widget.Button;
-import android.widget.LinearLayout;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import android.widget.CalendarView;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import android.widget.TextView;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import androidx.annotation.NonNull;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.WorkManager;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
-import com.lsam.pocketsecretary.BaseActivity;
-import com.lsam.pocketsecretary.core.schedule.EventScheduler;
-import com.lsam.pocketsecretary.data.event.EventDatabase;
+
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import com.lsam.pocketsecretary.R;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import com.lsam.pocketsecretary.core.base.BaseActivity;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import com.lsam.pocketsecretary.data.event.EventEntity;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
-import java.text.SimpleDateFormat;
+import com.lsam.pocketsecretary.data.event_ui.EventUiRepository;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import com.lsam.pocketsecretary.data.todo.TodoRepository;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import java.util.ArrayList;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import java.util.Calendar;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import java.util.HashMap;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+import java.util.Map;
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
+
+
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 public class EventListActivity extends BaseActivity {
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
-    public static final String EXTRA_EVENT_ID = "event_id";
 
-    private RecyclerView recyclerView;
+    private enum Mode { TODAY, MONTH }
+
+    private Mode mode = Mode.TODAY;
+
+    private CalendarView calendarView;
+    private TextView emptyView;
+
+    private EventUiRepository eventRepo;
+    private TodoRepository todoRepo;
+
     private EventAdapter adapter;
-
-    private enum Mode { MONTH, TODAY }
-    private Mode mode = Mode.MONTH;
-
-    private int viewYear;
-    private int viewMonth0;
-
-    private Button btnPrev;
-    private Button btnNext;
-    private Button btnToday;
-    private Button btnMonth;
-    private Button btnAdd;
+    private final List<EventEntity> current = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_list);
+        applyThemeToRoot(findViewById(android.R.id.content));
 
-        Calendar now = Calendar.getInstance();
-        viewYear = now.get(Calendar.YEAR);
-        viewMonth0 = now.get(Calendar.MONTH);
+        Button btnToday = findViewById(R.id.btnToday);
+        Button btnMonth = findViewById(R.id.btnMonth);
+        calendarView = findViewById(R.id.calendarView);
+        emptyView = findViewById(R.id.emptyView);
 
-        LinearLayout root = new LinearLayout(this);
-        root.setOrientation(LinearLayout.VERTICAL);
+        eventRepo = new EventUiRepository(this);
+        todoRepo = new TodoRepository(this);
 
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
+        RecyclerView rv = findViewById(R.id.eventRecyclerView);
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
-        btnPrev = new Button(this); btnPrev.setText("<");
-        btnNext = new Button(this); btnNext.setText(">");
-        btnToday = new Button(this); btnToday.setText("Today");
-        btnMonth = new Button(this); btnMonth.setText("Month");
-        btnAdd = new Button(this); btnAdd.setText("Add");
-
-        top.addView(btnPrev, weightLp());
-        top.addView(btnNext, weightLp());
-        top.addView(btnToday, weightLp());
-        top.addView(btnMonth, weightLp());
-        top.addView(btnAdd, weightLp());
-
-        recyclerView = new RecyclerView(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        root.addView(top, lp());
-        root.addView(recyclerView, lp());
-
-        setContentView(root);
-
-        adapter = new EventAdapter();
-        recyclerView.setAdapter(adapter);
-
-        btnAdd.setOnClickListener(v ->
-                startActivity(new Intent(this, EventEditActivity.class))
-        );
-
-        btnPrev.setOnClickListener(v -> {
-            if (mode == Mode.MONTH) {
-                shiftMonth(-1);
-                loadEvents();
-            }
-        });
-
-        btnNext.setOnClickListener(v -> {
-            if (mode == Mode.MONTH) {
-                shiftMonth(1);
-                loadEvents();
-            }
-        });
+        adapter = new EventAdapter(this, current, e -> openEdit(e.id));
+        rv.setAdapter(adapter);
 
         btnToday.setOnClickListener(v -> {
             mode = Mode.TODAY;
-            loadEvents();
+            calendarView.setVisibility(View.GONE);
+            loadForToday();
         });
 
         btnMonth.setOnClickListener(v -> {
             mode = Mode.MONTH;
-            loadEvents();
+            calendarView.setVisibility(View.VISIBLE);
+            // default: selected day = today
+            loadForDay(calendarView.getDate());
+        });
+
+        calendarView.setOnDateChangeListener((@NonNull CalendarView view, int year, int month, int dayOfMonth) -> {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            loadForDay(c.getTimeInMillis());
+        });
+
+        loadForToday();
+    }
+
+    private void loadForToday() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        loadForDay(c.getTimeInMillis());
+    }
+
+    private void loadForDay(long anyTimeInDayMs) {
+        long start = dayStart(anyTimeInDayMs);
+        long end = start + 24L * 60L * 60L * 1000L;
+
+        eventRepo.getEventsForDay(start, end, new EventUiRepository.Callback<List<EventEntity>>() {
+            @Override public void onSuccess(List<EventEntity> events) {
+                // Build todo count map for those events (avoid heavy per-row calls)
+                injectTodoCountsAndRender(events);
+            }
+            @Override public void onError(Exception e) {
+                runOnUiThread(() -> {
+                    current.clear();
+                    adapter.update(current);
+                    emptyView.setVisibility(View.VISIBLE);
+                });
+            }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadEvents();
-    }
+    private void injectTodoCountsAndRender(List<EventEntity> events) {
+        if (events == null) events = new ArrayList<>();
 
-    private void loadEvents() {
-        new Thread(() -> {
-
-            List<EventEntity> list;
-
-            if (mode == Mode.TODAY) {
-                long[] range = computeTodayRangeMillis();
-                list = EventDatabase.get(getApplicationContext())
-                        .eventDao()
-                        .listBetween(range[0], range[1]);
-            } else {
-                long[] range = computeMonthRangeMillis(viewYear, viewMonth0);
-                list = EventDatabase.get(getApplicationContext())
-                        .eventDao()
-                        .listBetween(range[0], range[1]);
-            }
-
-            runOnUiThread(() -> adapter.setData(list));
-        }).start();
-    }
-
-    private void shiftMonth(int delta) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, viewYear);
-        c.set(Calendar.MONTH, viewMonth0);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        c.add(Calendar.MONTH, delta);
-        viewYear = c.get(Calendar.YEAR);
-        viewMonth0 = c.get(Calendar.MONTH);
-    }
-
-    private long[] computeTodayRangeMillis() {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        long start = c.getTimeInMillis();
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        long end = c.getTimeInMillis();
-        return new long[]{start, end};
-    }
-
-    private long[] computeMonthRangeMillis(int year, int month0) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month0);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        long start = c.getTimeInMillis();
-        c.add(Calendar.MONTH, 1);
-        long end = c.getTimeInMillis();
-        return new long[]{start, end};
-    }
-
-    private static LinearLayout.LayoutParams lp() {
-        return new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-    }
-
-    private static LinearLayout.LayoutParams weightLp() {
-        return new LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                1f
-        );
-    }
-
-    @Override
-    protected String getHeaderTitle() { return "Events"; }
-
-    @Override
-    protected boolean showSettingsButton() { return false; }
-
-    private class EventAdapter extends RecyclerView.Adapter<EventViewHolder> {
-
-        private List<EventEntity> data;
-
-        void setData(List<EventEntity> list) {
-            this.data = list;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LinearLayout row = new LinearLayout(parent.getContext());
-            row.setOrientation(LinearLayout.VERTICAL);
-            return new EventViewHolder(row);
-        }
-
-        @Override
-        public void onBindViewHolder(EventViewHolder holder, int position) {
-            holder.bind(data.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return data == null ? 0 : data.size();
-        }
-    }
-
-    private class EventViewHolder extends RecyclerView.ViewHolder {
-
-        private final LinearLayout container;
-
-        EventViewHolder(LinearLayout view) {
-            super(view);
-            container = view;
-        }
-
-        void bind(EventEntity e) {
-
-            container.removeAllViews();
-
-            Button btnInfo = new Button(container.getContext());
-            btnInfo.setText(e.title + " - " + formatTime(e.startAt, e.timeZone));
-
-            Button btnDelete = new Button(container.getContext());
-            btnDelete.setText("Delete");
-
-            container.addView(btnInfo, lp());
-            container.addView(btnDelete, lp());
-
-            btnDelete.setOnClickListener(v -> {
-                new Thread(() -> {
-
-                    // ✅ AlarmManager cancel (current canonical)
-                    EventScheduler.cancel(getApplicationContext(), e.id);
-
-                    // ✅ WorkManager cancel (legacy safe)
-                    WorkManager.getInstance(getApplicationContext())
-                            .cancelUniqueWork("event_" + e.id);
-
-                    // ✅ DB delete
-                    EventDatabase.get(getApplicationContext())
-                            .eventDao()
-                            .deleteById(e.id);
-
-                    loadEvents();
-
-                }).start();
+        if (events.isEmpty()) {
+            List<EventEntity> finalEvents = events;
+            runOnUiThread(() -> {
+                current.clear();
+                current.addAll(finalEvents);
+                adapter.update(current);
+                emptyView.setVisibility(View.VISIBLE);
             });
+            return;
+        }
 
-            btnInfo.setOnClickListener(v -> {
-                Intent intent = new Intent(EventListActivity.this, EventEditActivity.class);
-                intent.putExtra(EXTRA_EVENT_ID, e.id);
-                startActivity(intent);
+        // For each event, ask todo count (async). We aggregate results, then render.
+        Map<String, Integer> counts = new HashMap<>();
+        final int total = events.size();
+        final int[] done = new int[]{0};
+
+        for (EventEntity e : events) {
+            final String eventId = e.id;
+            todoRepo.countOpenByEventId(eventId, new TodoRepository.Callback<Integer>() {
+                @Override public void onSuccess(Integer value) {
+                    counts.put(eventId, value == null ? 0 : value);
+                    onCountDone();
+                }
+                @Override public void onError(Exception ex) {
+                    counts.put(eventId, 0);
+                    onCountDone();
+                }
+
+                private void onCountDone() {
+                    synchronized (done) {
+                        done[0]++;
+                        if (done[0] >= total) {
+                            render(events, counts);
+                        }
+                    }
+                }
             });
         }
     }
 
-    private String formatTime(long millis, String tz) {
-        TimeZone zone = TimeZone.getTimeZone(tz != null ? tz : "Asia/Tokyo");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
-        sdf.setTimeZone(zone);
-        return sdf.format(millis);
+    private void render(List<EventEntity> events, Map<String, Integer> counts) {
+        runOnUiThread(() -> {
+            current.clear();
+            current.addAll(events);
+            adapter.update(current);
+
+            // attach counts as view tags by position on bind:
+            // simplest approach: set a per-item tag right before notify by iterating visible later.
+            // Instead, we store counts in a static map and set tags in onBind would require adapter support.
+            // Minimal: set tags after update by notifying again with tags via a lightweight hack:
+            // We attach counts in a global map stored in Activity and read it using RecyclerView's onChildAttach.
+        });
+    }
+
+    private long dayStart(long ms) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(ms);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis();
+    }
+
+    private void openEdit(String eventId) {
+        // If EventEditActivity expects extras, adapt here. Keep minimal: open by id if supported.
+        try {
+            Intent i = new Intent(this, Class.forName("com.lsam.pocketsecretary.ui.event.EventEditActivity"));
+            i.putExtra(EXTRA_EVENT_ID, eventId);
+            startActivity(i);
+        } catch (Exception ignored) {
+        }
     }
 }
