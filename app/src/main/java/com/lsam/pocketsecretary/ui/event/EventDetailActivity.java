@@ -1,5 +1,8 @@
 package com.lsam.pocketsecretary.ui.event;
 
+import androidx.work.WorkManager;
+import com.lsam.pocketsecretary.data.todo.TodoRepository;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -65,19 +68,29 @@ public class EventDetailActivity extends BaseActivity {
         }).start();
     }
 
-    private void delete() {
-        new Thread(() -> {
+private void delete() {
 
-            EventScheduler.cancel(getApplicationContext(), eventId);
+    TodoRepository todoRepo = new TodoRepository(this);
 
-            EventDatabase.get(getApplicationContext())
-                .eventDao()
-                .deleteById(eventId);
+    todoRepo.detachByEventId(eventId, new TodoRepository.Callback<Void>() {
+        @Override
+        public void onSuccess(Void value) {
 
-            runOnUiThread(this::finish);
+            WorkManager.getInstance(getApplicationContext())
+                    .cancelUniqueWork("event_" + eventId);
 
-        }).start();
-    }
+            EventDatabase.get(EventDetailActivity.this)
+                    .eventDao()
+                    .deleteById(eventId);
+
+            runOnUiThread(() -> finish());
+        }
+
+        @Override
+        public void onError(Exception e) {
+        }
+    });
+}
 
     @Override
     protected String getHeaderTitle() {
@@ -87,5 +100,24 @@ public class EventDetailActivity extends BaseActivity {
     @Override
     protected boolean showSettingsButton() {
         return false;
+    }
+
+    // PS_EVENT_DELETE_DETACH: detach todos + cancel worker + delete event
+    private void deleteEventWithTodoDetach(String targetEventId, Runnable afterDelete) {
+        TodoRepository todoRepo = new TodoRepository(this);
+        todoRepo.detachByEventId(targetEventId, new TodoRepository.Callback<Void>() {
+             public void onSuccess(Void value) {
+                // Cancel scheduled notification for this event
+                WorkManager.getInstance(getApplicationContext())
+                        .cancelUniqueWork("event_" + targetEventId);
+                
+                // Continue actual event deletion (caller handles repo)
+                if (afterDelete != null) afterDelete.run();
+            }
+             public void onError(Exception e) {
+                // Even if detach fails, do not delete event to avoid dangling references
+                // Caller may show a toast; keep silent here.
+            }
+        });
     }
 }
