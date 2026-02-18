@@ -3,6 +3,8 @@ package com.lsam.pocketsecretary.data.memo;
 import androidx.room.*;
 
 import java.util.List;
+import androidx.room.Dao;
+import androidx.room.Query;
 
 @Dao
 public interface MemoDao {
@@ -27,4 +29,8 @@ public interface MemoDao {
 
     @Query("SELECT * FROM memo WHERE title LIKE :q OR content LIKE :q ORDER BY updatedAt DESC")
     List<MemoEntity> search(String q);
+
+@Query("SELECT * FROM memo ORDER BY createdAt DESC")
+List<MemoEntity> findAll();
+
 }

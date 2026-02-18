@@ -11,17 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.base.BaseActivity;
 import com.lsam.pocketsecretary.data.event.EventEntity;
 import com.lsam.pocketsecretary.data.event_ui.EventUiRepository;
-import com.lsam.pocketsecretary.data.todo.TodoRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EventListActivity extends BaseActivity {
 
@@ -35,7 +33,6 @@ public class EventListActivity extends BaseActivity {
     private TextView emptyView;
 
     private EventUiRepository eventRepo;
-    private TodoRepository todoRepo;
 
     private EventAdapter adapter;
     private final List<EventEntity> current = new ArrayList<>();
@@ -45,13 +42,29 @@ public class EventListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
 
+        bindViews();
+        bindFab();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mode == Mode.TODAY) {
+            loadForToday();
+        } else {
+            loadForDay(calendarView.getDate());
+        }
+    }
+
+    private void bindViews() {
+
         Button btnToday = findViewById(R.id.btnToday);
         Button btnMonth = findViewById(R.id.btnMonth);
         calendarView = findViewById(R.id.calendarView);
         emptyView = findViewById(R.id.emptyView);
 
         eventRepo = new EventUiRepository(this);
-        todoRepo = new TodoRepository(this);
 
         RecyclerView rv = findViewById(R.id.eventRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -71,14 +84,22 @@ public class EventListActivity extends BaseActivity {
             loadForDay(calendarView.getDate());
         });
 
-        calendarView.setOnDateChangeListener((@NonNull CalendarView view, int year, int month, int dayOfMonth) -> {
+        calendarView.setOnDateChangeListener((@NonNull CalendarView view,
+                                              int year,
+                                              int month,
+                                              int dayOfMonth) -> {
             Calendar c = Calendar.getInstance();
             c.set(year, month, dayOfMonth, 0, 0, 0);
             c.set(Calendar.MILLISECOND, 0);
             loadForDay(c.getTimeInMillis());
         });
+    }
 
-        loadForToday();
+    private void bindFab() {
+        FloatingActionButton fab = findViewById(R.id.fabAddEvent);
+        fab.setOnClickListener(v ->
+                startActivity(new Intent(this, EventEditActivity.class))
+        );
     }
 
     private void loadForToday() {
@@ -91,27 +112,32 @@ public class EventListActivity extends BaseActivity {
     }
 
     private void loadForDay(long anyTimeInDayMs) {
+
         long start = dayStart(anyTimeInDayMs);
         long end = start + 24L * 60L * 60L * 1000L;
 
-        eventRepo.getEventsForDay(start, end, new EventUiRepository.Callback<List<EventEntity>>() {
-            @Override
-            public void onSuccess(List<EventEntity> events) {
-                runOnUiThread(() -> {
-                    current.clear();
-                    if (events != null) {
-                        current.addAll(events);
-                    }
-                    adapter.update(current);
-                    emptyView.setVisibility(current.isEmpty() ? View.VISIBLE : View.GONE);
-                });
-            }
+        eventRepo.getEventsForDay(start, end,
+                new EventUiRepository.Callback<List<EventEntity>>() {
 
-            @Override
-            public void onError(Exception e) {
-                runOnUiThread(() -> emptyView.setVisibility(View.VISIBLE));
-            }
-        });
+                    @Override
+                    public void onSuccess(List<EventEntity> events) {
+                        runOnUiThread(() -> {
+                            current.clear();
+                            if (events != null) current.addAll(events);
+                            adapter.update(current);
+                            emptyView.setVisibility(
+                                    current.isEmpty() ? View.VISIBLE : View.GONE
+                            );
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        runOnUiThread(() ->
+                                emptyView.setVisibility(View.VISIBLE)
+                        );
+                    }
+                });
     }
 
     private long dayStart(long ms) {

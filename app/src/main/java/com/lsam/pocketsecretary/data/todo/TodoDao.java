@@ -69,6 +69,7 @@ public interface TodoDao {
     @Query("UPDATE todo SET priority = :priority WHERE id = :id")
     void updatePriority(long id, int priority);
 
-    .room.Query("UPDATE todo SET eventId = NULL WHERE eventId = :eventId")
+    // ---------- Event detach ----------
+    @Query("UPDATE todo SET eventId = NULL WHERE eventId = :eventId")
     void detachByEventId(String eventId);
 }

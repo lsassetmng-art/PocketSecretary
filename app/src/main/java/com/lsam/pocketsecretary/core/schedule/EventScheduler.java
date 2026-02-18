@@ -7,6 +7,10 @@ import android.content.Intent;
 
 import com.lsam.pocketsecretary.receiver.EventAlarmReceiver;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
+
 public final class EventScheduler {
 
     private EventScheduler(){}
@@ -58,4 +62,41 @@ public final class EventScheduler {
             am.cancel(pi);
         }
     }
+
+public static void scheduleInexact(Context context,
+                                    String eventId,
+                                    long triggerAtMillis) {
+
+    AlarmManager alarmManager =
+            (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+    PendingIntent pi = buildPendingIntent(context, eventId);
+
+    if (alarmManager != null) {
+        alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                triggerAtMillis,
+                pi
+        );
+    }
+}
+
+private static PendingIntent buildPendingIntent(Context context, String eventId) {
+
+    Intent intent = new Intent(context, EventAlarmReceiver.class);
+    intent.putExtra("event_id", eventId);
+
+    int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        flags |= PendingIntent.FLAG_IMMUTABLE;
+    }
+
+    return PendingIntent.getBroadcast(
+            context,
+            eventId.hashCode(),
+            intent,
+            flags
+    );
+}
+
 }

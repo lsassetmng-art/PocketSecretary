@@ -2,8 +2,7 @@ package com.lsam.pocketsecretary.data.event_ui;
 
 import android.content.Context;
 
-import androidx.room.Room;
-
+import com.lsam.pocketsecretary.data.event.EventDatabase;
 import com.lsam.pocketsecretary.data.event.EventEntity;
 
 import java.util.List;
@@ -17,22 +16,25 @@ public class EventUiRepository {
         void onError(Exception e);
     }
 
-    private final EventUiDao dao;
+    private final EventDatabase db;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public EventUiRepository(Context context) {
-        EventUiDatabase db = Room.databaseBuilder(
-                context.getApplicationContext(),
-                EventUiDatabase.class,
-                "ps_events_ui_db"
-        ).build();
-        dao = db.eventUiDao();
+        db = EventDatabase.get(context.getApplicationContext());
     }
 
-    public void getEventsForDay(long dayStartMs, long dayEndMs, Callback<List<EventEntity>> cb) {
+    public void getEventsForDay(long dayStartMs,
+                                long dayEndMs,
+                                Callback<List<EventEntity>> cb) {
+
         executor.execute(() -> {
-            try { cb.onSuccess(dao.getEventsBetween(dayStartMs, dayEndMs)); }
-            catch (Exception e) { cb.onError(e); }
+            try {
+                List<EventEntity> list =
+                        db.eventDao().listBetween(dayStartMs, dayEndMs);
+                cb.onSuccess(list);
+            } catch (Exception e) {
+                cb.onError(e);
+            }
         });
     }
 }

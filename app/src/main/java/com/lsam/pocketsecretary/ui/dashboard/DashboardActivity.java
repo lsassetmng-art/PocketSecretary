@@ -39,6 +39,7 @@ import com.lsam.pocketsecretary.ui.persona.PersonaSelectActivity;
 import com.lsam.pocketsecretary.ui.tools.SecretaryToolsActivity;
 import com.lsam.pocketsecretary.worker.MorningBriefingWorker;
 import com.lsam.pocketsecretary.worker.UpcomingEventWorker;
+import com.lsam.pocketsecretary.ui.todo.TodoListActivity;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +107,13 @@ public class DashboardActivity extends BaseActivity {
             btnSchedule.setOnClickListener(v ->
                     startActivity(new Intent(this, EventListActivity.class)));
         }
+
+View btnTodo = findViewById(R.id.btnTodo);
+if (btnTodo != null) {
+    btnTodo.setOnClickListener(v ->
+            startActivity(new Intent(this, TodoListActivity.class)));
+}
+
     }
 
     private void applyBackground() {

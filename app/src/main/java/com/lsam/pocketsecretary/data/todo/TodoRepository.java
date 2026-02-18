@@ -237,4 +237,19 @@ public class TodoRepository {
         }
         return -1;
     }
+
+    // ------------------------------
+    // Event detach (used when event deleted)
+    // ------------------------------
+    public void detachByEventId(String eventId, Callback<Void> cb) {
+        executor.execute(() -> {
+            try {
+                dao.detachByEventId(eventId);
+                cb.onSuccess(null);
+            } catch (Exception e) {
+                cb.onError(e);
+            }
+        });
+    }
+
 }

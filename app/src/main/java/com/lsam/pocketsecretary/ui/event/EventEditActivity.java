@@ -1,18 +1,17 @@
-// =========================================================
-// app/src/main/java/com/lsam/pocketsecretary/ui/event/EventEditActivity.java
-// =========================================================
 package com.lsam.pocketsecretary.ui.event;
 
+import android.app.AlarmManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.lsam.pocketsecretary.BaseActivity;
+import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.schedule.EventScheduler;
 import com.lsam.pocketsecretary.data.event.EventDatabase;
 import com.lsam.pocketsecretary.data.event.EventEntity;
@@ -34,58 +33,36 @@ public class EventEditActivity extends BaseActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
 
+        setBaseContent(R.layout.activity_event_edit);
+
         editingEventId = getIntent() != null
                 ? getIntent().getStringExtra(EventListActivity.EXTRA_EVENT_ID)
                 : null;
 
-        LinearLayout root = new LinearLayout(this);
-        root.setOrientation(LinearLayout.VERTICAL);
-
-        edtTitle = new EditText(this);
-        edtTitle.setHint("Title");
-
-        edtStart = new EditText(this);
-        edtStart.setHint("Start epoch millis");
-
-        spFreq = new Spinner(this);
-        String[] freqs = {"NONE", "DAILY", "WEEKLY", "MONTHLY", "YEARLY"};
-        spFreq.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                freqs
-        ));
-
-        edtInterval = new EditText(this);
-        edtInterval.setHint("Interval (optional)");
-
-        edtCount = new EditText(this);
-        edtCount.setHint("Count (optional)");
-
-        edtUntil = new EditText(this);
-        edtUntil.setHint("Until epoch millis (optional)");
-
-        Button btnSave = new Button(this);
-        btnSave.setText("Save");
-
-        root.addView(edtTitle, lp());
-        root.addView(edtStart, lp());
-        root.addView(spFreq, lp());
-        root.addView(edtInterval, lp());
-        root.addView(edtCount, lp());
-        root.addView(edtUntil, lp());
-        root.addView(btnSave, lp());
-
-        setContentView(root);
+        bindViews();
 
         if (!TextUtils.isEmpty(editingEventId)) {
             loadForEdit(editingEventId);
         }
+    }
 
+    private void bindViews() {
+
+        edtTitle = findViewById(R.id.edtTitle);
+        edtStart = findViewById(R.id.edtStart);
+        spFreq = findViewById(R.id.spFreq);
+        edtInterval = findViewById(R.id.edtInterval);
+        edtCount = findViewById(R.id.edtCount);
+        edtUntil = findViewById(R.id.edtUntil);
+
+        Button btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> save());
     }
 
     private void loadForEdit(String id) {
+
         new Thread(() -> {
+
             EventEntity e = EventDatabase.get(getApplicationContext())
                     .eventDao()
                     .findById(id);
@@ -95,33 +72,8 @@ public class EventEditActivity extends BaseActivity {
             runOnUiThread(() -> {
                 edtTitle.setText(e.title != null ? e.title : "");
                 edtStart.setText(String.valueOf(e.startAt));
-
-                // recurrence (RRULE-like simple string)
-                String freq = "NONE";
-                String interval = "";
-                if (!TextUtils.isEmpty(e.recurrenceRule)) {
-                    String f = extractValue(e.recurrenceRule, "FREQ");
-                    if (!TextUtils.isEmpty(f)) freq = f;
-
-                    String it = extractValue(e.recurrenceRule, "INTERVAL");
-                    if (!TextUtils.isEmpty(it)) interval = it;
-                }
-
-                setSpinnerValue(spFreq, freq);
-                edtInterval.setText(interval);
-
-                if (e.recurrenceCount != null) {
-                    edtCount.setText(String.valueOf(e.recurrenceCount));
-                } else {
-                    edtCount.setText("");
-                }
-
-                if (e.recurrenceUntil != null) {
-                    edtUntil.setText(String.valueOf(e.recurrenceUntil));
-                } else {
-                    edtUntil.setText("");
-                }
             });
+
         }).start();
     }
 
@@ -135,149 +87,128 @@ public class EventEditActivity extends BaseActivity {
                 ? edtStart.getText().toString().trim()
                 : "";
 
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(startStr)) {
+        if (TextUtils.isEmpty(title)) {
+            Toast.makeText(this,
+                    getString(R.string.ps_event_title_required),
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final long startAt;
-        try {
-            startAt = Long.parseLong(startStr);
-        } catch (Exception e) {
-            return;
+        long startAt;
+
+        if (TextUtils.isEmpty(startStr)) {
+            startAt = System.currentTimeMillis();
+        } else {
+            try {
+                startAt = Long.parseLong(startStr);
+            } catch (Exception e) {
+                startAt = System.currentTimeMillis();
+            }
         }
 
-        final String freq = spFreq.getSelectedItem() != null
-                ? spFreq.getSelectedItem().toString()
-                : "NONE";
-
-        final String intervalStr = edtInterval.getText() != null
-                ? edtInterval.getText().toString().trim()
-                : "";
-
-        final String countStr = edtCount.getText() != null
-                ? edtCount.getText().toString().trim()
-                : "";
-
-        final String untilStr = edtUntil.getText() != null
-                ? edtUntil.getText().toString().trim()
-                : "";
+        final long finalStartAt = startAt;
 
         new Thread(() -> {
 
-            EventEntity e;
+            try {
 
-            if (!TextUtils.isEmpty(editingEventId)) {
-                e = EventDatabase.get(getApplicationContext())
-                        .eventDao()
-                        .findById(editingEventId);
-                if (e == null) {
+                EventEntity e;
+
+                if (!TextUtils.isEmpty(editingEventId)) {
+                    e = EventDatabase.get(getApplicationContext())
+                            .eventDao()
+                            .findById(editingEventId);
+                    if (e == null) {
+                        e = new EventEntity();
+                        e.id = editingEventId;
+                    }
+                } else {
                     e = new EventEntity();
-                    e.id = editingEventId;
+                    e.id = UUID.randomUUID().toString();
                 }
-            } else {
-                e = new EventEntity();
-                e.id = UUID.randomUUID().toString();
+
+                e.title = title;
+                e.startAt = finalStartAt;
+                e.endAt = finalStartAt + 60_000L;
+                e.allDay = false;
+                e.timeZone = "Asia/Tokyo";
+                e.reminderBeforeMin = 10;
+                e.localOnly = true;
+                e.lastOccurrenceAt = null;
+
+                EventDatabase.get(getApplicationContext())
+                        .eventDao()
+                        .upsert(e);
+
+                long notifyAt =
+                        e.startAt - (long) e.reminderBeforeMin * 60_000L;
+
+                if (notifyAt < System.currentTimeMillis()) {
+                    notifyAt = System.currentTimeMillis() + 1000L;
+                }
+
+                scheduleSafe(e.id, notifyAt);
+
+                runOnUiThread(() -> {
+                    Toast.makeText(this,
+                            getString(R.string.ps_event_saved),
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+
+            } catch (Exception ex) {
+
+                runOnUiThread(() ->
+                        Toast.makeText(this,
+                                getString(R.string.ps_event_save_error, ex.getMessage()),
+                                Toast.LENGTH_LONG).show()
+                );
+
+                ex.printStackTrace();
             }
-
-            e.title = title;
-            e.startAt = startAt;
-            e.endAt = startAt + 60_000L;
-            e.allDay = false;
-            e.timeZone = "Asia/Tokyo";
-            e.reminderBeforeMin = 10;
-            e.localOnly = true;
-
-            // recurrence init
-            e.recurrenceRule = null;
-            e.recurrenceCount = null;
-            e.recurrenceUntil = null;
-
-            if (!"NONE".equals(freq)) {
-                StringBuilder r = new StringBuilder();
-                r.append("FREQ=").append(freq);
-
-                if (!TextUtils.isEmpty(intervalStr)) {
-                    r.append(";INTERVAL=").append(intervalStr);
-                }
-
-                e.recurrenceRule = r.toString();
-
-                if (!TextUtils.isEmpty(countStr)) {
-                    try {
-                        e.recurrenceCount = Integer.parseInt(countStr);
-                    } catch (Exception ignored) {
-                        e.recurrenceCount = null;
-                    }
-                }
-
-                if (!TextUtils.isEmpty(untilStr)) {
-                    try {
-                        e.recurrenceUntil = Long.parseLong(untilStr);
-                    } catch (Exception ignored) {
-                        e.recurrenceUntil = null;
-                    }
-                }
-            }
-
-            // edit時は lastOccurrenceAt をリセット（次回計算を startAt 기준に）
-            e.lastOccurrenceAt = null;
-
-            EventDatabase.get(getApplicationContext())
-                    .eventDao()
-                    .upsert(e);
-
-            long notifyAt =
-                    e.startAt - (long) e.reminderBeforeMin * 60_000L;
-
-            if (notifyAt < System.currentTimeMillis()) {
-                notifyAt = System.currentTimeMillis() + 1000L;
-            }
-
-            // schedule (AlarmManager)
-            EventScheduler.scheduleExact(
-                    getApplicationContext(),
-                    e.id,
-                    notifyAt
-            );
-
-            runOnUiThread(this::finish);
 
         }).start();
     }
 
-    private static String extractValue(String rule, String key) {
-        if (rule == null) return "";
-        String[] parts = rule.split(";");
-        String prefix = key + "=";
-        for (String p : parts) {
-            if (p != null && p.startsWith(prefix)) {
-                return p.substring(prefix.length()).trim();
+    private void scheduleSafe(String eventId, long notifyAt) {
+
+        try {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                AlarmManager am =
+                        (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+                if (am != null && !am.canScheduleExactAlarms()) {
+                    EventScheduler.scheduleInexact(
+                            getApplicationContext(),
+                            eventId,
+                            notifyAt
+                    );
+                    return;
+                }
+            }
+
+            EventScheduler.scheduleExact(
+                    getApplicationContext(),
+                    eventId,
+                    notifyAt
+            );
+
+        } catch (SecurityException se) {
+            try {
+                EventScheduler.scheduleInexact(
+                        getApplicationContext(),
+                        eventId,
+                        notifyAt
+                );
+            } catch (Exception ignored) {
             }
         }
-        return "";
-    }
-
-    private static void setSpinnerValue(Spinner sp, String value) {
-        if (sp == null || value == null) return;
-        for (int i = 0; i < sp.getCount(); i++) {
-            Object item = sp.getItemAtPosition(i);
-            if (item != null && value.equals(item.toString())) {
-                sp.setSelection(i);
-                return;
-            }
-        }
-    }
-
-    private static LinearLayout.LayoutParams lp() {
-        return new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
     }
 
     @Override
     protected String getHeaderTitle() {
-        return "Event";
+        return getString(R.string.ps_screen_event);
     }
 
     @Override
