@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/rootTodoEdit"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="16dp">
+
+  <EditText
+    android:id="@+id/editTitle"
+    android:layout_width="0dp"
+    android:layout_height="56dp"
+    android:hint="@string/todo_title_hint"
+    android:inputType="textCapSentences"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+
+  <EditText
+    android:id="@+id/editContent"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:hint="@string/todo_content_hint"
+    android:inputType="textMultiLine"
+    android:minLines="3"
+    app:layout_constraintTop_toBottomOf="@id/editTitle"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/rowActions"
+    android:layout_marginTop="12dp" />
+
+  <LinearLayout
+    android:id="@+id/rowActions"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/rowButtons">
+
+    <TextView
+      android:id="@+id/textDueLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/todo_due" />
+
+    <Button
+      android:id="@+id/btnPickDue"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:text="@string/todo_due_pick" />
+
+    <TextView
+      android:id="@+id/textEventLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:text="@string/todo_event" />
+
+    <TextView
+      android:id="@+id/textEventValue"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/todo_event_none" />
+
+    <Button
+      android:id="@+id/btnUnlinkEvent"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:text="@string/todo_event_unlink" />
+
+    <LinearLayout
+      android:id="@+id/rowMove"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_marginTop="10dp">
+
+      <Button
+        android:id="@+id/btnMoveUp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:text="@string/todo_move_up" />
+
+      <Button
+        android:id="@+id/btnMoveDown"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:text="@string/todo_move_down" />
+    </LinearLayout>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/rowButtons"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <Button
+      android:id="@+id/btnSave"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_weight="1"
+      android:text="@string/save" />
+
+    <Button
+      android:id="@+id/btnDelete"
+      android:layout_width="0dp"
+      android:layout_height="48dp"
+      android:layout_weight="1"
+      android:text="@string/delete" />
+  </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

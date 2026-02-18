@@ -216,4 +216,23 @@ Upgrade / FAQ は後日追加します。
     <string name="ps_tools_speech">Speech Tool</string>
     <string name="ps_tools_all_features">All Features</string>
 
+    <string name="business_mode_title">Business Mode</string>
+    <string name="business_mode_switch">Enable business mode</string>
+    <string name="business_mode_note">Business mode hides character visuals and uses a minimal theme.</string>
+  <string name="todo_title">Todo</string>
+  <string name="filter_all">All</string>
+  <string name="filter_open">Open</string>
+  <string name="filter_done">Done</string>
+  <string name="todo_add">Add todo</string>
+  <string name="todo_title_hint">Title</string>
+  <string name="todo_content_hint">Details</string>
+  <string name="todo_due">Due</string>
+  <string name="todo_due_pick">Pick date</string>
+  <string name="todo_event">Event</string>
+  <string name="todo_event_none">None</string>
+  <string name="todo_event_unlink">Unlink</string>
+  <string name="todo_move_up">Move up</string>
+  <string name="todo_move_down">Move down</string>
+  <string name="save">Save</string>
+  <string name="delete">Delete</string>
 </resources>
