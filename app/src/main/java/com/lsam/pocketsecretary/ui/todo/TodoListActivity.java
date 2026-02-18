@@ -103,16 +103,15 @@ public class TodoListActivity extends BaseActivity {
 
     private void openCreate() {
         Intent i = new Intent(this, TodoEditActivity.class);
-        // If opened from event context, caller can set EXTRA_EVENT_ID.
-        long eventId = getIntent().getLongExtra(EXTRA_EVENT_ID, -1L);
-        if (eventId > 0) i.putExtra(EXTRA_EVENT_ID, eventId);
+        String eventId = getIntent().getStringExtra(EXTRA_EVENT_ID);
+        if (eventId != null) i.putExtra(EXTRA_EVENT_ID, eventId);
         startActivity(i);
     }
 
-    private void openEdit(long todoId, Long eventId) {
+    private void openEdit(long todoId, String eventId) {
         Intent i = new Intent(this, TodoEditActivity.class);
         i.putExtra(TodoEditActivity.EXTRA_TODO_ID, todoId);
-        if (eventId != null) i.putExtra(EXTRA_EVENT_ID, eventId.longValue());
+        if (eventId != null) i.putExtra(EXTRA_EVENT_ID, eventId);
         startActivity(i);
     }
 

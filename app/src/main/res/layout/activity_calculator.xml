@@ -58,7 +58,7 @@
 
         <!-- Row 5 -->
         <Button android:id="@+id/btnClear" android:text="C" android:layout_height="64dp"/>
-        <Button android:id="@+id/btnBack" android:text="<-" android:layout_height="64dp"/>
+        <Button android:id="@+id/btnBack" android:text="&lt;-" android:layout_height="64dp"/>
     </GridLayout>
 
     <!-- History -->

@@ -1,81 +1,31 @@
 package com.lsam.pocketsecretary.ui.event;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
-
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import android.content.Intent;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import android.os.Bundle;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import android.view.View;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import android.widget.Button;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import android.widget.CalendarView;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import android.widget.TextView;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
-
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import androidx.annotation.NonNull;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import androidx.recyclerview.widget.LinearLayoutManager;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import androidx.recyclerview.widget.RecyclerView;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
-
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import com.lsam.pocketsecretary.R;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import com.lsam.pocketsecretary.core.base.BaseActivity;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import com.lsam.pocketsecretary.data.event.EventEntity;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import com.lsam.pocketsecretary.data.event_ui.EventUiRepository;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import com.lsam.pocketsecretary.data.todo.TodoRepository;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
-
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 import java.util.ArrayList;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import java.util.Calendar;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import java.util.HashMap;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import java.util.List;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
 import java.util.Map;
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
-
-
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
 public class EventListActivity extends BaseActivity {
-    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
+    public static final String EXTRA_EVENT_ID = "extra_event_id";
 
     private enum Mode { TODAY, MONTH }
 
@@ -94,7 +44,6 @@ public class EventListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
-        applyThemeToRoot(findViewById(android.R.id.content));
 
         Button btnToday = findViewById(R.id.btnToday);
         Button btnMonth = findViewById(R.id.btnMonth);
@@ -119,18 +68,12 @@ public class EventListActivity extends BaseActivity {
         btnMonth.setOnClickListener(v -> {
             mode = Mode.MONTH;
             calendarView.setVisibility(View.VISIBLE);
-            // default: selected day = today
             loadForDay(calendarView.getDate());
         });
 
         calendarView.setOnDateChangeListener((@NonNull CalendarView view, int year, int month, int dayOfMonth) -> {
             Calendar c = Calendar.getInstance();
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            c.set(Calendar.HOUR_OF_DAY, 0);
-            c.set(Calendar.MINUTE, 0);
-            c.set(Calendar.SECOND, 0);
+            c.set(year, month, dayOfMonth, 0, 0, 0);
             c.set(Calendar.MILLISECOND, 0);
             loadForDay(c.getTimeInMillis());
         });
@@ -152,74 +95,22 @@ public class EventListActivity extends BaseActivity {
         long end = start + 24L * 60L * 60L * 1000L;
 
         eventRepo.getEventsForDay(start, end, new EventUiRepository.Callback<List<EventEntity>>() {
-            @Override public void onSuccess(List<EventEntity> events) {
-                // Build todo count map for those events (avoid heavy per-row calls)
-                injectTodoCountsAndRender(events);
-            }
-            @Override public void onError(Exception e) {
+            @Override
+            public void onSuccess(List<EventEntity> events) {
                 runOnUiThread(() -> {
                     current.clear();
+                    if (events != null) {
+                        current.addAll(events);
+                    }
                     adapter.update(current);
-                    emptyView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(current.isEmpty() ? View.VISIBLE : View.GONE);
                 });
             }
-        });
-    }
 
-    private void injectTodoCountsAndRender(List<EventEntity> events) {
-        if (events == null) events = new ArrayList<>();
-
-        if (events.isEmpty()) {
-            List<EventEntity> finalEvents = events;
-            runOnUiThread(() -> {
-                current.clear();
-                current.addAll(finalEvents);
-                adapter.update(current);
-                emptyView.setVisibility(View.VISIBLE);
-            });
-            return;
-        }
-
-        // For each event, ask todo count (async). We aggregate results, then render.
-        Map<String, Integer> counts = new HashMap<>();
-        final int total = events.size();
-        final int[] done = new int[]{0};
-
-        for (EventEntity e : events) {
-            final String eventId = e.id;
-            todoRepo.countOpenByEventId(eventId, new TodoRepository.Callback<Integer>() {
-                @Override public void onSuccess(Integer value) {
-                    counts.put(eventId, value == null ? 0 : value);
-                    onCountDone();
-                }
-                @Override public void onError(Exception ex) {
-                    counts.put(eventId, 0);
-                    onCountDone();
-                }
-
-                private void onCountDone() {
-                    synchronized (done) {
-                        done[0]++;
-                        if (done[0] >= total) {
-                            render(events, counts);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    private void render(List<EventEntity> events, Map<String, Integer> counts) {
-        runOnUiThread(() -> {
-            current.clear();
-            current.addAll(events);
-            adapter.update(current);
-
-            // attach counts as view tags by position on bind:
-            // simplest approach: set a per-item tag right before notify by iterating visible later.
-            // Instead, we store counts in a static map and set tags in onBind would require adapter support.
-            // Minimal: set tags after update by notifying again with tags via a lightweight hack:
-            // We attach counts in a global map stored in Activity and read it using RecyclerView's onChildAttach.
+            @Override
+            public void onError(Exception e) {
+                runOnUiThread(() -> emptyView.setVisibility(View.VISIBLE));
+            }
         });
     }
 
@@ -234,12 +125,8 @@ public class EventListActivity extends BaseActivity {
     }
 
     private void openEdit(String eventId) {
-        // If EventEditActivity expects extras, adapt here. Keep minimal: open by id if supported.
-        try {
-            Intent i = new Intent(this, Class.forName("com.lsam.pocketsecretary.ui.event.EventEditActivity"));
-            i.putExtra(EXTRA_EVENT_ID, eventId);
-            startActivity(i);
-        } catch (Exception ignored) {
-        }
+        Intent i = new Intent(this, EventEditActivity.class);
+        i.putExtra(EXTRA_EVENT_ID, eventId);
+        startActivity(i);
     }
 }

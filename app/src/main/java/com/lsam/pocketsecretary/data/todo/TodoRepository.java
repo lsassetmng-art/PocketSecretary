@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,7 +60,7 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Create / Update
+    // Create
     // ------------------------------
     public void create(String title, String content, Long dueAt, String eventId, Callback<Long> cb) {
         executor.execute(() -> {
@@ -82,11 +81,15 @@ public class TodoRepository {
         });
     }
 
+    // ------------------------------
+    // Update
+    // ------------------------------
     public void update(long id, String title, String content, Long dueAt, String eventId, Callback<Void> cb) {
         executor.execute(() -> {
             try {
                 TodoEntity e = dao.getById(id);
                 if (e == null) throw new IllegalStateException("Todo not found");
+
                 boolean scopeChanged = !sameString(e.eventId, eventId);
 
                 e.title = title;
@@ -94,8 +97,7 @@ public class TodoRepository {
                 e.dueAt = dueAt;
 
                 if (scopeChanged) {
-                    // event attach/detach -> priority reassign in transaction
-                    Long newEventId = eventId;
+                    String newEventId = eventId;
                     db.runInTransaction(() -> {
                         e.eventId = newEventId;
                         e.priority = nextPriorityInternal(newEventId);
@@ -114,13 +116,14 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Status toggle (priority unchanged)
+    // Toggle
     // ------------------------------
     public void toggleStatus(long id, Callback<Void> cb) {
         executor.execute(() -> {
             try {
                 TodoEntity e = dao.getById(id);
                 if (e == null) throw new IllegalStateException("Todo not found");
+
                 String next = "open".equals(e.status) ? "done" : "open";
                 dao.updateStatus(id, next);
                 cb.onSuccess(null);
@@ -131,7 +134,7 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Delete (multi-select)
+    // Delete
     // ------------------------------
     public void deleteByIds(List<Long> ids, Callback<Void> cb) {
         executor.execute(() -> {
@@ -145,7 +148,7 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Move up/down (within same scope + same status)
+    // Move
     // ------------------------------
     public void moveUp(long id, Callback<Void> cb) {
         moveInternal(id, true, cb);
@@ -162,8 +165,10 @@ public class TodoRepository {
                 if (target == null) throw new IllegalStateException("Todo not found");
 
                 List<TodoEntity> scope = dao.getScopeByStatus(target.eventId, target.status);
+
                 int idx = indexOf(scope, id);
                 if (idx < 0) throw new IllegalStateException("Scope mismatch");
+
                 int otherIdx = up ? idx - 1 : idx + 1;
                 if (otherIdx < 0 || otherIdx >= scope.size()) {
                     cb.onSuccess(null);
@@ -181,6 +186,7 @@ public class TodoRepository {
                 });
 
                 cb.onSuccess(null);
+
             } catch (Exception ex) {
                 cb.onError(ex);
             }
@@ -188,9 +194,9 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Event notification support
+    // Count by Event
     // ------------------------------
-    public void countOpenByEventId(long eventId, Callback<Integer> cb) {
+    public void countOpenByEventId(String eventId, Callback<Integer> cb) {
         executor.execute(() -> {
             try {
                 cb.onSuccess(dao.countOpenByEventId(eventId));
@@ -201,23 +207,28 @@ public class TodoRepository {
     }
 
     // ------------------------------
-    // Priority (scope-based, 10-step)
+    // Priority
     // ------------------------------
     private int nextPriority(String eventId) {
-        Integer max = (eventId == null) ? dao.getMaxPriorityNullScope() : dao.getMaxPriorityForEvent(eventId);
+        Integer max = (eventId == null)
+                ? dao.getMaxPriorityNullScope()
+                : dao.getMaxPriorityForEvent(eventId);
+
         return (max == null) ? 10 : (max + 10);
     }
 
-    // Must be called inside transaction if scope changes, to avoid race
     private int nextPriorityInternal(String eventId) {
-        Integer max = (eventId == null) ? dao.getMaxPriorityNullScope() : dao.getMaxPriorityForEvent(eventId);
+        Integer max = (eventId == null)
+                ? dao.getMaxPriorityNullScope()
+                : dao.getMaxPriorityForEvent(eventId);
+
         return (max == null) ? 10 : (max + 10);
     }
 
     private static boolean sameString(String a, String b) {
         if (a == null && b == null) return true;
         if (a == null || b == null) return false;
-        return a.longValue() == b.longValue();
+        return a.equals(b);
     }
 
     private static int indexOf(List<TodoEntity> list, long id) {

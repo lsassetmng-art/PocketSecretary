@@ -35,7 +35,7 @@ public class TodoEditActivity extends BaseActivity {
 
     private long todoId = -1L;
     private Long dueAt = null;
-    private Long eventId = null;
+    private String eventId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,7 @@ public class TodoEditActivity extends BaseActivity {
         btnDelete = findViewById(R.id.btnDelete);
 
         todoId = getIntent().getLongExtra(EXTRA_TODO_ID, -1L);
-        long ev = getIntent().getLongExtra(TodoListActivity.EXTRA_EVENT_ID, -1L);
-        if (ev > 0) eventId = ev;
+        eventId = getIntent().getStringExtra(TodoListActivity.EXTRA_EVENT_ID);
 
         btnPickDue.setOnClickListener(v -> pickDate());
         btnUnlinkEvent.setOnClickListener(v -> {

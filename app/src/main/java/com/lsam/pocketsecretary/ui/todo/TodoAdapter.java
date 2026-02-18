@@ -1,6 +1,5 @@
 package com.lsam.pocketsecretary.ui.todo;
 
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,68 +12,67 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.data.todo.TodoEntity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
+import java.util.Set;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.VH> {
 
     public interface Listener {
-        void onToggle(TodoEntity entity);
+        void onItemClick(TodoEntity e);
+        void onItemLongPress(TodoEntity e);
+        void onStatusToggle(TodoEntity e);
+        void onSelectionChanged(int count);
     }
 
     private List<TodoEntity> items;
     private final Listener listener;
 
-    public TodoAdapter(List<TodoEntity> items, Listener listener) {
-        this.items = items;
-        this.listener = listener;
+    private boolean selectionMode = false;
+    private final Set<Long> selected = new HashSet<>();
+
+    public TodoAdapter(List<TodoEntity> list, Listener l) {
+        items = list;
+        listener = l;
     }
 
     public void update(List<TodoEntity> list) {
-        this.items = list;
+        items = list;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_todo, parent, false);
-        return new ViewHolder(v);
+        return new VH(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull VH h, int position) {
         TodoEntity e = items.get(position);
 
-        holder.title.setText(e.title);
-        holder.content.setText(e.content == null ? "" : e.content);
+        h.title.setText(e.title);
 
-        holder.checkBox.setChecked("done".equals(e.status));
+        h.check.setChecked("done".equals(e.status));
 
-        if ("done".equals(e.status)) {
-            holder.title.setPaintFlags(holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.title.setAlpha(0.5f);
-        } else {
-            holder.title.setPaintFlags(holder.title.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-            holder.title.setAlpha(1f);
-        }
+        h.check.setOnClickListener(v -> listener.onStatusToggle(e));
 
-        if (e.dueAt != null) {
-            String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-                    .format(new Date(e.dueAt));
-            holder.due.setText(formatted);
-            holder.due.setVisibility(View.VISIBLE);
-        } else {
-            holder.due.setVisibility(View.GONE);
-        }
-
-        holder.checkBox.setOnClickListener(v -> {
-            if (listener != null) listener.onToggle(e);
+        h.itemView.setOnClickListener(v -> {
+            if (selectionMode) {
+                toggleSelect(e.id);
+            } else {
+                listener.onItemClick(e);
+            }
         });
+
+        h.itemView.setOnLongClickListener(v -> {
+            listener.onItemLongPress(e);
+            return true;
+        });
+
+        h.itemView.setActivated(selected.contains(e.id));
     }
 
     @Override
@@ -82,19 +80,42 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         return items.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    private void toggleSelect(long id) {
+        if (selected.contains(id)) {
+            selected.remove(id);
+        } else {
+            selected.add(id);
+        }
+        listener.onSelectionChanged(selected.size());
+        notifyDataSetChanged();
+    }
 
-        CheckBox checkBox;
+    public void enterSelectionMode(long firstId) {
+        selectionMode = true;
+        selected.clear();
+        selected.add(firstId);
+        listener.onSelectionChanged(1);
+        notifyDataSetChanged();
+    }
+
+    public void exitSelectionMode() {
+        selectionMode = false;
+        selected.clear();
+        notifyDataSetChanged();
+    }
+
+    public Set<Long> getSelectedIds() {
+        return selected;
+    }
+
+    static class VH extends RecyclerView.ViewHolder {
         TextView title;
-        TextView content;
-        TextView due;
+        CheckBox check;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            checkBox = itemView.findViewById(R.id.checkboxStatus);
-            title = itemView.findViewById(R.id.textTitle);
-            content = itemView.findViewById(R.id.textContent);
-            due = itemView.findViewById(R.id.textDue);
+        VH(View v) {
+            super(v);
+            title = v.findViewById(R.id.textTitle);
+            check = v.findViewById(R.id.checkboxStatus);
         }
     }
 }
