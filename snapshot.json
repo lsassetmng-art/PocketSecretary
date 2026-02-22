@@ -1,0 +1,32 @@
+﻿{
+  "persona_id": "persona_test_001",
+  "snapshot": {
+    "schema_version": "1.0",
+    "expires_at": null,
+    "core_axes": {
+      "trust": 0.5,
+      "discipline": 0.5,
+      "curiosity": 0.5
+    },
+    "loyalty": {
+      "owner": 0.5,
+      "organization": 0.5,
+      "civilization": 0.5
+    },
+    "emotion": "CALM",
+    "class": ["SECRETARY"],
+    "lineage_ref": null,
+    "origin_environment": "POCKETSECRETARY_LOCAL",
+    "current_affiliation": null,
+    "trust_level": "C",
+    "nation_credit_index": 0.5,
+    "industry_credit_index": {},
+    "stability": 0.5,
+    "rebellion_level": "LOW",
+    "violation_level": "none",
+    "violation_tags": [],
+    "deceased": false,
+    "policy_url": "https://example.com/policy.json",
+    "plan": "FREE"
+  }
+}

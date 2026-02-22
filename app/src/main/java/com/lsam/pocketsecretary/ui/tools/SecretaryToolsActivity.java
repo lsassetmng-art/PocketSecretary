@@ -19,6 +19,9 @@ import com.lsam.pocketsecretary.ui.history.HistoryActivity;
 import com.lsam.pocketsecretary.ui.hub.AllFeaturesActivity;
 import com.lsam.pocketsecretary.ui.speech.SpeechToolActivity;
 
+// 🔥 追加
+import com.lsam.pocketsecretary.ui.passport.PersonaPassportActivity;
+
 public class SecretaryToolsActivity extends BaseActivity {
 
     @Override
@@ -67,6 +70,11 @@ public class SecretaryToolsActivity extends BaseActivity {
         // 🔥 Calculator
         findViewById(R.id.btnCalculator).setOnClickListener(v ->
                 startActivity(new Intent(this, CalculatorActivity.class))
+        );
+
+        // 🔥 新規：人格パスポート（Phase1）
+        findViewById(R.id.btnPersonaPassport).setOnClickListener(v ->
+                startActivity(new Intent(this, PersonaPassportActivity.class))
         );
 
         // 新規：全機能ハブ

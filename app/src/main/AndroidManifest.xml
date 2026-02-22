@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
 
+        <!-- =============================== -->
         <!-- Launcher -->
+        <!-- =============================== -->
         <activity
             android:name=".ui.dashboard.DashboardActivity"
             android:exported="true">
@@ -27,7 +29,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Other Activities -->
+        <!-- =============================== -->
+        <!-- Core Screens -->
+        <!-- =============================== -->
         <activity android:name=".ui.background.BackgroundSelectActivity" android:exported="false" />
         <activity android:name=".ui.settings.SettingsActivity" android:exported="false" />
         <activity android:name=".ui.archive.ArchiveActivity" android:exported="false" />
@@ -39,16 +43,29 @@
         <activity android:name=".ui.speech.SpeechToolActivity" android:exported="false" />
         <activity android:name=".ManualNotificationActivity" android:exported="false" />
 
+        <!-- =============================== -->
         <!-- Event Screens -->
+        <!-- =============================== -->
         <activity android:name=".ui.event.EventListActivity" android:exported="false" />
         <activity android:name=".ui.event.EventEditActivity" android:exported="false" />
 
+        <!-- =============================== -->
+        <!-- Persona Passport (Phase1) -->
+        <!-- =============================== -->
+        <activity
+            android:name=".ui.passport.PersonaPassportActivity"
+            android:exported="false" />
+
+        <!-- =============================== -->
         <!-- Alarm Receiver -->
+        <!-- =============================== -->
         <receiver
             android:name=".receiver.EventAlarmReceiver"
             android:exported="false" />
 
+        <!-- =============================== -->
         <!-- Boot Restore -->
+        <!-- =============================== -->
         <receiver
             android:name=".receiver.BootCompletedReceiver"
             android:enabled="true"
@@ -58,7 +75,7 @@
             </intent-filter>
         </receiver>
 
-            <!-- =============================== -->
+        <!-- =============================== -->
         <!-- Skeleton Feature Hub -->
         <!-- =============================== -->
         <activity
@@ -70,21 +87,15 @@
         <!-- =============================== -->
         <activity android:name=".ui.todo.TodoListActivity" android:exported="false" />
         <activity android:name=".ui.todo.TodoEditActivity" android:exported="false" />
-
         <activity android:name=".ui.calculator.CalculatorActivity" android:exported="false" />
-
         <activity android:name=".ui.memo.MemoListActivity" android:exported="false" />
         <activity android:name=".ui.memo.MemoEditActivity" android:exported="false" />
-
         <activity android:name=".ui.library.LibraryActivity" android:exported="false" />
-
         <activity android:name=".ui.transit.TransitFareActivity" android:exported="false" />
-
         <activity android:name=".ui.business.BusinessModeActivity" android:exported="false" />
         <activity android:name=".ui.businesscard.BusinessCardLinkActivity" android:exported="false" />
         <activity android:name=".ui.mbo.MboLinkActivity" android:exported="false" />
         <activity android:name=".ui.request.RequestHubActivity" android:exported="false" />
-
         <activity android:name=".ui.consult.ConsultStubActivity" android:exported="false" />
         <activity android:name=".ui.summary.SummaryStubActivity" android:exported="false" />
 
