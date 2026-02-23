@@ -18,6 +18,7 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.lsam.pocketsecretary.BaseActivity;
+import com.lsam.pocketsecretary.core.visual.DashboardVisualComposer;
 import com.lsam.pocketsecretary.R;
 import com.lsam.pocketsecretary.core.assets.AssetRepository;
 import com.lsam.pocketsecretary.core.dashboard.TodayEngine;
@@ -237,6 +238,9 @@ if (btnTodo != null) {
     @Override
     protected void onResume() {
         super.onResume();
+
+        DashboardVisualComposer.tryRender(this);
+
         applyBackground();
         applyCurrentPersona();
         renderTodayInfo();
