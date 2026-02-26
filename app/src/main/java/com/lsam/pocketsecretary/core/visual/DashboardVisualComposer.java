@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import com.lsam.pocketsecretary.R;
-import com.lsam.visualruntime.ComposeRequest;
 import com.lsam.visualruntime.PersonaVisualRuntime;
 
 import org.json.JSONArray;
@@ -18,37 +17,38 @@ public final class DashboardVisualComposer {
     private DashboardVisualComposer() {}
 
     public static void tryRender(Activity activity) {
-        ImageView iv = activity.findViewById(R.id.personaImage);
+
+        ImageView iv = activity.findViewById(R.id.avatarView);
         if (iv == null) return;
 
-        // TODO: Replace with Edge/local layersJson provider.
-        // This is a minimal starter payload that compiles and is safe.
+        String personaId = "persona_local";
         String layersJson = buildStarterLayersJson();
 
-        ComposeRequest req = new ComposeRequest(
-                "persona_local",
+        PersonaVisualRuntime.compose(
+                activity.getApplicationContext(),
+                personaId,
                 layersJson,
-                512,
-                512,
-                "dash_persona"
-        );
+                new PersonaVisualRuntime.Callback() {
 
-        PersonaVisualRuntime.get().composeAsync(activity.getApplicationContext(), req,
-                new com.lsam.visualruntime.ComposeCallback() {
                     @Override
-                    public void onSuccess(com.lsam.visualruntime.ComposeResult result) {
-                        File f = result.outputFile;
-                        if (f == null || !f.exists()) return;
+                    public void onSuccess(File outputPng, boolean fromCache) {
+                        if (outputPng == null || !outputPng.exists()) return;
+
                         activity.runOnUiThread(() ->
-                                iv.setImageBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()))
+                                iv.setImageBitmap(
+                                        BitmapFactory.decodeFile(
+                                                outputPng.getAbsolutePath()
+                                        )
+                                )
                         );
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        // no-op: never crash UI
+                        // UIは絶対にクラッシュさせない
                     }
-                });
+                }
+        );
     }
 
     private static String buildStarterLayersJson() {
@@ -60,9 +60,6 @@ public final class DashboardVisualComposer {
 
             JSONArray layers = new JSONArray();
 
-            // NOTE: Keep https-only contract. This is a harmless placeholder.
-            // Replace with real https assets when ready.
-            // If unreachable offline, runtime will fallback gracefully (no crash).
             JSONObject layer = new JSONObject();
             layer.put("url", "https://example.com/placeholder.png");
             layer.put("z_index", 0);
@@ -70,6 +67,7 @@ public final class DashboardVisualComposer {
 
             root.put("layers", layers);
             return root.toString();
+
         } catch (Exception e) {
             return "{\"manifest_sha256\":\"starter\",\"width\":512,\"height\":512,\"layers\":[]}";
         }

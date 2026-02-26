@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -20,5 +21,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "PocketSecretary"
+
 include ':app'
 include ':visual-runtime'
+
+project(':visual-runtime').projectDir =
+        new File(rootDir, '../persona-visual-runtime/visual-runtime')

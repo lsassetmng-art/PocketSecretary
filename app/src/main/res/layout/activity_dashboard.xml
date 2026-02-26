@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootDashboard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <!-- Header -->
     <TextView
@@ -59,11 +60,13 @@
             android:textColor="#222222"/>
     </LinearLayout>
 
-    <!-- Avatar Host 右下固定 -->
+    <!-- Avatar Host（右下固定・VisualRuntime表示領域） -->
     <FrameLayout
         android:id="@+id/avatarHost"
         android:layout_width="260dp"
         android:layout_height="420dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -73,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            android:contentDescription="Persona Avatar"/>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
